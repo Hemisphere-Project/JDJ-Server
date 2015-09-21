@@ -26,7 +26,7 @@ def main():
         #time.sleep(randelay/2000.0)
 
         socket.send(str(millis))
-        # print("Time sent: %i" % millis)
+        print("Time sent: %i" % millis)
 
 if __name__ == '__main__':
     main()
