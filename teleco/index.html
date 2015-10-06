@@ -1,0 +1,138 @@
+<!doctype html>
+<HTML>
+  <HEAD>
+    <title>TELECO</title>
+    <meta charset="UTF-8">
+    <script type='text/javascript' src='lib/jquery.min.js'></script>
+    <script type='text/javascript' src='lib/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='lib/socketio.137.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="lib/jquery-ui.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- INT -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
+  </HEAD>
+
+
+  <div id="colonne1">
+    <div id="audio" class="selector">AUDIO</div>
+    <div id="video" class="selector">VIDEO</div>
+    <div id="text" class="selector">TEXTE</div>
+    <div id="url" class="selector">URL</div>
+    <div id="sms" class="selector">SMS</div>
+    <div id="phone" class="selector">PHONE</div>
+  </div>
+
+  <div id="colonne2">
+    <div id="browserOptions_Uploader">
+      <div id="uploader">
+        <form id="fileForm" action="" enctype="multipart/form-data" method="post">
+
+          <label for="fileInput" id="inputLabel" class="btn"><i class="fa fa-plus"></i></label>
+          <input name="fileInput" type="file" id="fileInput" multiple/>
+          <div id="talkBox">Ajoutez des fichiers</div>
+          <!-- <label for="send" id="sendLabel"><i class="fa fa-upload"></i></label> -->
+          <input name="send" id="send" type="submit" value="UPLOAD" class="btn" />
+          <br>
+          <progress id="uploadProgress"></progress>
+        </form>
+      </div>
+    </div>
+    <div id="audioPreview" class="browserOptions">
+      <audio id="audioPlayer"></audio>
+      <i id="audioPlay" class="playerControl fa fa-play"></i>
+      <i id="audioPause" class="playerControl fa fa-pause"></i>
+      <progress id="audioProgress" class="playerProgress"></progress>
+      <div id="timeCount" class="timeCount">0:00</div>
+    </div>
+    <div id="videoPreview" class="browserOptions">
+      <video id="videoPlayer"></video><br>
+      <i id="videoPlay" class="playerControl fa fa-play"></i>
+      <i id="videoPause" class="playerControl fa fa-pause"></i>
+      <progress id="videoProgress" class="playerProgress"></progress>
+      <div id="videotimeCount" class="timeCount">0:00</div>
+    </div>
+
+    <div id="browserOptions_Sms">
+      <input type="text" id="smsTitle" value="Sms sans titre" class="textInput" />
+      <br>
+      <textarea name="smsContent" id="smsContent" class="smsContent" rows=5  maxlength=160></textarea>
+      <div id="charCount">160 Max</div>
+      <div id="smsButtons">
+        <i id="saveSms" class="fa fa-floppy-o iconButtons"></i>
+      </div>
+    </div>
+
+    <div id="urlOptions" class="browserOptions">
+      <div id="wrap">
+        <iframe id="frame" frameborder=0></iframe>
+      </div>
+
+      <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/><br>
+      <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" />
+      <br><br>
+      <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
+      <i id="viewUrl" class="fa fa-eye iconButtons"></i>
+
+    </div>
+
+    <div id="browser">
+        <div id="mediasList"></div>
+    </div>
+  </div>
+
+  <div id="colonne3">
+    <div id="who" class="rect">
+      WHO<br><br>
+      <input type="radio" name="group" class="radio" value="all" checked="checked"/>
+      <span class="group fa fa-dot-circle-o"></span>  ALL <br>
+      <input type="radio" name="group" class="radio" value="grp1"/>
+      <span class="group fa fa-circle-o"></span> Groupe 1 <br>
+      <input type="radio" name="group" class="radio" value="grp2" />
+      <span class="group fa fa-circle-o"></span>  Groupe 2 <br>
+      <input type="radio" name="group" class="radio" value="random" />
+      <span class="group fa fa-circle-o"></span>  Random <br>
+    </div>
+    <div id="sendFile" class="rect">
+      SEND<br>
+      <div id="selectedFileGO">no file selected</div><br>
+
+      <i class="icontime fa fa-hand-o-right"></i>
+      <i class="starter NOW fa fa-play-circle"></i>
+      <br><br>
+
+      <i class="icontime fa fa-hourglass-half"></i>
+      <div id="delayView">5 min</div>
+      <input id="delay" type="range" min="0" max="30" value="5" step="1">
+      <i class="starter DELAY fa fa-play-circle"></i><br>
+
+      <i class="icontime fa fa-clock-o"></i><br>
+      <input class="exactHour" type="number" name="hour" id="hour">
+      <input class="exactHour" type="number" name="min" id="min">
+      <input class="exactHour" type="number" name="sec" id="sec">
+      <i class="starter TIME fa fa-play-circle"></i>
+      <br><br>
+      STOP ALL
+      <i class="starter fa fa-stop"></i><br><br>
+    </div>
+  </div>
+
+
+  <div id="colonne4">
+    <div id="serverDisplay" class="serverOptions">
+      <div id="clientsDisplay">0 client</div>
+      <div id="controlDisplay">0 controleur</div><br>
+      Taches en Attente
+      <div id="pendingTasks"></div>
+    </div>
+  </div>
+
+
+<i class="fa fa-smile-o"></i>
+
+  <BODY>
+
+  </BODY>
+
+  </HTML>
