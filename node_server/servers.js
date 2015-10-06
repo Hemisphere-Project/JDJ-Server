@@ -3,6 +3,54 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
+  TaskManager: function(fn_dispatch) {
+    var that = this;
+    this.serverState = {
+      clientCount: 0,
+      controllerCount: 0
+    }
+    this.pendingTasks = {};
+    this.timersTasks = {};
+    this.dispatcher = fn_dispatch;
+
+    this.addTask = function(task) {
+      //extract unique server goal time
+      var now = new Date();
+      serverTimestamp = now.setSeconds(now.getSeconds() + task.when).getTime();
+      while (that.pendingTasks.hasOwnProperty(serverTimestamp)) { serverTimestamp++; }
+
+      //setup execution timer and add to pending tasks
+      this.pendingTasks[serverTimestamp] = data;
+      this.timersTasks[serverTimestamp] = new ExecuteTimer(serverTimestamp, that.consumeTask );
+    };
+
+    this.consumeTask = function(timestamp) {
+      var task = this.pendingTasks[timestamp];
+      // remove Task from queue
+      this.removeTask(timestamp);
+      // send Task to dispatcher
+      this.dispatcher(task);
+      console.log('Task consumed');
+    };
+
+    this.removeTask = function(timestamp) {
+      // stop and remove timer
+      that.timersTasks[timestamp].stop();
+      delete that.timersTasks[timestamp];
+      // remove from pending queue
+      delete that.pendingTasks[timestamp];
+    };
+
+    this.getState = function() {
+      return this.serverState;
+    };
+
+    this.getTasks = function() {
+      return this.pendingTasks;
+    };
+
+  },
+
   ExecuteTimer: function(atTime, fn) {
     var that = this;
     this.atTime = atTime;
@@ -13,6 +61,8 @@ module.exports = {
       this.timerjs = setTimeout(fn, delay);
     };
     this.stop = function() { clearTimeout(this.timerjs) };
+
+    this.start();
   },
 
   Observer: function(obj, callback) {
@@ -103,10 +153,10 @@ module.exports = {
       that.onConnect(client);
     });
 
-    // Emit "status" shortcut
-    this.sendStatus = function(data) {
-      this.socket.emit("status", data);
-    }
+    // Emit shortcut
+    this.send = function(subject, data) {
+      this.socket.emit(subject, data);
+    };
 
   }
 
