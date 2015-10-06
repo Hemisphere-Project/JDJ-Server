@@ -666,8 +666,8 @@ $(function() {
 
     console.log(pendingTasks);
     $.each(pendingTasks,function(timeStamp,task){
-      console.log(timeStamp);
-      console.log(task);
+      // console.log(timeStamp);
+      // console.log(task);
       // var date = new Date(index);
       // console.log(date.getTime());
       allTasks.push(new Task(timeStamp,task));
@@ -676,12 +676,12 @@ $(function() {
   }
 
 
-  var ddd = new Date();
-  var d = ddd.getTime();
-  var ppp = {filename:'temp.mp3', who:'all' };
-  var pppp = {filename:'temp3.mp3', who:'grp1'};
-  allTasks.push(new Task(d,ppp));
-  allTasks.push(new Task(d,pppp));
+  // var ddd = new Date();
+  // var d = ddd.getTime();
+  // var ppp = {filename:'temp.mp3', who:'all' };
+  // var pppp = {filename:'temp3.mp3', who:'grp1'};
+  // allTasks.push(new Task(d,ppp));
+  // allTasks.push(new Task(d,pppp));
 
   function Task(timeStamp, task){
 
@@ -690,25 +690,32 @@ $(function() {
     this.selected = false;
     var thisTask = this;
 
-    this.timeStamp = timeStamp;
-    this.date = new Date(timeStamp);
-    this.time = this.date.getHours()+'H'+this.date.getMinutes();
-
+    //MANAGE TIME DISPLAY
+    //timeStamp: heure server de l'event
+    //localTime+delay: heure locale de l'event
+    this.date = new Date(task.localTime+task.when*1000);
+    this.hour = this.date.getHours();
+    this.min = this.date.getMinutes();
+    if (this.min <=9){ this.min = '0'+this.min; }
+    this.timeForm = this.hour+'H'+this.min;
 
     this.view = $('<div>').addClass('taskView').appendTo( $('#taskManager') );
-
-    this.icontext = $('<div>').html(this.time+' - '+this.filename+' - '+this.who).addClass('icontext').appendTo( thisTask.view );
-
+    this.icontext = $('<div>').html(this.timeForm+' - '+this.filename+' - '+this.who).addClass('icontext').appendTo( thisTask.view );
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
 
 
+    // SELECT
     this.view.on('click',function(){
       unselectAllTasks();
       thisTask.view.addClass('fileSelected');
       thisTask.selected = true;
       thisTask.icondelete.addClass('delView');
-  });
+    });
 
+    // DELETE
+    this.icondelete.on('click',function(){
+      console.log("DELETE TASK");
+    });
 
 
 }
@@ -717,6 +724,7 @@ $(function() {
     $.each(allTasks,function(index,task){
       task.selected=false;
       task.view.removeClass('fileSelected');
+      task.icondelete.removeClass('delView').addClass('delHide');
     });
   }
 
