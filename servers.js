@@ -1,6 +1,5 @@
 var zmq = require('zmq');
 var SocketIO = require('socket.io');
-var O = require('observed');
 
 module.exports = {
 
@@ -20,13 +19,20 @@ module.exports = {
     var that = this;
     this.object = obj;
     this.callback = callback;
-    this.observer = null;
+    this.dirty = false;
+    this.timerjs = null;
+
+    this.onMove = function(c) { that.dirty=true };
 
     this.start = function() {
-      this.observer = O(that.object);
-      this.observer.on('change', that.callback);
+      this.dirty = false;
+      Object.observe(that.object, that.onMove );
+      this.timerjs = setInterval(function() { if (that.dirty) that.callback(); that.dirty=false; }, 500);
     };
-    this.stop = function() { this.observer.stop(); };
+    this.stop = function() {
+      Object.unobserve(that.object, that.onMove );
+      clearInterval(that.timerjs);
+    };
 
     this.start();
   },

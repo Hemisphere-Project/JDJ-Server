@@ -9,54 +9,46 @@ var Servers = require('./servers');
 
 function execute(sTS) {
   delete STATE.pendingTasks[sTS];
+  delete TASKS[sTS];
+  console.log('Task consumed');
 }
 
 // JDJ SERVER
 var STATE = {
-    clientCount: 0,
-    controllerCount: 0,
+    serverState: {
+      clientCount: 0,
+      controllerCount: 0
+    },
     pendingTasks: {}
 };
 
+var TASKS = {};
+
 // STATE OBSERVER (Auto Send updates to RemoteCtrls)
-var STATEOBSERVER = new Servers.Observer(STATE, function(c) { REMOTECTRL.sendStatus(STATE) });
+var STATEOBSERVER = new Servers.Observer(STATE.serverState, function() { REMOTECTRL.sendStatus(STATE) });
+var TASKSOBSERVER = new Servers.Observer(STATE.pendingTasks, function() { REMOTECTRL.sendStatus(STATE) });
 
   // TIME SERVER
 var TIMESERVER = new Servers.TimeServer(PORT_TIME);
 
   // PUBLISHER
 var PUBLISHER = new Servers.Publisher(PORT_PUB);
-PUBLISHER.onSubscribe = function(fd, ep) { STATE.clientCount++; }
-PUBLISHER.onUnsubscribe = function(fd, ep) { STATE.clientCount--; }
+PUBLISHER.onSubscribe = function(fd, ep) { STATE.serverState.clientCount++; }
+PUBLISHER.onUnsubscribe = function(fd, ep) { STATE.serverState.clientCount--; }
 
 // CONTROLLER
 var REMOTECTRL = new Servers.RemoteCtrl(PORT_WS);
-REMOTECTRL.onConnect = function(client) { STATE.controllerCount++ };
-REMOTECTRL.onDisconnect = function(client) { STATE.controllerCount-- };
+REMOTECTRL.onConnect = function(client) { STATE.serverState.controllerCount++ };
+REMOTECTRL.onDisconnect = function(client) { STATE.serverState.controllerCount-- };
 REMOTECTRL.onRequest = function(client, data) {
-
-  console.log('WebController sent request: '+JSON.stringify(data));
-
   //extract unique server goal time
   var servTS = new Date();
   servTS.setSeconds(servTS.getSeconds() + data.when);
-  while (STATE.pendingTasks.hasOwnProperty(servTS)) { servTS++; }
-
-  console.log('Request servTS: '+servTS);
+  while (STATE.pendingTasks.hasOwnProperty("TS"+servTS)) { servTS++; }
 
   //setup execution timer and add to pending tasks
-  data.timer = new Servers.ExecuteTimer(servTS, function(){ execute(servTS) });
-
-  console.log('Timer set');
-
-  STATE.pendingTasks[servTS] = data;
-
-  console.log('Task added');
-
-  STATE.pendingTasks[servTS].timer.start();
-
-  console.log('Timer started');
-
+  STATE.pendingTasks["TS"+servTS] = data;
+  TASKS["TS"+servTS] = (new Servers.ExecuteTimer(servTS, function(){ execute("TS"+servTS) })).start();
 };
 REMOTECTRL.onHello = function(client) {
   console.log('WebController said hello');
