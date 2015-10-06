@@ -4,6 +4,18 @@ var O = require('observed');
 
 module.exports = {
 
+  ExecuteTimer: function(atTime, fn) {
+    var that = this;
+    this.atTime = atTime;
+    this.timerjs = null;
+    this.callback = fn;
+    this.start = function() {
+      var delay = Math.max(1, (atTime-(new Date()).getTime()));
+      this.timerjs = setTimeout(fn, delay);
+    };
+    this.stop = function() { clearTimeout(this.timerjs) };
+  },
+
   Observer: function(obj, callback) {
     var that = this;
     this.object = obj;
@@ -73,13 +85,15 @@ module.exports = {
 
     // Public events (to overwrite)
     this.onConnect = function(client) { };
-    this.onDisconnect = function() { };
-    this.onHello = function() { };
+    this.onDisconnect = function(client) { };
+    this.onHello = function(client) { console.log('WebController said hello'); };
+    this.onRequest = function(client, data) { console.log('WebController sent request: '+JSON.stringify(data)); };
 
     // onConnection event shortcut
     this.socket.on('connection', function(client){
       client.on('disconnect', function(){ that.onDisconnect(client) });
       client.on('hello', function(){ that.onHello(client) });
+      client.on('request', function(data){ that.onRequest(client, data) });
       that.onConnect(client);
     });
 
