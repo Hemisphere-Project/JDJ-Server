@@ -605,16 +605,16 @@ $(function() {
      time = 0;
     }
     if ($(this).hasClass("DELAY") == true) {
-     time = $("#delay").val()*60;
+      time = $("#delay").val()*60;
     }
     if ($(this).hasClass("TIME") == true) {
-     var timeNow = new Date();
-     var timePlay = new Date();
-     timePlay.setHours($('#hour').val());
-     timePlay.setMinutes($('#min').val());
-     timePlay.setSeconds($('#sec').val());
-     var delay = timePlay.getTime() - timeNow.getTime();
-    time = Math.round(delay/1000);
+      var timeNow = new Date();
+      var timePlay = new Date();
+      timePlay.setHours($('#hour').val());
+      timePlay.setMinutes($('#min').val());
+      timePlay.setSeconds($('#sec').val());
+      var delay = timePlay.getTime() - timeNow.getTime();
+      time = Math.round(delay/1000);
     }
 
     var data = {
@@ -688,11 +688,13 @@ $(function() {
     this.filename = task.filename;
     this.who = task.who;
     this.selected = false;
+
     var thisTask = this;
 
     //MANAGE TIME DISPLAY
     //timeStamp: heure server de l'event
     //localTime+delay: heure locale de l'event
+    thisTask.timeStamp = timeStamp;
     this.date = new Date(task.localTime+task.when*1000);
     this.hour = this.date.getHours();
     this.min = this.date.getMinutes();
@@ -715,6 +717,7 @@ $(function() {
     // DELETE
     this.icondelete.on('click',function(){
       console.log("DELETE TASK");
+      allTasks
       removeTask(thisTask.timeStamp);
     });
 
@@ -730,6 +733,7 @@ $(function() {
   }
 
   function removeTask(timeStamp){
+    console.log(timeStamp);
     socket.emit('remove', timeStamp);
   }
 
