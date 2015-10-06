@@ -626,7 +626,7 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('request', data);
-     console.log(data);
+    //  console.log(data);
     }
   });
 
@@ -635,35 +635,67 @@ $(function() {
   //                      SOCKET
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
+  pendingTasks = new Array();
+  allTasks = new Array();
 
   // var url = 'http://jdj.hmsphr.com:8088/'
-   var url = 'http://127.0.0.1:8088'
+   var url = 'http://localhost:8088'
+
   var socket = io(url);
 
 	socket.on('connect', function () {
     console.log('Connected to Server: '+url);
   });
 
-
   socket.on('status', function (data) {
-    // console.log(data);
     if (data.clientCount<=1){ $('#clientsDisplay').html(data.clientCount+" client"); }
     else { $('#clientsDisplay').html(data.clientCount+" clients"); }
-
     if (data.controllerCount<=1){ $('#controlDisplay').html(data.controllerCount+" controleur"); }
     else { $('#controlDisplay').html(data.controllerCount+" controleurs"); }
-
-    $('#pendingTasks').html(data.pendingTasks);
-    console.log(data.pendingTasks);
-
   });
 
-  pendingTasks = new Array();
+  socket.on('tasks', function (data) {
+    pendingTasks = data;
+    actuManager();
+  });
 
-  function task(){
+
+  function actuManager(){
+    $('#taskManager').empty();
+    allTasks = [];
+
+    console.log(pendingTasks);
+    $.each(pendingTasks,function(date,task){
+      console.log(date);
+      console.log(task);
+      // var date = new Date(index);
+      // console.log(date.getTime());
+      allTasks.push(new Task(date,task));
+    });
+
+  }
+
+
+  function Task(date, task){
+
+    this.date = date;
+    this.filename = task.filename;
+    this.who = task.who;
+    var thisTask = this;
+
+    this.view = $('<div>').addClass('').appendTo( $('#taskManager') );
+
+    this.icontext = $('<div>').html(this.date+' '+this.filename).addClass('icontext').appendTo( thisTask.view );
+
+    this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('trashHide fa fa-times').appendTo( thisfile.view );
 
 
   }
+
+
+
+
+
 
 
 

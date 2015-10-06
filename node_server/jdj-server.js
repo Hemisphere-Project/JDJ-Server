@@ -44,5 +44,10 @@ REMOTECTRL.onHello = function(client) {
 };
 
 
+<<<<<<< Updated upstream
 //var ip = require( 'os' ).networkInterfaces( ).eth0[0].address;
 console.log("Server Ready - WS: "+PORT_WS+" - PUB: "+PORT_PUB+" - TIME: "+PORT_TIME);
+=======
+// var ip = require( 'os' ).networkInterfaces( ).eth0[0].address;
+// console.log("Server Ready - "+ip+" - WS: "+PORT_WS+" - PUB: "+PORT_PUB+" - TIME: "+PORT_TIME);
+>>>>>>> Stashed changes
