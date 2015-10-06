@@ -34,6 +34,9 @@ var REMOTECTRL = new Servers.RemoteCtrl(PORT_WS);
 REMOTECTRL.onConnect = function(client) { STATE.controllerCount++ };
 REMOTECTRL.onDisconnect = function(client) { STATE.controllerCount-- };
 REMOTECTRL.onRequest = function(client, data) {
+
+  console.log('WebController sent request: '+JSON.stringify(data));
+  /*
   //extract unique server goal time
   var servTS = new Date();
   servTS.setSeconds(servTS.getSeconds() + data.when);
@@ -43,7 +46,7 @@ REMOTECTRL.onRequest = function(client, data) {
   data.timer = new Servers.ExecuteTimer(servTS, function(){ execute(servTS) });
   STATE.pendingTasks[servTS] = data;
   STATE.pendingTasks[servTS].timer.start();
-
+*/
 };
 REMOTECTRL.onHello = function(client) {
   console.log('WebController said hello');
