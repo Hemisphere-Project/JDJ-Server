@@ -1,13 +1,21 @@
 var zmq = require('zmq');
 var SocketIO = require('socket.io');
+var Tools = require('./server-utils');
 
 module.exports = {
 
-  ServerState: function() {
+  State: function() {
+    var that = this;
     this.serverState = {
       clientCount: 0,
       controllerCount: 0
     };
+
+    // Auto observer: trigger onChange
+    this.observer = new Tools.Observer(that.serverState, function(){ that.onChange()});
+
+    // Public events (to overwrite)
+    this.onChange = function() { };
 
     this.addClient = function(fd, ep) {
       this.serverState.clientCount++;
@@ -31,12 +39,18 @@ module.exports = {
 
   },
 
-  TaskManager: function(fn_dispatch) {
+  Tasks: function(fn_dispatch) {
     var that = this;
 
     this.pendingTasks = {};
     this.timersTasks = {};
     this.dispatcher = fn_dispatch;
+
+    // Auto observer: trigger onChange
+    this.observer = new Tools.Observer(that.pendingTasks, function(){ that.onChange()});
+
+    // Public events (to overwrite)
+    this.onChange = function() { };
 
     this.addTask = function(task) {
       //extract unique server goal time
@@ -47,7 +61,7 @@ module.exports = {
 
       //setup execution timer and add to pending tasks
       this.pendingTasks[serverTimestamp] = task;
-      this.timersTasks[serverTimestamp] = new module.exports.ExecuteTimer(serverTimestamp, that.consumeTask );
+      this.timersTasks[serverTimestamp] = new Tools.ExecuteTimer(serverTimestamp, that.consumeTask );
     };
 
     this.consumeTask = function(timestamp) {
@@ -71,42 +85,6 @@ module.exports = {
       return this.pendingTasks;
     };
 
-  },
-
-  ExecuteTimer: function(atTime, fn) {
-    var that = this;
-    this.atTime = atTime;
-    this.timerjs = null;
-    this.callback = fn;
-    this.start = function() {
-      var delay = Math.max(1, (atTime-(new Date()).getTime()));
-      this.timerjs = setTimeout(function(){fn(atTime)}, delay);
-    };
-    this.stop = function() { clearTimeout(this.timerjs) };
-
-    this.start();
-  },
-
-  Observer: function(obj, callback) {
-    var that = this;
-    this.object = obj;
-    this.callback = callback;
-    this.dirty = false;
-    this.timerjs = null;
-
-    this.trigger = function(c) { that.dirty=true };
-
-    this.start = function() {
-      this.dirty = false;
-      Object.observe(that.object, that.trigger );
-      this.timerjs = setInterval(function() { if (that.dirty) that.callback(); that.dirty=false; }, 500);
-    };
-    this.stop = function() {
-      Object.unobserve(that.object, that.onMove );
-      clearInterval(that.timerjs);
-    };
-
-    this.start();
   },
 
   TimeServer: function(port) {
@@ -154,7 +132,7 @@ module.exports = {
     this.socket.monitor(100, 0);
   },
 
-  RemoteCtrl: function (port) {
+  WebRemotes: function (port) {
     var that = this;
 
     // SocketIO websocket

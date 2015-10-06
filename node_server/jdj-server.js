@@ -5,7 +5,7 @@ var PORT_PUB = 8081;
 var PORT_TIME = 8082;
 
 // LIBS
-var Servers = require('./servers');
+var Engine = require('./server-engine');
 
 function dispatch(task) {
   console.log('Task dispatched');
@@ -13,30 +13,26 @@ function dispatch(task) {
 }
 
 // SERVER MANAGER
-var SERVERSTATE = new Servers.ServerState();
+var SERVERSTATE = new Engine.State();
+SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getState()) };
 
 // TASK MANAGER
-var TASKMANAGER = new Servers.TaskManager(dispatch);
-
-// STATE OBSERVER (Auto Send updates to RemoteCtrls)
-var STATEOBSERVER = new Servers.Observer(SERVERSTATE.serverState,
-                                          function() { REMOTECTRL.send("status", SERVERSTATE.serverState) });
-var TASKSOBSERVER = new Servers.Observer(TASKMANAGER.pendingTasks,
-                                          function() { REMOTECTRL.send("tasks", TASKMANAGER.pendingTasks) });
+var TASKMANAGER = new Engine.Tasks(dispatch);
+TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
 
   // TIME SERVER
-var TIMESERVER = new Servers.TimeServer(PORT_TIME);
+var TIMESERVER = new Engine.TimeServer(PORT_TIME);
 
   // PUBLISHER
-var PUBLISHER = new Servers.Publisher(PORT_PUB);
+var PUBLISHER = new Engine.Publisher(PORT_PUB);
 PUBLISHER.onSubscribe = function(fd, ep) { SERVERSTATE.addClient(fd,ep); }
 PUBLISHER.onUnsubscribe = function(fd, ep) { SERVERSTATE.removeClient(fd,ep); }
 
 // CONTROLLER
-var REMOTECTRL = new Servers.RemoteCtrl(PORT_WS);
+var REMOTECTRL = new Engine.WebRemotes(PORT_WS);
 REMOTECTRL.onConnect = function(client) {
   SERVERSTATE.addController(client);
-  TASKSOBSERVER.trigger();
+  TASKMANAGER.onChange();
 };
 REMOTECTRL.onDisconnect = function(client) {
   SERVERSTATE.removeController(client);
