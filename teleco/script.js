@@ -715,6 +715,7 @@ $(function() {
     // DELETE
     this.icondelete.on('click',function(){
       console.log("DELETE TASK");
+      removeTask(thisTask.timeStamp);
     });
 
 
@@ -726,6 +727,10 @@ $(function() {
       task.view.removeClass('fileSelected');
       task.icondelete.removeClass('delView').addClass('delHide');
     });
+  }
+
+  function removeTask(timeStamp){
+    socket.emit('remove', timeStamp);
   }
 
 
