@@ -36,17 +36,27 @@ REMOTECTRL.onDisconnect = function(client) { STATE.controllerCount-- };
 REMOTECTRL.onRequest = function(client, data) {
 
   console.log('WebController sent request: '+JSON.stringify(data));
-  /*
+
   //extract unique server goal time
   var servTS = new Date();
   servTS.setSeconds(servTS.getSeconds() + data.when);
   while (STATE.pendingTasks[servTS] !== null) servTS++;
 
+  console.log('Request servTS: '+servTS);
+
   //setup execution timer and add to pending tasks
   data.timer = new Servers.ExecuteTimer(servTS, function(){ execute(servTS) });
+
+  console.log('Timer set');
+
   STATE.pendingTasks[servTS] = data;
+
+  console.log('Task added');
+
   STATE.pendingTasks[servTS].timer.start();
-*/
+
+  console.log('Timer started');
+
 };
 REMOTECTRL.onHello = function(client) {
   console.log('WebController said hello');
