@@ -40,7 +40,7 @@ REMOTECTRL.onRequest = function(client, data) {
   //extract unique server goal time
   var servTS = new Date();
   servTS.setSeconds(servTS.getSeconds() + data.when);
-  while (STATE.pendingTasks[servTS] !== null) servTS++;
+  while (STATE.pendingTasks.hasOwnProperty(servTS)) { servTS++; }
 
   console.log('Request servTS: '+servTS);
 
