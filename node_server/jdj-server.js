@@ -40,6 +40,9 @@ REMOTECTRL.onDisconnect = function(client) {
 REMOTECTRL.onRequest = function(client, data) {
   TASKMANAGER.addTask(data);
 };
+REMOTECTRL.onRemove = function(client, data) {
+  TASKMANAGER.removeTask(data);
+};
 REMOTECTRL.onHello = function(client) {
   console.log('WebController said hello');
   client.emit('status', { hello: 'you' });

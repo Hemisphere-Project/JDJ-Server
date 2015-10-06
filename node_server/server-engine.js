@@ -144,12 +144,14 @@ module.exports = {
     this.onDisconnect = function(client) { };
     this.onHello = function(client) { console.log('WebController said hello'); };
     this.onRequest = function(client, data) { console.log('WebController sent request: '+JSON.stringify(data)); };
+    this.onRemove = function(client, data) { console.log('WebController wants to remove: '+data); };
 
     // onConnection event shortcut
     this.socket.on('connection', function(client){
       client.on('disconnect', function(){ that.onDisconnect(client) });
       client.on('hello', function(){ that.onHello(client) });
       client.on('request', function(data){ that.onRequest(client, data) });
+      client.on('remove', function(data){ that.onRemove(client, data) });
       that.onConnect(client);
     });
 
