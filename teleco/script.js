@@ -665,36 +665,60 @@ $(function() {
     allTasks = [];
 
     console.log(pendingTasks);
-    $.each(pendingTasks,function(date,task){
-      console.log(date);
+    $.each(pendingTasks,function(timeStamp,task){
+      console.log(timeStamp);
       console.log(task);
       // var date = new Date(index);
       // console.log(date.getTime());
-      allTasks.push(new Task(date,task));
+      allTasks.push(new Task(timeStamp,task));
     });
 
   }
 
 
-  function Task(date, task){
+  var ddd = new Date();
+  var d = ddd.getTime();
+  var ppp = {filename:'temp.mp3', who:'all' };
+  var pppp = {filename:'temp3.mp3', who:'grp1'};
+  allTasks.push(new Task(d,ppp));
+  allTasks.push(new Task(d,pppp));
 
-    this.date = date;
+  function Task(timeStamp, task){
+
     this.filename = task.filename;
     this.who = task.who;
+    this.selected = false;
     var thisTask = this;
 
-    this.view = $('<div>').addClass('').appendTo( $('#taskManager') );
-
-    this.icontext = $('<div>').html(this.date+' '+this.filename).addClass('icontext').appendTo( thisTask.view );
-
-    this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('trashHide fa fa-times').appendTo( thisfile.view );
+    this.timeStamp = timeStamp;
+    this.date = new Date(timeStamp);
+    this.time = this.date.getHours()+'H'+this.date.getMinutes();
 
 
+    this.view = $('<div>').addClass('taskView').appendTo( $('#taskManager') );
+
+    this.icontext = $('<div>').html(this.time+' - '+this.filename+' - '+this.who).addClass('icontext').appendTo( thisTask.view );
+
+    this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
+
+
+    this.view.on('click',function(){
+      unselectAllTasks();
+      thisTask.view.addClass('fileSelected');
+      thisTask.selected = true;
+      thisTask.icondelete.addClass('delView');
+  });
+
+
+
+}
+
+  function unselectAllTasks(){
+    $.each(allTasks,function(index,task){
+      task.selected=false;
+      task.view.removeClass('fileSelected');
+    });
   }
-
-
-
-
 
 
 
