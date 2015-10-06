@@ -3,12 +3,37 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  TaskManager: function(fn_dispatch) {
-    var that = this;
+  ServerState: function() {
     this.serverState = {
       clientCount: 0,
       controllerCount: 0
-    }
+    };
+
+    this.addClient = function(fd, ep) {
+      this.serverState.clientCount++;
+    };
+
+    this.removeClient = function(fd, ep) {
+      this.serverState.clientCount--;
+    };
+
+    this.addController = function(client) {
+      this.serverState.controllerCount++;
+    };
+
+    this.removeController = function(client) {
+      this.serverState.controllerCount--;
+    };
+
+    this.getState = function() {
+      return this.serverState;
+    };
+
+  },
+
+  TaskManager: function(fn_dispatch) {
+    var that = this;
+
     this.pendingTasks = {};
     this.timersTasks = {};
     this.dispatcher = fn_dispatch;
@@ -16,33 +41,30 @@ module.exports = {
     this.addTask = function(task) {
       //extract unique server goal time
       var now = new Date();
-      serverTimestamp = now.setSeconds(now.getSeconds() + task.when).getTime();
+      now.setSeconds(now.getSeconds() + task.when);
+      var serverTimestamp = now.getTime();
       while (that.pendingTasks.hasOwnProperty(serverTimestamp)) { serverTimestamp++; }
 
       //setup execution timer and add to pending tasks
-      this.pendingTasks[serverTimestamp] = data;
-      this.timersTasks[serverTimestamp] = new ExecuteTimer(serverTimestamp, that.consumeTask );
+      this.pendingTasks[serverTimestamp] = task;
+      this.timersTasks[serverTimestamp] = new module.exports.ExecuteTimer(serverTimestamp, that.consumeTask );
     };
 
     this.consumeTask = function(timestamp) {
-      var task = this.pendingTasks[timestamp];
-      // remove Task from queue
-      this.removeTask(timestamp);
-      // send Task to dispatcher
-      this.dispatcher(task);
+      var task = that.removeTask(timestamp); // remove Task from queue
+      that.dispatcher(task); // send Task to dispatcher
       console.log('Task consumed');
     };
 
     this.removeTask = function(timestamp) {
       // stop and remove timer
-      that.timersTasks[timestamp].stop();
+      if (that.timersTasks[timestamp] !== undefined)
+        that.timersTasks[timestamp].stop();
       delete that.timersTasks[timestamp];
-      // remove from pending queue
+      // remove from pending queue and return it
+      var task = that.pendingTasks[timestamp];
       delete that.pendingTasks[timestamp];
-    };
-
-    this.getState = function() {
-      return this.serverState;
+      return task;
     };
 
     this.getTasks = function() {
@@ -58,7 +80,7 @@ module.exports = {
     this.callback = fn;
     this.start = function() {
       var delay = Math.max(1, (atTime-(new Date()).getTime()));
-      this.timerjs = setTimeout(fn, delay);
+      this.timerjs = setTimeout(function(){fn(atTime)}, delay);
     };
     this.stop = function() { clearTimeout(this.timerjs) };
 
@@ -72,11 +94,11 @@ module.exports = {
     this.dirty = false;
     this.timerjs = null;
 
-    this.onMove = function(c) { that.dirty=true };
+    this.trigger = function(c) { that.dirty=true };
 
     this.start = function() {
       this.dirty = false;
-      Object.observe(that.object, that.onMove );
+      Object.observe(that.object, that.trigger );
       this.timerjs = setInterval(function() { if (that.dirty) that.callback(); that.dirty=false; }, 500);
     };
     this.stop = function() {
