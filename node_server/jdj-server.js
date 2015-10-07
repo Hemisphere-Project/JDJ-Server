@@ -17,15 +17,19 @@ var SERVERSTATE = new Engine.State();
 SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getState()) };
 
 // TASK MANAGER
-var TASKMANAGER = new Engine.Tasks(dispatch);
+var TASKMANAGER = new Engine.Tasks();
 TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
+TASKMANAGER.onConsume = function(task) {
+  if (task.who === null || task.who === undefined) task.who = 'all';
+  PUBLISHER.send(task.who, JSON.stringify(task));
+};
 
-  // TIME SERVER
+// TIME SERVER
 var TIMESERVER = new Engine.TimeServer(PORT_TIME);
 
-  // PUBLISHER
+// PUBLISHER
 var PUBLISHER = new Engine.Publisher(PORT_PUB);
-PUBLISHER.onSubscribe = function(fd, ep) { SERVERSTATE.addClient(fd,ep); }
+PUBLISHER.onSubscribe = function(fd, ep) { SERVERSTATE.addClient(fd,ep); PUBLISHER.send("all", "A new client joined the party !");}
 PUBLISHER.onUnsubscribe = function(fd, ep) { SERVERSTATE.removeClient(fd,ep); }
 
 // CONTROLLER
@@ -37,7 +41,13 @@ REMOTECTRL.onConnect = function(client) {
 REMOTECTRL.onDisconnect = function(client) {
   SERVERSTATE.removeController(client);
 };
-REMOTECTRL.onRequest = function(client, data) {
+REMOTECTRL.onPlay = function(client, data) {
+  data.action = 'play';
+  TASKMANAGER.addTask(data);
+};
+REMOTECTRL.onStop = function(client, data) {
+  if (data === undefined) data = {};
+  data.action = 'stop';
   TASKMANAGER.addTask(data);
 };
 REMOTECTRL.onRemove = function(client, data) {
@@ -46,7 +56,7 @@ REMOTECTRL.onRemove = function(client, data) {
 REMOTECTRL.onHello = function(client) {
   console.log('WebController said hello');
   client.emit('status', { hello: 'you' });
-  PUBLISHER.send("Hello everyone !");
+  PUBLISHER.send("all", "Hello everyone !");
 };
 
 

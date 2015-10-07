@@ -39,18 +39,18 @@ module.exports = {
 
   },
 
-  Tasks: function(fn_dispatch) {
+  Tasks: function() {
     var that = this;
 
     this.pendingTasks = {};
     this.timersTasks = {};
-    this.dispatcher = fn_dispatch;
 
     // Auto observer: trigger onChange
     this.observer = new Tools.Observer(that.pendingTasks, function(){ that.onChange()});
 
     // Public events (to overwrite)
     this.onChange = function() { };
+    this.onConsume = function(task) { };
 
     this.addTask = function(task) {
       //extract unique server goal time
@@ -66,8 +66,7 @@ module.exports = {
 
     this.consumeTask = function(timestamp) {
       var task = that.removeTask(timestamp); // remove Task from queue
-      that.dispatcher(task); // send Task to dispatcher
-      console.log('Task consumed');
+      that.onConsume(task); // send Task to consumer
     };
 
     this.removeTask = function(timestamp) {
@@ -109,8 +108,8 @@ module.exports = {
     this.onUnsubscribe = function (fd, ep) { };
 
     // Send shortcut
-    this.send = function(msg) {
-      this.socket.send(["zenner", msg]);
+    this.send = function(grp, msg) {
+      this.socket.send([grp, msg]);
     }
 
     // Monitor events
@@ -143,14 +142,16 @@ module.exports = {
     this.onConnect = function(client) { };
     this.onDisconnect = function(client) { };
     this.onHello = function(client) { console.log('WebController said hello'); };
-    this.onRequest = function(client, data) { console.log('WebController sent request: '+JSON.stringify(data)); };
+    this.onPlay = function(client, data) { console.log('WebController sent PLAY request: '+JSON.stringify(data)); };
+    this.onStop = function(client, data) { console.log('WebController sent STOP request: '+JSON.stringify(data)); };
     this.onRemove = function(client, data) { console.log('WebController wants to remove: '+data); };
 
     // onConnection event shortcut
     this.socket.on('connection', function(client){
       client.on('disconnect', function(){ that.onDisconnect(client) });
       client.on('hello', function(){ that.onHello(client) });
-      client.on('request', function(data){ that.onRequest(client, data) });
+      client.on('play', function(data){ that.onPlay(client, data) });
+      client.on('stop', function(data){ that.onStop(client, data) });
       client.on('remove', function(data){ that.onRemove(client, data) });
       that.onConnect(client);
     });

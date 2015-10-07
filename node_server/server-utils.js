@@ -28,7 +28,7 @@ module.exports = {
     this.start = function() {
       this.dirty = false;
       Object.observe(that.object, that.trigger );
-      this.timerjs = setInterval(function() { if (that.dirty) that.callback(); that.dirty=false; }, 500);
+      this.timerjs = setInterval(function() { if (that.dirty) that.callback(); that.dirty=false; }, 300);
     };
     this.stop = function() {
       Object.unobserve(that.object, that.onMove );
