@@ -117,6 +117,7 @@
     /*---------------------------------*/
     #browser{
       height: 400px;
+       /*height: 100%;*/
       border: 2px dotted black;
       margin: 10px;
       margin-top:16px;
@@ -207,6 +208,27 @@
       color: limegreen;
     }
 
+    /*---------TEXT WRITER---------
+    ----------------------------*/
+    #liveText{
+      margin: 10px;
+      /*margin-top:16px;*/
+      padding: 10px;
+    }
+
+    #textTitle{
+      width: 30%;
+      outline: none;
+    }
+
+    .textContent{
+      width: 99%;
+      height: 300px;
+      resize: none;
+      outline:0px none transparent;
+      border: 1px dotted black;
+      margin-top: 10px;
+    }
     /*---------URL SAVER---------
     ----------------------------*/
 

@@ -20,14 +20,14 @@
   <div id="colonne1">
     <div id="audio" class="selector">AUDIO</div>
     <div id="video" class="selector">VIDEO</div>
-    <div id="text" class="selector">TEXTE</div>
     <div id="url" class="selector">URL</div>
     <div id="sms" class="selector">SMS</div>
+    <div id="text" class="selector">TEXTE</div>
     <div id="phone" class="selector">PHONE</div>
   </div>
 
   <div id="colonne2">
-    <div id="browserOptions_Uploader">
+    <div id="browserOptions_Uploader" class="browserOptions">
       <div id="uploader">
         <form id="fileForm" action="" enctype="multipart/form-data" method="post">
 
@@ -48,12 +48,23 @@
       <progress id="audioProgress" class="playerProgress"></progress>
       <div id="timeCount" class="timeCount">0:00</div>
     </div>
+
     <div id="videoPreview" class="browserOptions">
       <video id="videoPlayer"></video><br>
       <i id="videoPlay" class="playerControl fa fa-play"></i>
       <i id="videoPause" class="playerControl fa fa-pause"></i>
       <progress id="videoProgress" class="playerProgress"></progress>
       <div id="videotimeCount" class="timeCount">0:00</div>
+    </div>
+
+    <div id="urlOptions" class="browserOptions">
+      <div id="wrap">
+        <iframe id="frame" frameborder=0></iframe>
+      </div>
+      <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/><br>
+      <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" /><br><br>
+      <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
+      <i id="viewUrl" class="fa fa-eye iconButtons"></i>
     </div>
 
     <div id="browserOptions_Sms">
@@ -66,18 +77,16 @@
       </div>
     </div>
 
-    <div id="urlOptions" class="browserOptions">
-      <div id="wrap">
-        <iframe id="frame" frameborder=0></iframe>
-      </div>
+    <div id="liveText" class="browserOptions">
+      <input type="text" id="textTitle" value="texte sans titre" class="textInput" />
+      <br>
+      <textarea name="textContent" id="textContent" class="textContent" rows=5></textarea>
 
-      <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/><br>
-      <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" />
-      <br><br>
-      <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
-      <i id="viewUrl" class="fa fa-eye iconButtons"></i>
+        <i id="saveText" class="fa fa-floppy-o iconButtons"></i>
 
     </div>
+
+
 
     <div id="browser">
         <div id="mediasList"></div>
@@ -129,6 +138,8 @@
       <div id="taskManager"></div>
     </div>
   </div>
+
+
 
 
 <i class="fa fa-smile-o"></i>

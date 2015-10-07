@@ -213,6 +213,7 @@ $(function() {
   getFiles();
 
   $('.browserOptions').hide();
+  $('#browserOptions_Uploader').show();
 
   function sortBrowser(){
     $('.view').hide();
@@ -227,6 +228,7 @@ $(function() {
     $(this).css("color", "white");
     //get category
     categorySelected = $(this).attr("id");
+    console.log(categorySelected);
     // SPECIAL DISPLAYS
     $('.browserOptions').hide();
     if (categorySelected != "sms") { $('#browserOptions_Sms').fadeOut(0);}
@@ -247,6 +249,19 @@ $(function() {
     if (categorySelected == 'url'){
       $('#urlOptions').show();
     }
+
+    if (categorySelected == 'text'){
+      $('#colonne2').css('width', '60%');
+      $('#liveText').show();
+      $('#colonne3').hide();
+      $('#browserOptions_Uploader').hide();
+    }
+    else{
+      $('#colonne2').css('width', '40%');
+      $('#colonne3').show();
+      $('#browserOptions_Uploader').show();
+    }
+
     //
     sortBrowser();
   });
@@ -561,6 +576,33 @@ $(function() {
     );
   }
 
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                       TEXTE
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  $('.textContent').keyup(function () {
+    console.log("live txt edit");
+  });
+
+  $('#saveText').on("click", function () {
+    var textTitle = $("#smsTitle").val();
+    var smsContent = $("#smsContent").val();
+    $.ajax({
+        url: "php/saveTxt.php",
+        // dataType: "text",
+        type: "POST",
+        data: {
+            contents: smsContent,
+            filename: smsTitle
+        }
+    })
+    .done(function(reponse)
+    {
+      getFiles();
+    }
+    );
+  });
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
@@ -617,6 +659,7 @@ $(function() {
 
     var data = {
       filename: fileToSend,
+      category: categorySelected,
       when:time,
       who:who,
       localTime: new Date().getTime()
