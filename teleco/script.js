@@ -359,7 +359,6 @@ $(function() {
     }
 
     audioPlayer.ontimeupdate = function(){
-      console.log("update");
       updateAudio();
     };
     function updateAudio(){
@@ -595,8 +594,7 @@ $(function() {
   $('#min').val(min);
   $('#sec').val(0);
 
-  // SEND
-
+  // SEND PLAY
   $(".starter").on("click",function(){
     var fileToSend = $("#selectedFileGO").text();
     var who = $('input[name=group]:radio:checked').val();
@@ -625,14 +623,19 @@ $(function() {
     };
 
     if (fileToSend != "no file selected"){
-     socket.emit('request', data);
+     socket.emit('play', data);
     //  console.log(data);
     }
   });
 
+  // SEND STOP
+  $("#stopAll").on("click",function(){
+    socket.emit('stop');
+  });
+
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
-  //                      SOCKET
+  //                     TASK MANAGER
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   pendingTasks = new Array();
@@ -660,35 +663,32 @@ $(function() {
   });
 
 
+
+
   function actuManager(){
     $('#taskManager').empty();
     allTasks = [];
 
-    console.log(pendingTasks);
-    $.each(pendingTasks,function(timeStamp,task){
-      // console.log(timeStamp);
-      // console.log(task);
-      // var date = new Date(index);
-      // console.log(date.getTime());
+    // remplissage allTasks par ordre croissant keys (timeStamps)
+    var keys = Object.keys(pendingTasks);
+    keys.sort();
+    $.each(keys, function(index,key){
+      var timeStamp = key;
+      var task = pendingTasks[key];
       allTasks.push(new Task(timeStamp,task));
     });
+    // Avant: remplissage non trié
+    // $.each(pendingTasks,function(timeStamp,task){
+    //   allTasks.push(new Task(timeStamp,task));
+    // });
 
   }
-
-
-  // var ddd = new Date();
-  // var d = ddd.getTime();
-  // var ppp = {filename:'temp.mp3', who:'all' };
-  // var pppp = {filename:'temp3.mp3', who:'grp1'};
-  // allTasks.push(new Task(d,ppp));
-  // allTasks.push(new Task(d,pppp));
 
   function Task(timeStamp, task){
 
     this.filename = task.filename;
     this.who = task.who;
     this.selected = false;
-
     var thisTask = this;
 
     //MANAGE TIME DISPLAY
@@ -701,10 +701,10 @@ $(function() {
     if (this.min <=9){ this.min = '0'+this.min; }
     this.timeForm = this.hour+'H'+this.min;
 
+    // VIEW
     this.view = $('<div>').addClass('taskView').appendTo( $('#taskManager') );
     this.icontext = $('<div>').html(this.timeForm+' - '+this.filename+' - '+this.who).addClass('icontext').appendTo( thisTask.view );
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
-
 
     // SELECT
     this.view.on('click',function(){
@@ -717,12 +717,10 @@ $(function() {
     // DELETE
     this.icondelete.on('click',function(){
       console.log("DELETE TASK");
-      allTasks
       removeTask(thisTask.timeStamp);
     });
 
-
-}
+  }
 
   function unselectAllTasks(){
     $.each(allTasks,function(index,task){
@@ -733,7 +731,10 @@ $(function() {
   }
 
   function removeTask(timeStamp){
-    console.log(timeStamp);
+    // delete en local pour réactivité
+    delete pendingTasks[timeStamp];
+    actuManager();
+    // delete server
     socket.emit('remove', timeStamp);
   }
 
