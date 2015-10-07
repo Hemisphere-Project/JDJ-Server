@@ -630,7 +630,7 @@ $(function() {
 
   // SEND STOP
   $("#stopAll").on("click",function(){
-    socket.emit('stop');
+    socket.emit('stop',{});
   });
 
   ///////////////////////////////////////////////////////
@@ -661,8 +661,6 @@ $(function() {
     pendingTasks = data;
     actuManager();
   });
-
-
 
 
   function actuManager(){
