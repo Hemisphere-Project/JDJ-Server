@@ -3,9 +3,11 @@
 var PORT_WS = 8088;
 var PORT_PUB = 8081;
 var PORT_TIME = 8082;
+var PUB_DELAY = 2000;
 
 // LIBS
 var Engine = require('./server-engine');
+var Fs = require('fs')
 
 function dispatch(task) {
   console.log('Task dispatched');
@@ -20,8 +22,30 @@ SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getSta
 var TASKMANAGER = new Engine.Tasks();
 TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
 TASKMANAGER.onConsume = function(task) {
-  if (task.who === null || task.who === undefined) task.who = 'all';
-  PUBLISHER.send(task.who, JSON.stringify(task));
+  // clean up task
+  var channel = 'all';
+  if (task.who !== undefined) {channel = task.who; delete task.who; }
+  if (task.localTime !== undefined) delete task.localTime;
+  if (task.when !== undefined) delete task.when;
+
+  // Play something
+  if (task.action == 'play') {
+
+    // convert .url files to actual url
+    if (task.category == 'url') {
+      try {
+        task.url = Fs.readFileSync('../teleco/files/'+task.filename, 'utf8');
+      } catch (e) { console.log(e); return;}
+    }
+    else task.url = 'http://10.0.2.2/teleco/files/'+task.filename;
+
+  }
+
+  // Add transmission delay
+  task.atTime = (new Date()).getTime() + PUB_DELAY;
+
+  // publish
+  PUBLISHER.send(channel, JSON.stringify(task));
 };
 
 // TIME SERVER
@@ -29,7 +53,7 @@ var TIMESERVER = new Engine.TimeServer(PORT_TIME);
 
 // PUBLISHER
 var PUBLISHER = new Engine.Publisher(PORT_PUB);
-PUBLISHER.onSubscribe = function(fd, ep) { SERVERSTATE.addClient(fd,ep); PUBLISHER.send("all", "A new client joined the party !");}
+PUBLISHER.onSubscribe = function(fd, ep) { SERVERSTATE.addClient(fd,ep); }
 PUBLISHER.onUnsubscribe = function(fd, ep) { SERVERSTATE.removeClient(fd,ep); }
 
 // CONTROLLER
@@ -44,6 +68,7 @@ REMOTECTRL.onDisconnect = function(client) {
 REMOTECTRL.onPlay = function(client, data) {
   data.action = 'play';
   TASKMANAGER.addTask(data);
+  //console.log(data);
 };
 REMOTECTRL.onStop = function(client, data) {
   if (data === undefined) data = {};
