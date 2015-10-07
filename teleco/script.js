@@ -58,6 +58,7 @@ $(function() {
       else if (extension == "mov"||extension == "mp4"||extension == "avi"||extension == "mpg") { thisfile.category = "video" ;}
       else if (extension == "txt") { thisfile.category = "sms" ;}
       else if (extension == "url") { thisfile.category = "url" ;}
+      else if (extension == "live") { thisfile.category = "text" ;}
       else { thisfile.category = "unknown" ; }
     }
     this.getCategory();
@@ -98,6 +99,7 @@ $(function() {
         stopVideo();
         if (thisfile.category == 'sms'){ getSmsContent(); }
         if (thisfile.category == 'url'){ getUrlContent(); }
+        if (thisfile.category == 'text'){ getTextContent(); }
       }
       noSelection = false;
       if (categorySelected == 'none') { gotoCategory(thisfile.category); }
@@ -251,7 +253,7 @@ $(function() {
     }
 
     if (categorySelected == 'text'){
-      $('#colonne2').css('width', '60%');
+      // $('#liveText').css('width', '100%');
       $('#liveText').show();
       $('#colonne3').hide();
       $('#browserOptions_Uploader').hide();
@@ -269,6 +271,12 @@ $(function() {
   function gotoCategory(category){
     $("#"+category).click();
   }
+
+  // BROWSER SIZING
+  // $(window).on('resize', function(){
+  //     var win = $(this);
+  //     console.log(win.height());
+  // });
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
@@ -582,19 +590,20 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   $('.textContent').keyup(function () {
-    console.log("live txt edit");
+    var data = $("#textContent").val();
+    socket.emit('liveText', data);
   });
 
   $('#saveText').on("click", function () {
-    var textTitle = $("#smsTitle").val();
-    var smsContent = $("#smsContent").val();
+    var textTitle = $("#textTitle").val();
+    var textContent = $("#textContent").val();
     $.ajax({
-        url: "php/saveTxt.php",
+        url: "php/saveLiveTxt.php",
         // dataType: "text",
         type: "POST",
         data: {
-            contents: smsContent,
-            filename: smsTitle
+            contents: textContent,
+            filename: textTitle
         }
     })
     .done(function(reponse)
@@ -603,6 +612,29 @@ $(function() {
     }
     );
   });
+
+  function getTextContent(){
+    var fileO = browser.getActiveFile();
+    var filename = fileO.filename;
+    var shortname = fileO.filename.split('.')[0];
+    $("#textTitle").val(shortname);
+
+    $.ajax({
+        url: "php/loadTxt.php",
+        dataType: "text",
+        type: "POST",
+        data: {
+            filename: filename,
+            type: 'text'
+        }
+    })
+    .done(function(contents)
+    {
+      $("#textContent").val(contents);
+    }
+    );
+  }
+
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
