@@ -3,7 +3,7 @@
 var PORT_WS = 8088;
 var PORT_PUB = 8081;
 var PORT_TIME = 8082;
-var PUB_DELAY = 1999;
+var PUB_DELAY = 1998;
 
 // LIBS
 var Engine = require('./server-engine');
