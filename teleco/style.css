@@ -140,16 +140,17 @@
       width:50%;
       box-sizing: border-box;
       display: inline-block;
-
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      /*height:35px;*/
     }
 
     .icontext{
       display: inline;
-      width:80px;
+      max-width:12%;
+      position:absolute;
       height:30px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .fileSelected{
@@ -176,7 +177,7 @@
 
     }
     #suppr{
-      margin-right:15px;
+      margin-right:5px;
     }
 
     /*---------SMS WRITER---------
@@ -456,11 +457,25 @@
       line-height: 25px;
       cursor: pointer;
       box-sizing: border-box;
+      height:25px;
+/*
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;*/
+    }
+
+    .taskText{
+      display: inline;
+      max-width:20%;
+      position:absolute;
+      min-height:30px;
 
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
     }
+
 
     /*.fa-trash-o{
       float: right;
@@ -477,7 +492,9 @@
 
     }
     #deleteTask{
+      font-size: 15pt;
+      line-height:25px;
       float:right;
-      margin-right:15px;
+      margin-right:2px;
       vertical-align: middle;
     }

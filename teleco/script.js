@@ -780,7 +780,7 @@ $(function() {
 
     // VIEW
     this.view = $('<div>').addClass('taskView').appendTo( $('#taskManager') );
-    this.icontext = $('<div>').html(this.timeForm+' - '+this.filename+' - '+this.who).addClass('icontext').appendTo( thisTask.view );
+    this.icontext = $('<div>').html(this.timeForm+' - '+this.filename+' - '+this.who).addClass('taskText').appendTo( thisTask.view );
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
 
     // SELECT
