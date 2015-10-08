@@ -440,14 +440,6 @@
     }
 
 
-    /*--------- SMILE -----------
-    ----------------------------*/
-
-    /*.fa-smile-o{
-      font-size: 20pt;
-      float: right;
-      margin: 5px;
-    }*/
 
     /*---------- TASK MANAGER ----------*/
     /*---------------------------------*/
@@ -458,10 +450,7 @@
       cursor: pointer;
       box-sizing: border-box;
       height:25px;
-/*
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;*/
+
     }
 
     .taskText{
@@ -469,23 +458,15 @@
       max-width:20%;
       position:absolute;
       min-height:30px;
-
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-
+      /*d*/
     }
 
-
-    /*.fa-trash-o{
-      float: right;
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 35px;
-    }*/
     .delHide{
       display:none;
-      /*opacity: 0;*/
+
     }
     .delView{
       display:inline;
