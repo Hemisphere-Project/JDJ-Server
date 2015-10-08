@@ -69,6 +69,8 @@
       border: 2px dotted black;
       margin: 10px;
       padding: 5px;
+      max-height:600px;
+      overflow-y:scroll;
     }
     /*---------- AUDIO PLAYER ---------*/
     /*---------------------------------*/
@@ -135,22 +137,25 @@
     }
     .view{
       margin-top: 8px;
-      line-height: 35px;
+      /*line-height: 30px;*/
       cursor: pointer;
       width:50%;
       box-sizing: border-box;
       display: inline-block;
-      /*height:35px;*/
+      height:35px;
     }
 
     .icontext{
-      display: inline;
-      max-width:12%;
-      position:absolute;
-      height:30px;
+
+      display: inline-block;
+      max-width:70%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .textWrap{
+      /*display:inline;*/
     }
 
     .fileSelected{
@@ -167,7 +172,7 @@
       float: right;
       cursor: pointer;
       font-size: 20px;
-      line-height: 35px;
+      /*line-height: 35px;*/
     }
     .trashHide{
       display:none;
@@ -454,15 +459,13 @@
     }
 
     .taskText{
-      display: inline;
-      max-width:20%;
-      position:absolute;
-      min-height:30px;
+      display: inline-block;
+      max-width:90%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      /*d*/
     }
+
 
     .delHide{
       display:none;

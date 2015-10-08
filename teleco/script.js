@@ -74,6 +74,7 @@ $(function() {
       if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
     //filename
+    // this.textWrap = $('<div>').addClass('textWrap').appendTo( thisfile.view );
     this.icontext = $('<div>').html(this.filename).addClass(''+thisfile.category+' icontext').appendTo( thisfile.view );
     // trash
     this.icondelete = $('<div>').attr('id', "suppr").addClass('trashHide fa fa-trash-o').appendTo( thisfile.view );
