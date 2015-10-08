@@ -716,8 +716,12 @@ $(function() {
   pendingTasks = new Array();
   allTasks = new Array();
 
-  // var url = 'http://jdj.hmsphr.com:8088/'
-   var url = 'http://localhost:8088'
+  if (document.location.hostname == "localhost") {
+    url = 'http://localhost:8088';
+  }
+  else {
+    url = 'http://jdj.hmsphr.com:8088/';
+  }
 
   var socket = io(url);
 
