@@ -27,14 +27,13 @@
   </div>
 
   <div id="colonne2">
-    <div id="browserOptions_Uploader" class="browserOptions">
+    <div id="browserOptions_Uploader" class="browserOptions_top">
       <div id="uploader">
         <form id="fileForm" action="" enctype="multipart/form-data" method="post">
 
           <label for="fileInput" id="inputLabel" class="btn"><i class="fa fa-plus"></i></label>
           <input name="fileInput" type="file" id="fileInput" multiple/>
           <div id="talkBox">Ajoutez des fichiers</div>
-          <!-- <label for="send" id="sendLabel"><i class="fa fa-upload"></i></label> -->
           <input name="send" id="send" type="submit" value="UPLOAD" class="btn" />
           <br>
           <progress id="uploadProgress"></progress>
@@ -67,7 +66,7 @@
       <i id="viewUrl" class="fa fa-eye iconButtons"></i>
     </div>
 
-    <div id="browserOptions_Sms">
+    <div id="browserOptions_Sms" class="browserOptions">
       <input type="text" id="smsTitle" value="Sms sans titre" class="textInput" />
       <br>
       <textarea name="smsContent" id="smsContent" class="smsContent" rows=5  maxlength=160></textarea>
@@ -94,7 +93,7 @@
   </div>
 
   <div id="colonne3">
-    <div id="who" class="rect">
+    <div id="who" class="browserOptions_top">
       WHO<br><br>
       <input type="radio" name="group" class="radio" value="all" checked="checked"/>
       <span class="group fa fa-dot-circle-o"></span>  ALL <br>
@@ -105,7 +104,7 @@
       <input type="radio" name="group" class="radio" value="random" />
       <span class="group fa fa-circle-o"></span>  Random <br>
     </div>
-    <div id="sendFile" class="rect">
+    <div id="sendFile" class="browserOptions_top">
       SEND<br>
       <div id="selectedFileGO">no file selected</div><br>
 

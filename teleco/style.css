@@ -47,22 +47,21 @@
     /*---------BROWSER OPTIONS---------*/
     /*---------------------------------*/
     #browserOptions_Uploader{
-      /*height: 20px;*/
       border: 2px dotted black;
       margin: 10px;
       padding: 5px;
     }
-    #browserOptions_Sms{
-      display: none;
+    .browserOptions_top{
       border: 2px dotted black;
       margin: 10px;
       padding: 5px;
     }
+
     .browserOptions{
       display: none;
-      /*height: 20px;*/
       border: 2px dotted black;
       margin: 10px;
+      margin-top: 16px;
       padding: 5px;
     }
     .serverOptions{
@@ -187,13 +186,6 @@
 
     /*---------SMS WRITER---------
     ----------------------------*/
-
-    #browserOptions_Sms{
-      /*display: block;*/
-      margin: 10px;
-      margin-top:16px;
-      padding: 10px;
-    }
 
     #smsTitle{
       width: 70%;
@@ -357,11 +349,11 @@
     /*---------COLONNE 3-----------
     ----------------------------*/
 
-    .rect{
+    /*.rect{
       border: 2px dotted black;
       margin: 10px;
       padding: 5px;
-    }
+    }*/
     .group{
       font-size: 18pt;
       line-height: 20pt;
