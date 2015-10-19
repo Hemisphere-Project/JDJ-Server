@@ -156,6 +156,10 @@ module.exports = {
       that.onConnect(client);
     });
 
+    this.socket.on('error', function(err) {
+        console.log('Socket.io Error: '+err);
+    });
+
     // Emit shortcut
     this.send = function(subject, data) {
       this.socket.emit(subject, data);
