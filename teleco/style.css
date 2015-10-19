@@ -262,12 +262,13 @@
     }
 
     #wrap {
-    padding: 0;
-    margin: 0px;
-    overflow: hidden;
-    display: block;
-    max-height: 100%
-}
+      display: none;
+      width: 50%;
+      height: 80%;
+      padding: 0;
+      float:right;
+      margin: 10px;
+  }
 
     #frame {
       width: 100%;
