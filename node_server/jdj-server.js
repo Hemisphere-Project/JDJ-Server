@@ -70,15 +70,15 @@ REMOTECTRL.onDisconnect = function(client) {
   console.log('Socket.io RC disconnected ');
 };
 REMOTECTRL.onPlay = function(client, data) {
+  console.log('play');
   data.action = 'play';
   TASKMANAGER.addTask(data);
-  //console.log(data);
 };
 REMOTECTRL.onStop = function(client, data) {
+  console.log('stop');
   if (data === undefined) data = {};
   data.action = 'stop';
   TASKMANAGER.addTask(data);
-  //console.log(data);
 };
 REMOTECTRL.onRemove = function(client, data) {
   TASKMANAGER.removeTask(data);
