@@ -50,7 +50,7 @@ module.exports = {
 
     // Public events (to overwrite)
     this.onChange = function() { };
-    this.onConsume = function(task) { };
+    this.onConsume = function(task) { console.log('Task consumed'); };
 
     this.addTask = function(task) {
       //extract unique server goal time
