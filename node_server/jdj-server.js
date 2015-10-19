@@ -37,7 +37,7 @@ TASKMANAGER.onConsume = function(task) {
         task.url = Fs.readFileSync('../teleco/files/'+task.filename, 'utf8');
       } catch (e) { console.log(e); return;}
     }
-    else task.url = 'http://10.0.2.2/teleco/files/'+task.filename;
+    else task.url = 'http://jdj.hmsphr.com/teleco/files/'+task.filename;
 
   }
 
@@ -74,6 +74,7 @@ REMOTECTRL.onStop = function(client, data) {
   if (data === undefined) data = {};
   data.action = 'stop';
   TASKMANAGER.addTask(data);
+  //console.log(data);
 };
 REMOTECTRL.onRemove = function(client, data) {
   TASKMANAGER.removeTask(data);

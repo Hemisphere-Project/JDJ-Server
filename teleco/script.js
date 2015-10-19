@@ -1,4 +1,6 @@
 
+IO_PORT = 8088;
+
 $(function() {
 
   var categorySelected = 'none';
@@ -717,12 +719,7 @@ $(function() {
   pendingTasks = new Array();
   allTasks = new Array();
 
-  if (document.location.hostname == "localhost") {
-    url = 'http://localhost:8088';
-  }
-  else {
-    url = 'http://jdj.hmsphr.com:8088/';
-  }
+  url = 'http://'+document.location.hostname+':'+IO_PORT;
 
   var socket = io(url);
 
