@@ -267,6 +267,7 @@
     margin: 0px;
     overflow: hidden;
     display: block;
+    max-height: 100%
 }
 
     #frame {
