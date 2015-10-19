@@ -20,7 +20,7 @@ SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getSta
 
 // TASK MANAGER
 var TASKMANAGER = new Engine.Tasks();
-//TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
+TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
 TASKMANAGER.onConsume = function(task) {
   //console.log('start consuming task');
   // clean up task
