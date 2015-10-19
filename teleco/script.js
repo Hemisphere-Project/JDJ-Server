@@ -702,14 +702,14 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play');
+     //console.log('play');
     }
   });
 
   // SEND STOP
   $("#stopAll").on("click",function(){
     socket.emit('stop',{});
-    console.log('stop');
+    //console.log('stop');
   });
 
   ///////////////////////////////////////////////////////
