@@ -370,13 +370,13 @@
       line-height: 20pt;
     }
 
-    .starter{
+    .starterBTN{
       font-size: 18pt;
       cursor: pointer;
       float: right;
       margin-right: 15px;
     }
-    .starter:active{
+    .starterBTN:active{
       color: limegreen;
     }
     #sendFile{
