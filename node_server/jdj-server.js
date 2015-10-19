@@ -20,9 +20,9 @@ SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getSta
 
 // TASK MANAGER
 var TASKMANAGER = new Engine.Tasks();
-TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
+//TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
 TASKMANAGER.onConsume = function(task) {
-  console.log('start consuming task');
+  //console.log('start consuming task');
   // clean up task
   var channel = 'all';
   if (task.who !== undefined) {channel = task.who; delete task.who; }
@@ -47,7 +47,7 @@ TASKMANAGER.onConsume = function(task) {
 
   // publish
   PUBLISHER.send(channel, JSON.stringify(task));
-  console.log('finnished consuming task');
+  //console.log('finnished consuming task');
 };
 
 // TIME SERVER

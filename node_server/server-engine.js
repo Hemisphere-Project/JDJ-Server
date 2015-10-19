@@ -160,23 +160,6 @@ module.exports = {
         console.log('Socket.io Error: '+err);
     });
 
-    var original_$emit = this.socket.$emit;
-    this.socket.$emit = function() {
-        var args = Array.prototype.slice.call(arguments);
-        original_$emit.apply(socket, ['*'].concat(args));
-        if(!original_$emit.apply(socket, arguments)) {
-            original_$emit.apply(socket, ['default'].concat(args));
-        }
-    }
-
-    this.socket.on('default',function(event, data) {
-        console.log('Event not trapped: ' + event + ' - data:' + JSON.stringify(data));
-    });
-
-    this.socket.on('*',function(event, data) {
-        console.log('Event received: ' + event + ' - data:' + JSON.stringify(data));
-    });
-
     // Emit shortcut
     this.send = function(subject, data) {
       this.socket.emit(subject, data);
