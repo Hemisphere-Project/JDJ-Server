@@ -72,13 +72,13 @@ REMOTECTRL.onDisconnect = function(client) {
 REMOTECTRL.onPlay = function(client, data) {
   data.action = 'play';
   TASKMANAGER.addTask(data);
-  //console.log(data);
+  console.log('play');
 };
 REMOTECTRL.onStop = function(client, data) {
   if (data === undefined) data = {};
   data.action = 'stop';
   TASKMANAGER.addTask(data);
-  //console.log(data);
+  console.log('stop');
 };
 REMOTECTRL.onRemove = function(client, data) {
   TASKMANAGER.removeTask(data);
