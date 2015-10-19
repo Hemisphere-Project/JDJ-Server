@@ -57,13 +57,19 @@
     </div>
 
     <div id="urlOptions" class="browserOptions">
-      <div id="wrap">
-        <iframe id="frame" frameborder=0></iframe>
-      </div>
-      <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/><br>
-      <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" /><br><br>
-      <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
-      <i id="viewUrl" class="fa fa-eye iconButtons"></i>
+      <table>
+        <tr>
+          <td>
+            <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/><br>
+            <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" /><br><br>
+            <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
+            <i id="viewUrl" class="fa fa-eye iconButtons"></i>
+          </td>
+          <td><div id="wrap">
+            <iframe id="frame" frameborder=0></iframe>
+          </div></td>
+        </tr>
+      </table>
     </div>
 
     <div id="browserOptions_Sms" class="browserOptions">
