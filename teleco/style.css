@@ -253,6 +253,7 @@
 
     .urlTxt{
       /*width: 40%;*/
+      width: 90%;
       outline: none;
       margin-top:10px;
     }
