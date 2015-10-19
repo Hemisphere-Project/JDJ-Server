@@ -22,30 +22,30 @@ SERVERSTATE.onChange = function() { REMOTECTRL.send("status", SERVERSTATE.getSta
 var TASKMANAGER = new Engine.Tasks();
 TASKMANAGER.onChange = function() { REMOTECTRL.send("tasks", TASKMANAGER.getTasks()) };
 TASKMANAGER.onConsume = function(task) {
-  // clean up task
-  var channel = 'all';
-  if (task.who !== undefined) {channel = task.who; delete task.who; }
-  if (task.localTime !== undefined) delete task.localTime;
-  if (task.when !== undefined) delete task.when;
-
-  // Play something
-  if (task.action == 'play') {
-
-    // convert .url files to actual url
-    if (task.category == 'url') {
-      try {
-        task.url = Fs.readFileSync('../teleco/files/'+task.filename, 'utf8');
-      } catch (e) { console.log(e); return;}
-    }
-    else task.url = 'http://jdj.hmsphr.com/teleco/files/'+task.filename;
-
-  }
-
-  // Add transmission delay
-  task.atTime = (new Date()).getTime() + PUB_DELAY;
-
-  // publish
-  PUBLISHER.send(channel, JSON.stringify(task));
+  // // clean up task
+  // var channel = 'all';
+  // if (task.who !== undefined) {channel = task.who; delete task.who; }
+  // if (task.localTime !== undefined) delete task.localTime;
+  // if (task.when !== undefined) delete task.when;
+  //
+  // // Play something
+  // if (task.action == 'play') {
+  //
+  //   // convert .url files to actual url
+  //   if (task.category == 'url') {
+  //     try {
+  //       task.url = Fs.readFileSync('../teleco/files/'+task.filename, 'utf8');
+  //     } catch (e) { console.log(e); return;}
+  //   }
+  //   else task.url = 'http://jdj.hmsphr.com/teleco/files/'+task.filename;
+  //
+  // }
+  //
+  // // Add transmission delay
+  // task.atTime = (new Date()).getTime() + PUB_DELAY;
+  //
+  // // publish
+  // PUBLISHER.send(channel, JSON.stringify(task));
 };
 
 // TIME SERVER
