@@ -265,6 +265,7 @@
     padding: 0;
     float:right;
     margin: 0px;
+    overflow: hidden;
 }
 
     #frame {
