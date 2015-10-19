@@ -61,9 +61,11 @@ var REMOTECTRL = new Engine.WebRemotes(PORT_WS);
 REMOTECTRL.onConnect = function(client) {
   SERVERSTATE.addController(client);
   TASKMANAGER.onChange();
+  console.log('Socket.io RC connected ');
 };
 REMOTECTRL.onDisconnect = function(client) {
   SERVERSTATE.removeController(client);
+  console.log('Socket.io RC disconnected ');
 };
 REMOTECTRL.onPlay = function(client, data) {
   data.action = 'play';
