@@ -1,5 +1,0 @@
-By default, browsers render most form elements (textareas, text boxes, buttons, etc) using OS controls or browser controls. So most of the font properties are taken from the theme the OS is currently using.
-
-You'll have to target the form elements themselves if you want to change their font/text styles - should be easy enough by selecting them though, as you've just done.
-
-As far as I know, only form elements are affected. Off the top of my head: input, button, textarea, select.

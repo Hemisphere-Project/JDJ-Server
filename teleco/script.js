@@ -200,7 +200,7 @@ $(function() {
         url: "php/fileList.php",
         type: "POST",
         data: { type: 'file',
-                directory: '../files'
+                directory: '../../files'
         }
     })
     .done(function(filelist) {

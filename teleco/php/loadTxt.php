@@ -5,7 +5,7 @@
 
   // echo $filename;
 
-  $contents = file_get_contents('../files/'.$filename, FILE_USE_INCLUDE_PATH);
+  $contents = file_get_contents('../../files/'.$filename, FILE_USE_INCLUDE_PATH);
 
   echo $contents;
 

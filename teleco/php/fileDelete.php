@@ -3,7 +3,7 @@
 
 $filename = $_POST['fileName'];
 
-$file = '../files/'.$filename;
+$file = '../../files/'.$filename;
 
 //echo $file;
 

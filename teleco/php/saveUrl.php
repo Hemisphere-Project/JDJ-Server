@@ -5,7 +5,7 @@
 
   $contents = $_POST['contents'];
 
-  $file = fopen("../files/" . $filename, 'w+');
+  $file = fopen("../../files/" . $filename, 'w+');
   fwrite($file, $contents);
   fclose($file);
 
