@@ -45,7 +45,7 @@ TASKMANAGER.onConsume = function(task) {
     if (task.category == 'txt') {
       try {
         var sms = Fs.readFileSync('../files/'+task.filename, 'utf8');
-
+        console.log('SMS: '+sms);
       } catch (e) { console.log(e);}
       return;
     }
