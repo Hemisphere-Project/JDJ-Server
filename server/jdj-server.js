@@ -50,7 +50,7 @@ TASKMANAGER.onConsume = function(task) {
       return;
     }
     // RAW CONTENT
-    else task.url = BASURL+'files/'+task.filename;
+    else task.url = BASEURL+'files/'+task.filename;
 
   }
 
