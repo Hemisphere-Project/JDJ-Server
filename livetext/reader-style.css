@@ -15,8 +15,9 @@
 
     .untyped{
       color: lightgrey;
+      display:none;
     }
 
     .typed{
-      color: mediumseagreen;
+      color: black;
     }
