@@ -61,6 +61,7 @@ $(function() {
       else if (extension == "txt") { thisfile.category = "sms" ;}
       else if (extension == "url") { thisfile.category = "url" ;}
       else if (extension == "live") { thisfile.category = "text" ;}
+      else if (extension == "phone") { thisfile.category = "phone" ;}
       else { thisfile.category = "unknown" ; }
     }
     this.getCategory();
@@ -73,10 +74,10 @@ $(function() {
     if (this.category=="video"){ this.icon = $('<div>').addClass('icon fa fa-file-video-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="text"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
-      if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="phone"){ this.icon = $('<div>').addClass('icon fa fa-mobile').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
     //filename
-    // this.textWrap = $('<div>').addClass('textWrap').appendTo( thisfile.view );
     this.icontext = $('<div>').html(this.filename).addClass(''+thisfile.category+' icontext').appendTo( thisfile.view );
     // trash
     this.icondelete = $('<div>').attr('id', "suppr").addClass('trashHide fa fa-trash-o').appendTo( thisfile.view );
@@ -190,6 +191,7 @@ $(function() {
 
   browser = new browser();
   var allFilenames = ["son1.mp3", "son2.mp3", "video1.mov", "Video2.mov", "url1", "sms1.txt" ];
+  var allPhoneFunctions = ['light.phone', 'blink.phone', 'vibre.phone'];
 
   function getFiles(){
     console.log("GET FILES");
@@ -210,6 +212,9 @@ $(function() {
         if (filename != '.' && filename != '..' && filename != '.DS_Store'){
           browser.addFile(filename);
         }
+      });
+      $.each(allPhoneFunctions, function(index, fonction){
+        browser.addFile(fonction);
       });
       if (categorySelected != 'none'){ sortBrowser(); }
       browser.unselectAllFiles();
