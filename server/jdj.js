@@ -8,7 +8,7 @@ var PORT_TIME = 8082;
 var PUB_DELAY = 1998;
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
-var PADREADER = 'pad/reader.html';
+var PADREADER = 'livetext/reader.html';
 
 // LIBS
 var Engine = require('./server-engine');
