@@ -109,4 +109,4 @@ SERVER.onConsume = function(task) {
 
 
 //var ip = require( 'os' ).networkInterfaces( ).eth0[0].address;
-console.log("Server Ready - WS: "+PORT_WS_TELECO+" - PUB: "+PORT_PUB+" - TIME: "+PORT_TIME);
+console.log("Server Ready - REMOTE: "+PORT_WS_TELECO+" - PAD: "+PORT_WS_PAD+" - PUB: "+PORT_PUB+" - TIME: "+PORT_TIME);
