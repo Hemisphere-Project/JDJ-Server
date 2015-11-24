@@ -39,7 +39,7 @@ module.exports = {
       that.server.addClient(fd, ep);
 
       // New Client: we redistribute the last order
-      if (that.lvc != null) that.socket.send(that.lvc);
+      if (that.lvc != null) {that.socket.send(that.lvc); console.log('last value sent');}
     });
     this.socket.on('disconnect', that.server.removeClient);
 
