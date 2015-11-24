@@ -87,6 +87,7 @@ SERVER.onConsume = function(task) {
       LIVEPAD.loadText(pad_content);
 
       // send 'Reader Page' url to clients
+      task.category = 'url';
       task.url = BASEURL+PADREADER;
     }
 

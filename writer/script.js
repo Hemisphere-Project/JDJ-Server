@@ -20,7 +20,7 @@ $(function() {
     // actu visu locale
     progressLocal ++;
     actuVisu();
-    socket.emit('keypressed', true);
+    socket.emit('keypressed', 1);
 
     // actu visu avec progressServer apres 1 seconde d'inactivité
     clearTimeout(typingtimer);
@@ -61,12 +61,12 @@ $(function() {
   });
 
   socket.on('fulltext', function (data) {
-    text = data.fulltext;
+    text = data;
     buildText();
   });
 
   socket.on('progress', function (data) {
-    progressServer = data.progress;
+    progressServer = data;
   });
 
 

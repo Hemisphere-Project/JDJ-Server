@@ -6,7 +6,7 @@ module.exports = {
     var that = this;
 
     // Text to display
-    this.fulltext = "";
+    this.fulltext = "default";
     this.progress = 0;
 
     // Load new text
@@ -34,7 +34,7 @@ module.exports = {
 
     // Events binding
     this.socket.on('connection', function(client){
-      client.on('keypressed', that.next);
+      client.on('keypressed', function() {that.next()});
       that.sendFullPad(client);
     });
 
