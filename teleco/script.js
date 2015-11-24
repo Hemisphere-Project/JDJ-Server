@@ -644,6 +644,12 @@ $(function() {
   }
 
 
+  $("#viewLiveText").on('click',function(){
+    var url = 'http://'+document.location.hostname+'/livetext/writer.html';
+    window.open(url);
+  });
+
+
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   //                      SEND REQUEST
