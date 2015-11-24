@@ -1,4 +1,3 @@
-var builder = require('xmlbuilder');
 var request = require('request');
 
 var SMS_API = 'http://app.journaldunseuljour.fr/server/sms/postman.php'
@@ -24,7 +23,7 @@ module.exports = {
           { form: {
             dest: JSON.stringify(this.destinataires),
             msg: this.message,
-            token: 3737} 
+            token: 3737}
           },
           function (error, response, body) {
               if (!error && response.statusCode == 200) console.log(body)
