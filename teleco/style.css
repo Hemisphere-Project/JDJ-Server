@@ -285,7 +285,8 @@
     ----------------------------*/
     progress {
         height: 8px;
-        width: 240px;
+        /*width: 240px;*/
+        width: 100%;
         background: white;
         border: 1px solid black; /* Needed for Firefox */
         -webkit-appearance: none; /* Needed for WebKit/Blink */
