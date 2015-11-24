@@ -26,7 +26,7 @@ $(function() {
     // actu visu avec progressServer apres 1 seconde d'inactivité
     clearTimeout(typingtimer);
     typingtimer = setTimeout(function(){
-      // console.log("done typing");
+      console.log("done typing");
       synchroVisu();
     }, 1000);
 
@@ -34,6 +34,7 @@ $(function() {
 
   function actuVisu(){
     $('.singleChar').each(function(key, charDiv){
+    $(this).removeClass('typed').addClass('untyped');
       if (key < progressLocal){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
@@ -65,6 +66,7 @@ $(function() {
   socket.on('fulltext', function (data) {
     text = data;
     buildText();
+    initApp = true;
   });
 
   socket.on('progress', function (data) {
