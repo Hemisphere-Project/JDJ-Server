@@ -42,7 +42,9 @@ SERVER.onConsume = function(task) {
   if (task.localTime !== undefined) delete task.localTime;
   if (task.when !== undefined) delete task.when;
 
+  // forge task request for Client
   task.group = 'all';
+  //task.timestamp
 
   // PLAY something
   if (task.action == 'play') {

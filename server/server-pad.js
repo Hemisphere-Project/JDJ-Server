@@ -6,7 +6,7 @@ module.exports = {
     var that = this;
 
     // Text to display
-    this.fulltext = "default";
+    this.fulltext = "";
     this.progress = 0;
 
     // Load new text

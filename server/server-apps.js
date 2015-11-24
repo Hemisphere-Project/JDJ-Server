@@ -10,9 +10,12 @@ module.exports = {
     // Bind to server events
     this.server.sendTask = function(task) {
       that.send(task.group, JSON.stringify(task));
-      console.log('task sent to APPS');
-      console.log(task);
+      //console.log('task sent to APPS');
+      //console.log(task);
     };
+
+    // Last Value Cache
+    this.lvc = null;
 
     // ZMQ socket
     this.socket = zmq.socket('pub');
@@ -21,6 +24,7 @@ module.exports = {
     // Send shortcut
     this.send = function(grp, msg) {
       this.socket.send([grp, msg]);
+      this.lvc = [grp, msg];
     }
 
     // Monitor events
@@ -31,7 +35,12 @@ module.exports = {
     });
 
     // Connect / Disconnect events
-    this.socket.on('accept', that.server.addClient);
+    this.socket.on('accept', function(fd, ep) {
+      that.server.addClient(fd, ep);
+
+      // New Client: we redistribute the last order
+      if (that.lvc != null) that.socket.send(that.lvc);
+    });
     this.socket.on('disconnect', that.server.removeClient);
 
     // Start monitor
