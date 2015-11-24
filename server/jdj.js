@@ -44,7 +44,8 @@ SERVER.onConsume = function(task) {
 
   // forge task request for Client
   task.group = 'all';
-  //task.timestamp
+  task.timestamp = (new Date()).getTime();
+  task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
   // PLAY something
   if (task.action == 'play') {
@@ -98,8 +99,7 @@ SERVER.onConsume = function(task) {
 
   }
 
-  // Add transmission delay
-  task.atTime = (new Date()).getTime() + PUB_DELAY;
+
 
   // publish
   console.log('finnished consuming task');
