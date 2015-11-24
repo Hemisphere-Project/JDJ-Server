@@ -10,6 +10,7 @@ $(function() {
   buildText();
 
   function buildText(){
+    $("#visuText").empty();
     var textArray = text.split('');
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
@@ -25,7 +26,7 @@ $(function() {
     // actu visu avec progressServer apres 1 seconde d'inactivité
     clearTimeout(typingtimer);
     typingtimer = setTimeout(function(){
-      console.log("done typing");
+      // console.log("done typing");
       synchroVisu();
     }, 1000);
 
