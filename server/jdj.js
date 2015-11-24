@@ -10,7 +10,8 @@ var BASEURL = 'http://app.journaldunseuljour.fr/';
 
 // LIBS
 var Engine = require('./server-engine');
-var Fs = require('fs')
+var Sms = require('./server-sms');
+var Fs = require('fs');
 
 function dispatch(task) {
   console.log('Task dispatched');
@@ -42,10 +43,13 @@ TASKMANAGER.onConsume = function(task) {
       } catch (e) { console.log(e); return;}
     }
     // TXT: handle .txt as SMS
-    if (task.category == 'txt') {
+    if (task.category == 'sms') {
       try {
-        var sms = Fs.readFileSync('../files/'+task.filename, 'utf8');
-        console.log('SMS: '+sms);
+        var sms_content = Fs.readFileSync('../files/'+task.filename, 'utf8');
+        var sms = new Sms.HighCoSms(sms_content);
+        sms.addDest('0675471820');
+        sms.send();
+        console.log('did send sms..');
       } catch (e) { console.log(e);}
       return;
     }
