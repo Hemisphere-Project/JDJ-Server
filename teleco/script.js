@@ -261,9 +261,8 @@ $(function() {
     }
 
     if (categorySelected == 'text'){
-      // $('#liveText').css('width', '100%');
       $('#liveText').show();
-      $('#colonne3').hide();
+      // $('#liveText').show();
       $('#browserOptions_Uploader').hide();
     }
     else{
@@ -598,8 +597,8 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   $('.textContent').keyup(function () {
-    var data = $("#textContent").val();
-    socket.emit('liveText', data);
+    // var data = $("#textContent").val();
+    // socket.emit('liveText', data);
   });
 
   $('#saveText').on("click", function () {
