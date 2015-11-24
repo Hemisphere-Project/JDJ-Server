@@ -263,11 +263,11 @@ $(function() {
     if (categorySelected == 'text'){
       $('#liveText').show();
       // $('#liveText').show();
+      $('#playtime,#playdelay').hide();
       $('#browserOptions_Uploader').hide();
     }
     else{
-      $('#colonne2').css('width', '40%');
-      $('#colonne3').show();
+      $('#playtime,#playdelay').show();
       $('#browserOptions_Uploader').show();
     }
 
@@ -706,7 +706,7 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     //console.log('play');
+     console.log('play '+ data.filename);
     }
   });
 
