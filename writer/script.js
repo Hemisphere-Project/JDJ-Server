@@ -56,6 +56,7 @@ $(function() {
   var IO_PORT = 8089;
   url = 'http://'+document.location.hostname+':'+IO_PORT;
   var socket = io(url);
+  var initApp = true;
 
   socket.on('connect', function () {
     console.log('Connected to Server: '+url);
@@ -68,6 +69,11 @@ $(function() {
 
   socket.on('progress', function (data) {
     progressServer = data;
+
+    if (initApp == true){
+      synchroVisu();
+      initApp = false;
+    }
   });
 
 
