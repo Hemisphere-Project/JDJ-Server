@@ -2,9 +2,12 @@
 $(function() {
 
 
-  var text='temp text';
-  var progressText = 0;
+  var text='temp text ceci est un texte essai';
+  var progressLocal = 0;
+  var progressServer = 0;
+  var typingtimer;
 
+  buildText();
 
   function buildText(){
     var textArray = text.split('');
@@ -13,26 +16,34 @@ $(function() {
     });
   }
 
-
   document.onkeydown = function(e){
-    progressText ++;
+    // actu visu locale
+    progressLocal ++;
     actuVisu();
+    socket.emit('keypressed', true);
+
+    // actu visu avec progressServer apres 1 seconde d'inactivité
+    clearTimeout(typingtimer);
+    typingtimer = setTimeout(function(){
+      console.log("done typing");
+      synchroVisu();
+    }, 1000);
+
   }
 
   function actuVisu(){
     $('.singleChar').each(function(key, charDiv){
-      if (key < progressText){
+      if (key < progressLocal){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
     });
   }
 
-  //attendre arrivée d'un progress pour afficher texte
+  function synchroVisu(){
+    progressLocal = progressServer;
+    actuVisu();
+  }
 
-  // stocker progress recu dans un coin. quand on s'arrete de taper, comparer
-
-
-   socket.emit('keypressed', true);
 
 
   ///////////////////////////////////////////////////////
@@ -51,10 +62,11 @@ $(function() {
 
   socket.on('fulltext', function (data) {
     text = data.fulltext;
+    buildText();
   });
 
   socket.on('progress', function (data) {
-
+    progressServer = data.progress;
   });
 
 
