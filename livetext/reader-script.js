@@ -27,6 +27,12 @@ $(function() {
     }
 
 
+    // auto scroll down
+    window.setInterval(function() {
+      $('body').animate({scrollTop: document.body.scrollHeight}, 1000);
+    }, 6000);
+
+
 
     ///////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////
