@@ -94,10 +94,10 @@ $(function() {
 
       if ((prevSelected)&&(prevSelected.filename!=thisfile.filename)||(noSelection)){ // NOT SAME FILE & not first file || NO FILE SELECTED
         if (thisfile.category == 'audio'){
-           $("#audioPlayer").attr("src", "files/"+thisfile.filename);
+           $("#audioPlayer").attr("src", "../files/"+thisfile.filename);
         }
         if (thisfile.category == 'video'){
-           $("#videoPlayer").attr("src", "files/"+thisfile.filename);
+           $("#videoPlayer").attr("src", "../files/"+thisfile.filename);
         }
         stopAudio();
         stopVideo();
@@ -465,6 +465,7 @@ $(function() {
       $('#videotimeCount').html(formatTime(time));
       $('#videoProgress').attr({value:time,max:duration});
     }
+
     $('#videoProgress').on('click',function(e){
       var percent = e.offsetX / this.offsetWidth;
       videoPlayer.currentTime = percent * videoPlayer.duration;
