@@ -5,7 +5,6 @@
       font-size: 10pt;
       background-color: white;
       max-width: 1400px;
-      /*height:100%;*/
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -47,6 +46,40 @@
     }
 
 
+    /*--------   RESPONSIVE   ---------*/
+    /*---------------------------------*/
+
+
+    @media only screen and (max-width:800px) {
+     body {
+     }
+     .playerProgress{
+       width: 50%;
+     }
+     #colonne2{
+       min-height:800px;
+     }
+     #colonne3{
+       width:35%;
+     }
+     #colonne4{
+       width:35%;
+     }
+     #colonne1, #colonne2, #colonne3, #colonne4 {
+       margin: 4px;
+     }
+     .selector{
+       margin-bottom: 10px;
+     }
+     .sendOptions{
+       margin-bottom:8px;
+     }
+     #browserUploader{
+       margin-bottom: 8px;
+     }
+    }
+
+
     /*---------BROWSER OPTIONS---------*/
     /*---------------------------------*/
     #browserUploader{
@@ -65,6 +98,8 @@
     .sendOptions{
       border: 2px dotted black;
       padding: 5px;
+      padding-right:10px;
+      margin-bottom: 16px;
     }
 
     .serverOptions{
@@ -76,9 +111,6 @@
     /*---------- AUDIO PLAYER ---------*/
     /*---------------------------------*/
     #audioPreview{
-      /*padding:10px;
-      padding-left: 15px;*/
-      overflow-x: ellipsis;
     }
     .playerControl{
       font-size: 20pt;
@@ -100,7 +132,6 @@
     }
     .timeCount{
       float:right;
-      /*margin-right: 10px;*/
       line-height:30px;
     }
     /*---------- VIDEO PLAYER ---------*/
@@ -113,7 +144,6 @@
     #videoPlayer{
       width: 50%;
       vertical-align: middle;
-      /*max-height: 200px;*/
       margin-left: 20%;
     }
 
@@ -139,7 +169,6 @@
     }
     .view{
       margin-top: 8px;
-      /*line-height: 30px;*/
       cursor: pointer;
       width:50%;
       box-sizing: border-box;
@@ -156,10 +185,6 @@
       text-overflow: ellipsis;
     }
 
-    .textWrap{
-      /*display:inline;*/
-    }
-
     .fileSelected{
       color: limegreen;
       font-weight: bold;
@@ -174,7 +199,6 @@
       float: right;
       cursor: pointer;
       font-size: 20px;
-      /*line-height: 35px;*/
     }
     .trashHide{
       display:none;
@@ -217,7 +241,6 @@
       font-size: 24pt;
     }
     .iconButtons:active{
-      /*opacity: 0.2;*/
       color: limegreen;
     }
 
@@ -259,7 +282,6 @@
     }
 
     #viewUrl{
-      /*margin-left: 25%*/
       float: right;
       margin-right: 4%;
     }
@@ -328,15 +350,9 @@
       cursor: pointer;
       line-height:25px;
     }
-    /*#sendLabel{
-      font-size:40px;
-      cursor: pointer;
-      line-height:25px;
-    }*/
 
     #talkBox{
       margin-left: 10px;
-      /*width: 140px;*/
       max-width: 40%;
       display: inline-block;
       text-overflow: ellipsis;
@@ -346,25 +362,11 @@
 
 
 
-    @media only screen and (max-width:800px) {
-     body {
-     background-color:lightyellow;
-     }
-
-     .playerProgress{
-       width: 50%;
-     }
-    }
 
 
     /*---------COLONNE 3-----------
     ----------------------------*/
 
-    /*.rect{
-      border: 2px dotted black;
-      margin: 10px;
-      padding: 5px;
-    }*/
     .group{
       font-size: 18pt;
       line-height: 20pt;
@@ -385,13 +387,12 @@
       font-size: 18pt;
       cursor: pointer;
       float: right;
-      margin-right: 15px;
     }
     .starterBTN:active{
       color: limegreen;
     }
     #sendFile{
-      margin-top:16px;
+      /*margin-top:16px;*/
     }
     #selectedFileGO{
       white-space: nowrap;
@@ -400,8 +401,8 @@
     }
 
     .exactHour{
-      width: 35px;
-      /*outline: 0px none;*/
+      width:20%;
+      outline: 0px none;
     }
 
     /*--------- RANGE -----------
