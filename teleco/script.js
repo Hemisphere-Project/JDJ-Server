@@ -734,10 +734,6 @@ $(function() {
     if (e.keyCode == 13){ $(this).blur();}
   });
 
-  $(window).on('touchstart', function(e){
-    if ($(this).hasClass('exactHour') == false) { $('.exactHour').blur(); }
-  });
-
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
