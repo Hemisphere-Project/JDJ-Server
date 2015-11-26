@@ -19,7 +19,7 @@
 
     #colonne1, #colonne2, #colonne3, #colonne4 {
       float:left;
-      margin: 10px;
+      margin: 8px;
     }
 
     #colonne1{
@@ -51,7 +51,7 @@
     /*---------------------------------*/
     #browserUploader{
       border: 2px dotted black;
-      padding: 5px;
+      padding: 15px;
       margin-bottom: 16px;
     }
 
@@ -76,8 +76,9 @@
     /*---------- AUDIO PLAYER ---------*/
     /*---------------------------------*/
     #audioPreview{
-      padding:10px;
-      padding-left: 15px;
+      /*padding:10px;
+      padding-left: 15px;*/
+      overflow-x: ellipsis;
     }
     .playerControl{
       font-size: 20pt;
@@ -94,12 +95,12 @@
     }
 
     .playerProgress{
-      width: 75%;
+      width: 72%;
       margin-left: 5%;
     }
     .timeCount{
       float:right;
-      margin-right: 10px;
+      /*margin-right: 10px;*/
       line-height:30px;
     }
     /*---------- VIDEO PLAYER ---------*/
@@ -123,6 +124,8 @@
     #browser{
       max-height: 500px;
       height: 100%;
+      width: 100%;
+      box-sizing: border-box;
       border: 2px dotted black;
       padding: 15px;
       overflow-y: scroll;
@@ -188,28 +191,29 @@
     ----------------------------*/
 
     #smsTitle{
-      width: 70%;
+      width: 100%;
+      box-sizing: border-box;
       outline: none;
     }
 
     .smsContent{
-      width: 70%;
+      width: 100%;
+      box-sizing: border-box;
       resize: none;
       outline:1px none transparent;
       margin-top: 10px;
     }
     #charCount{
+      float:right;
       margin-top: 8px;
       color: gray;
       font-size: 12px;
     }
     #smsButtons{
-      float:right;
-      margin-top: -50px;
-      line-height: 40px;
     }
 
     .iconButtons{
+      margin-top:5px;
       font-size: 24pt;
     }
     .iconButtons:active{
@@ -226,12 +230,14 @@
 
 
     #textTitle{
-      width: 70%;
+      width: 100%;
+      box-sizing: border-box;
       outline: none;
     }
 
     .textContent{
-      width: 99%;
+      width: 100%;
+      box-sizing: border-box;
       height: 200px;
       resize: none;
       outline:0px none transparent;
@@ -245,14 +251,9 @@
     /*---------URL SAVER---------
     ----------------------------*/
 
-    #urlOptions{
-      /*padding-left:10px;*/
-      height:120px;
-    }
-
     .urlTxt{
-      /*width: 40%;*/
-      width: 95%;
+      width: 100%;
+      box-sizing: border-box;
       outline: none;
       margin-bottom:10px;
     }
@@ -348,6 +349,10 @@
     @media only screen and (max-width:800px) {
      body {
      background-color:lightyellow;
+     }
+
+     .playerProgress{
+       width: 50%;
      }
     }
 
