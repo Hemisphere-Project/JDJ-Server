@@ -22,7 +22,6 @@ $(function() {
   }
   $(window).on('click touchstart', function(){
     triggerLetter();
-    alert('touch');
   });
 
 
