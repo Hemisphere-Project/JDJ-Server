@@ -20,7 +20,7 @@ $(function() {
   document.onkeydown = function(e){
     triggerLetter();
   }
-  $(window).on('click', function(){
+  $(window).on('click touchstart', function(){
     triggerLetter();
   });
 
