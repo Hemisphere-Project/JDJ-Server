@@ -252,18 +252,20 @@
 
     #urlOptions{
       padding-left:10px;
-      height:150px;
+      height:120px;
     }
 
     .urlTxt{
       /*width: 40%;*/
-      width: 90%;
+      width: 95%;
       outline: none;
       margin-top:10px;
     }
 
     #viewUrl{
-      margin-left: 25%
+      /*margin-left: 25%*/
+      float: right;
+      margin-right: 4%;
     }
 
     #wrap {
@@ -350,10 +352,18 @@
 
     @media only screen and (max-width:800px) {
      body {
-     background-color:blue;
-     color:white
+     background-color:lightyellow;
      }
     }
+
+    @media only screen
+    and (min-device-width : 768px)
+    and (max-device-width : 1024px)
+    and (orientation : portrait) {
+      body {
+      background-color:lightyellow;
+      }
+   }
 
     /*---------COLONNE 3-----------
     ----------------------------*/
