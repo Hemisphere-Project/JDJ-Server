@@ -724,12 +724,15 @@ $(function() {
 
 
   $('.exactHour').on('change', function(){
-    console.log('change');
-    var max = $(this).prop('max');
-    console.log(max);
-    if ($(this).val() >= max){ $(this).val(max); }
+    var maxtime = parseInt($(this).prop('max'));
+    var time = $(this).val();
+    if (time > maxtime){ $(this).val(maxtime); }
   });
 
+  $('.exactHour').on('keydown', function(e){
+    // console.log(e.keyCode);
+    if (e.keyCode == 13){ $(this).blur();}
+  });
 
 
   ///////////////////////////////////////////////////////
