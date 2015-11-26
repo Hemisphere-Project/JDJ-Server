@@ -17,10 +17,13 @@
     width: 12px;
 }
 
-    #colonne1, #colonne2, #colonne3, #colonne4 { float:left;}
+    #colonne1, #colonne2, #colonne3, #colonne4 {
+      float:left;
+      margin: 10px;
+    }
 
     #colonne1{
-      width: 100px;
+      width: 80px;
     }
     #colonne2{
       width: 40%;
@@ -31,42 +34,41 @@
     }
 
     #colonne4{
-      width: 25%;
+      width: 20%;
     }
 
     .selector{
       cursor: pointer;
-      height: 50px;
-      line-height:50px;
+      height: 45px;
+      line-height:45px;
       border: 2px solid black;
-      margin: 10px;
+      margin-bottom: 20px;
       text-align: center;
     }
 
 
     /*---------BROWSER OPTIONS---------*/
     /*---------------------------------*/
-    #browserOptions_Uploader{
+    #browserUploader{
       border: 2px dotted black;
-      margin: 10px;
       padding: 5px;
-    }
-    .browserOptions_top{
-      border: 2px dotted black;
-      margin: 10px;
-      padding: 5px;
+      margin-bottom: 16px;
     }
 
     .browserOptions{
       display: none;
       border: 2px dotted black;
-      margin: 10px;
-      margin-top: 16px;
+      margin-bottom: 16px;
+      padding: 15px;
+    }
+
+    .sendOptions{
+      border: 2px dotted black;
       padding: 5px;
     }
+
     .serverOptions{
       border: 2px dotted black;
-      margin: 10px;
       padding: 5px;
       max-height:600px;
       overflow-y:scroll;
@@ -122,8 +124,6 @@
       max-height: 500px;
       height: 100%;
       border: 2px dotted black;
-      margin: 10px;
-      margin-top:16px;
       padding: 15px;
       overflow-y: scroll;
     }
@@ -224,14 +224,9 @@
      font-size: inherit;
     }
 
-    #liveText{
-      margin: 10px;
-      /*margin-top:16px;*/
-      padding: 10px;
-    }
 
     #textTitle{
-      width: 30%;
+      width: 70%;
       outline: none;
     }
 
@@ -251,19 +246,21 @@
     ----------------------------*/
 
     #urlOptions{
-      padding-left:10px;
-      height:150px;
+      /*padding-left:10px;*/
+      height:120px;
     }
 
     .urlTxt{
       /*width: 40%;*/
-      width: 90%;
+      width: 95%;
       outline: none;
-      margin-top:10px;
+      margin-bottom:10px;
     }
 
     #viewUrl{
-      margin-left: 25%
+      /*margin-left: 25%*/
+      float: right;
+      margin-right: 4%;
     }
 
     #wrap {
@@ -350,10 +347,10 @@
 
     @media only screen and (max-width:800px) {
      body {
-     background-color:blue;
-     color:white
+     background-color:lightyellow;
      }
     }
+
 
     /*---------COLONNE 3-----------
     ----------------------------*/
