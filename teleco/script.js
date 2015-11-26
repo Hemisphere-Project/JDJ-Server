@@ -724,7 +724,9 @@ $(function() {
 
 
   $('.exactHour').on('change', function(){
+    console.log('change');
     var max = $(this).prop('max');
+    console.log(max);
     if ($(this).val() >= max){ $(this).val(max); }
   });
 
