@@ -106,7 +106,7 @@ $(function() {
         if (thisfile.category == 'text'){ getTextContent(); }
       }
       noSelection = false;
-      if (categorySelected == 'none') { gotoCategory(thisfile.category); }
+      if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
       categorySelected = thisfile.category;
 
     });
