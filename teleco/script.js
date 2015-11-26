@@ -720,8 +720,15 @@ $(function() {
   // SEND STOP
   $("#stopAll").on("click",function(){
     socket.emit('stop',{});
-    //console.log('stop');
   });
+
+
+  $('.exactHour').on('change', function(){
+    var max = $(this).prop('max');
+    if ($(this).val() >= max){ $(this).val(max); }
+  });
+
+
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////

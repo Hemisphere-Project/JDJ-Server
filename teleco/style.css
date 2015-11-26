@@ -399,7 +399,7 @@
 
     .exactHour{
       width: 35px;
-      outline: 0px none;
+      /*outline: 0px none;*/
     }
 
     /*--------- RANGE -----------
