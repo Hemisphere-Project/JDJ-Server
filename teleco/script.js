@@ -723,7 +723,7 @@ $(function() {
   });
 
 
-  // custom number inputs 
+  // custom number inputs
   $('.exactHour').on('change', function(){
     var maxtime = parseInt($(this).prop('max'));
     var time = $(this).val();
@@ -732,6 +732,10 @@ $(function() {
 
   $('.exactHour').on('keydown', function(e){
     if (e.keyCode == 13){ $(this).blur();}
+  });
+
+  $(window).on('touchstart', function(e){
+    if ($(this).hasClass('exactHour') == false) { $('.exactHour').blur(); }
   });
 
 
