@@ -107,6 +107,8 @@ $(function() {
       }
       noSelection = false;
       if (categorySelected == 'none') { gotoCategory(thisfile.category); }
+      categorySelected = thisfile.category;
+
     });
 
     // FILE DELETE
@@ -223,7 +225,7 @@ $(function() {
   getFiles();
 
   $('.browserOptions').hide();
-  $('#browserOptions_Uploader').show();
+  $('#browserUploader').show();
 
   function sortBrowser(){
     $('.view').hide();
@@ -241,11 +243,12 @@ $(function() {
     console.log(categorySelected);
     // SPECIAL DISPLAYS
     $('.browserOptions').hide();
-    if (categorySelected != "sms") { $('#browserOptions_Sms').fadeOut(0);}
+
+
     if (categorySelected == "sms") {
-    $('#browserOptions_Sms').fadeIn(0);
-    // $('#browserOptions_Uploader').animate(0);
+    $('#browserOptions_Sms').show();
     }
+
     if (categorySelected == 'audio'){
       $('#audioPreview').show();
     }
@@ -262,13 +265,16 @@ $(function() {
 
     if (categorySelected == 'text'){
       $('#liveText').show();
-      // $('#liveText').show();
       $('#playtime,#playdelay').hide();
-      $('#browserOptions_Uploader').hide();
     }
     else{
       $('#playtime,#playdelay').show();
-      $('#browserOptions_Uploader').show();
+    }
+
+    if (categorySelected == 'files'){
+      $('#browserUploader').show();
+      $('.view').show(); // show all files
+      return; // exit & don't sort browser
     }
 
     //
@@ -597,10 +603,6 @@ $(function() {
   //                       TEXTE
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
-  $('.textContent').keyup(function () {
-    // var data = $("#textContent").val();
-    // socket.emit('liveText', data);
-  });
 
   $('#saveText').on("click", function () {
     var textTitle = $("#textTitle").val();
@@ -713,7 +715,7 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play '+ data.filename);
+     console.log('play '+data.category+' '+ data.filename);
     }
   });
 
