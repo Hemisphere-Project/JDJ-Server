@@ -39,8 +39,8 @@
 
     .selector{
       cursor: pointer;
-      height: 50px;
-      line-height:50px;
+      height: 45px;
+      line-height:45px;
       border: 2px solid black;
       margin-bottom: 20px;
       text-align: center;

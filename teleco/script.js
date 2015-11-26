@@ -715,7 +715,7 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play '+data.category+' '+ data.filename);
+     console.log('play '+data.category+' '+data.when+' '+data.who+' '+ data.filename);
     }
   });
 
