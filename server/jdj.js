@@ -2,6 +2,7 @@
 // CONFIG
 var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
+var PORT_WS_CLIENT = 8090;
 var PORT_PUB = 8081;
 var PORT_TIME = 8082;
 
@@ -9,6 +10,13 @@ var PUB_DELAY = 1998;
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
 var PADREADER = 'livetext/reader.html';
+
+/*
+VERSIONING
+major: a new major version will prevent previous apps to run: they will exit immediatly
+minor: a new minor version will invite previous apps to update: they will still run the show
+*/
+var VERSION = {'major': 0, 'minor': 1};
 
 // LIBS
 var Engine = require('./server-engine');
@@ -27,6 +35,9 @@ var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 // PUBLISHER
 var PUBLISHER = new Apps.Publisher(PORT_PUB, SERVER);
 
+// LIVE PAD
+var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION);
+
 // TIME SERVER
 var TIMESERVER = new Apps.TimeServer(PORT_TIME);
 
@@ -43,6 +54,7 @@ SERVER.onConsume = function(task) {
   if (task.when !== undefined) delete task.when;
 
   // forge task request for Client
+  task.version = VERSION;
   task.group = 'all';
   task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
