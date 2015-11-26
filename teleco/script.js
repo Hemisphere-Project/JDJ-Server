@@ -723,6 +723,7 @@ $(function() {
   });
 
 
+  // custom number inputs 
   $('.exactHour').on('change', function(){
     var maxtime = parseInt($(this).prop('max'));
     var time = $(this).val();
@@ -730,7 +731,6 @@ $(function() {
   });
 
   $('.exactHour').on('keydown', function(e){
-    // console.log(e.keyCode);
     if (e.keyCode == 13){ $(this).blur();}
   });
 
