@@ -18,18 +18,24 @@ $(function() {
   }
 
   document.onkeydown = function(e){
+    triggerLetter();
+  }
+  $(window).on('click', function(){
+    triggerLetter();
+  });
+
+
+  function triggerLetter(){
     // actu visu locale
     progressLocal ++;
     actuVisu();
     socket.emit('keypressed', 1);
-
     // actu visu avec progressServer apres 1 seconde d'inactivité
     clearTimeout(typingtimer);
     typingtimer = setTimeout(function(){
       console.log("done typing");
       synchroVisu();
     }, 1000);
-
   }
 
   function actuVisu(){
