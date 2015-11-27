@@ -17,6 +17,7 @@ major: a new major version will prevent previous apps to run: they will exit imm
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
 var VERSION = {'major': 0, 'minor': 1};
+var NEXTSHOW = (new Date(2015, 10, 28)).getTime();
 
 // LIBS
 var Engine = require('./server-engine');
@@ -36,7 +37,7 @@ var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 var PUBLISHER = new Apps.Publisher(PORT_PUB, SERVER);
 
 // LIVE PAD
-var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION);
+var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION, NEXTSHOW);
 
 // TIME SERVER
 var TIMESERVER = new Apps.TimeServer(PORT_TIME);
@@ -72,6 +73,7 @@ SERVER.onConsume = function(task) {
 
       // put actual url
       task.url = url_content;
+      task.category = 'web';
     }
 
     // SMS: send sms using HighCoSms
@@ -102,7 +104,7 @@ SERVER.onConsume = function(task) {
       LIVEPAD.loadText(pad_content);
 
       // send 'Reader Page' url to clients
-      task.category = 'url';
+      task.category = 'web';
       task.url = BASEURL+PADREADER;
     }
 

@@ -48,13 +48,14 @@ module.exports = {
     //this.socket.monitor(100, 0);
   },
 
-  Info: function(port, server, publisher, version) {
+  Info: function(port, server, publisher, version, showdate) {
     var that = this;
 
     // controlled server
     this.server = server;
     this.publisher = publisher;
     this.version = version;
+    this.showdate = showdate;
 
     // SocketIO websocket
     this.socket = new SocketIO();
@@ -72,7 +73,7 @@ module.exports = {
       that.server.addClient(client);
 
       // send HELLO package
-      var hellomsg = { version: that.version }
+      var hellomsg = { version: that.version, nextshow: that.showdate }
       if (that.publisher.lvc != null) hellomsg.lvc = that.publisher.lvc;
       client.emit('hello', hellomsg);
 
