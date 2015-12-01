@@ -669,12 +669,6 @@ $(function() {
   });
 
 
-  $("#delay").on('change', function(){
-    var delay = $(this).val();
-    $("#delayView").html(delay+" min");
-  });
-
-
   var dt = new Date();
   var dt10 = new Date(dt.getTime() + 10*60000);
   var hour = dt10.getHours();
@@ -693,7 +687,8 @@ $(function() {
      time = 0;
     }
     if ($(this).hasClass("DELAY") == true) {
-      time = $("#delay").val()*60;
+      // time = $("#delay").val()*60;
+      time = $( "#delayslider" ).slider('value')*60;
     }
     if ($(this).hasClass("TIME") == true) {
       var timeNow = new Date();
@@ -735,6 +730,23 @@ $(function() {
   $('.exactHour').on('keydown', function(e){
     if (e.keyCode == 13){ $(this).blur();}
   });
+
+  // Custom Slider jquery Ui + touch punch
+  $( "#delayslider" ).slider({
+        orientation: "horizontal",
+        range: "min",
+        max: 20,
+        value: 5,
+        slide: sliderVal,
+        change: sliderVal
+      });
+  function sliderVal(){
+    $('#delayslider_val').html($( "#delayslider" ).slider('value')+' min');
+  }
+  // $("#delay").on('change', function(){
+  //   var delay = $(this).val();
+  //   $("#delayView").html(delay+" min");
+  // });
 
 
   ///////////////////////////////////////////////////////

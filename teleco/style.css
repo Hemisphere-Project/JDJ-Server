@@ -449,6 +449,37 @@
     }
 
 
+    /*--------- RANGE UI -----------
+    ----------------------------*/
+
+    #delayslider{
+      height:20px;
+      width: 90%;
+    }
+
+    .ui-corner-all {
+      border: 1px solid black;
+      border-radius: 1px;
+    }
+    .ui-widget-header{
+      background:none;
+    }
+    .ui-widget-content{
+      background:none;
+    }
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+      background: none;
+      background-color: black;
+    }
+    .ui-slider .ui-slider-handle{
+      margin-top: 3px;
+      margin-left:-2px;
+      border: 1px solid black;
+      background-color: black;
+      height: inherit;
+      width:20px;
+      outline:none;
+    }
 
     /*---------- TASK MANAGER ----------*/
     /*---------------------------------*/
