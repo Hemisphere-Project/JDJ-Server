@@ -242,7 +242,7 @@ $(function() {
     if (categorySelected == 'files'){ $('.view').show(); }
   }
 
-  $(".selector").on("click", function(){
+  $(".selector").on("click touchstart", function(){
     // COLOR STYLE
     $(".selector").css("background-color", "white");
     $(".selector").css("color", "black");
