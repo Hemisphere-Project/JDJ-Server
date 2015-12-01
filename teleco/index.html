@@ -4,18 +4,18 @@
     <title>TELECO</title>
     <meta charset="UTF-8">
     <script type='text/javascript' src='lib/jquery.min.js'></script>
-    <script type='text/javascript' src='lib/jquery-ui.min.js'></script>
     <script type='text/javascript' src='lib/socketio.137.min.js'></script>
+    <script type='text/javascript' src='lib/jquery-ui.min.js'></script>
     <link rel="stylesheet" type="text/css" href="lib/jquery-ui.css">
-    <!-- <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'> -->
+    <script src="lib/jquery.ui.touch-punch.min.js"></script>
     <link href='css/lato/fonts.css' rel='stylesheet' type='text/css'>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="css/fa/css/font-awesome.min.css">
     <!-- INT -->
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="script.js"></script>
   </HEAD>
 
+  <BODY>
 
   <div id="colonne1">
     <div id="files" class="selector">FILES</div>
@@ -31,9 +31,8 @@
     <div id="browserUploader" class="browserOptions">
       <div id="uploader">
         <form id="fileForm" action="" enctype="multipart/form-data" method="post">
-
           <label for="fileInput" id="inputLabel" class="btn"><i class="fa fa-plus"></i></label>
-          <input name="fileInput" type="file" id="fileInput" multiple/>
+          <input name="fileInput" type="file" id="fileInput" multiple />
           <div id="talkBox">Ajoutez des fichiers</div>
           <input name="send" id="send" type="submit" value="UPLOAD" class="btn" />
           <br>
@@ -117,8 +116,10 @@
 
       <div id="playdelay">
         <i class="icontime fa fa-hourglass-half"></i>
-        <div id="delayView">5 min</div>
-        <input id="delay" type="range" min="0" max="30" value="5" step="1">
+        <!-- <div id="delayView">5 min</div>
+        <input id="delay" type="range" min="0" max="30" value="5" step="1"> -->
+        <div id="delayslider_val">5 min</div>
+        <div id="delayslider"></div>
         <i class="starter starterBTN DELAY fa fa-play-circle"></i><br>
       </div>
 
@@ -150,7 +151,7 @@
 
 <!-- <i class="fa fa-smile-o"></i> -->
 
-  <BODY>
+
 
   </BODY>
 
