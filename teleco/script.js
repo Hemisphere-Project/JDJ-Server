@@ -3,14 +3,15 @@ IO_PORT = 8088;
 
 $(function() {
 
+  // touch devices: 'click' triggered 300ms after touchstart
+  // .on('click touchstart') trigger 2 events ou touch devices: touchstart and a ghost click (after 300ms delay)
+  // ---> best way to remove the 300ms delay : fastclick
+  // https://github.com/ftlabs/fastclick
+  FastClick.attach(document.body);
+  
   var categorySelected = 'none';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
 
-
-  var isTouchDevice = 'ontouchstart' in document.documentElement;
-  $("#osDisplay").html('touch device '+isTouchDevice);
-  // fast click
-  FastClick.attach(document.body);
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
