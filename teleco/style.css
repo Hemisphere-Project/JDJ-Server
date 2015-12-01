@@ -55,7 +55,8 @@
 
   #colonne1, #colonne2, #colonne3, #colonne4 {
     float:left;
-    margin: 8px;
+    /*margin: 8px;*/
+    margin: 0.5vw;
   }
 
   #colonne1{
@@ -87,8 +88,9 @@
   /*---------------------------------*/
 
 
-  @media only screen and (max-width:800px) {
+  /*@media only screen and (min-width:800px) {
    body {
+     background-color: lightgrey;
    }
    .playerProgress{
      width: 50%;
@@ -108,19 +110,11 @@
    .selector{
      margin-bottom: 10px;
    }
-   .sendOptions{
+   #browserUploader, .browserOptions, .sendOptions {
      margin-bottom:8px;
    }
-   #browserUploader{
-     margin-bottom: 8px;
-   }
-  }
+  }*/
 
-  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px){
-    body {
-      background-color: grey;
-    }
-  }
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */ }
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
@@ -129,16 +123,21 @@
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
 @media (min-width:1281px) { /* hi-res laptops and desktops */ }
 
-@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+
+
+/*@media only screen and (min-width:961px) {
   body {
     background-color: green;
   }
- }
- @media (min-width:1025px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+  #colonne1, #colonne2, #colonne3, #colonne4 {
+    margin: 4px;
+  }
+ }*/
+ /*@media only screen and (min-width:1025px) {
    body {
      background-color: yellow;
    }
-  }
+  }*/
 
   /*---------BROWSER OPTIONS---------*/
   /*---------------------------------*/
