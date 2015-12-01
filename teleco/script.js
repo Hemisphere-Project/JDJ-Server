@@ -8,7 +8,7 @@ $(function() {
   // ---> best way to remove the 300ms delay : fastclick
   // https://github.com/ftlabs/fastclick
   FastClick.attach(document.body);
-  
+
   var categorySelected = 'none';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
 
@@ -438,7 +438,7 @@ $(function() {
 
     $('#audioProgress').on('click',function(e){
       var percent = e.offsetX / this.offsetWidth;
-      audioPlayer.currentTime = percent * audioPlayer.duration;
+      audioPlayer.currentTime = (percent * audioPlayer.duration).toFixed(2);;
       this.value = percent / 100; // set value direct (si time stream)
     });
 
