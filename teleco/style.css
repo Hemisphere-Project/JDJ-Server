@@ -401,7 +401,10 @@
     }
 
     .exactHour{
-      width:20%;
+      box-sizing: border-box;
+      width:31%;
+      /*padding: 3px;*/
+      /*margin: 0px;*/
       outline: 0px none;
     }
 
@@ -422,7 +425,6 @@
     input[type=range]::-webkit-slider-runnable-track {
         height: 16px;
         background: #fff;
-        /*border: 1px solid black;*/
         border-radius: 0px;
     }
     input[type=range]::-webkit-slider-thumb {
@@ -454,7 +456,7 @@
 
     #delayslider{
       height:20px;
-      width: 90%;
+      width: 95%;
     }
 
     .ui-corner-all {
@@ -477,7 +479,7 @@
       border: 1px solid black;
       background-color: black;
       height: inherit;
-      width:20px;
+      width:15px;
       outline:none;
     }
 

@@ -741,7 +741,7 @@ $(function() {
         change: sliderVal
       });
   function sliderVal(){
-    $('#delayslider_val').html($( "#delayslider" ).slider('value')+' minutes');
+    $('#delayslider_val').html($( "#delayslider" ).slider('value')+' min');
   }
   // $("#delay").on('change', function(){
   //   var delay = $(this).val();
