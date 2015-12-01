@@ -85,6 +85,7 @@ $(function() {
     //SELECT
     //------
     this.view.on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
       var prevSelected = browser.getActiveFile();
       browser.unselectAllFiles();
       $("#selectedFileGO").html(thisfile.filename);
@@ -112,16 +113,19 @@ $(function() {
     });
 
     // FILE DELETE
-    this.icondelete.on("click touchstart",function(){
+    this.icondelete.on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
       // if (confirm("Supprimer ce fichier ?") == true) {
       //   deleteActiveFile();
       // } else { }
       $(".overlay").fadeIn(100);
       $("#delete_false, #delete_true").unbind();
       $("#delete_false").on('click touchstart',function(){
+        e.preventDefault();//prevent ghost click
         $(".overlay").fadeOut(100);
       });
       $("#delete_true").on('click touchstart',function(){
+        e.preventDefault();//prevent ghost click
         deleteActiveFile();
         $(".overlay").fadeOut(100);
       });
@@ -242,7 +246,8 @@ $(function() {
     if (categorySelected == 'files'){ $('.view').show(); }
   }
 
-  $(".selector").on("click touchstart", function(){
+  $(".selector").on('click touchstart', function(){
+    e.preventDefault();//prevent ghost click
     // COLOR STYLE
     $(".selector").css("background-color", "white");
     $(".selector").css("color", "black");
@@ -377,10 +382,12 @@ $(function() {
     var audioPlayer = $("#audioPlayer")[0];
 
     $("#audioPlay").on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
         playAudio();
     });
 
     $("#audioPause").on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
         pauseAudio();
     });
 
@@ -431,6 +438,7 @@ $(function() {
     }
 
     $('#audioProgress').on('click touchstart',function(e){
+      e.preventDefault();//prevent ghost click
       var percent = e.offsetX / this.offsetWidth;
       audioPlayer.currentTime = percent * audioPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -445,10 +453,12 @@ $(function() {
     var videoPlayer = $("#videoPlayer")[0];
 
     $("#videoPlay").on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
         playVideo();
     });
 
     $("#videoPause").on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
         pauseVideo();
     });
 
@@ -481,7 +491,8 @@ $(function() {
       $('#videoProgress').attr({value:time,max:duration});
     }
 
-    $('#videoProgress').on('click',function(e){
+    $('#videoProgress').on('click touchstart',function(e){
+      e.preventDefault();//prevent ghost click
       var percent = e.offsetX / this.offsetWidth;
       videoPlayer.currentTime = percent * videoPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -495,7 +506,8 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveUrl').on("click touchstart", function () {
+  $('#saveUrl').on('click touchstart', function () {
+    e.preventDefault();//prevent ghost click
     var urlTitle = $("#urlTitle").val();
     var urlContent = $("#urlContent").val();
     $.ajax({
@@ -538,6 +550,7 @@ $(function() {
   }
 
   $("#viewUrl").on('click touchstart',function(){
+    e.preventDefault();//prevent ghost click
     var url = $("#urlContent").val();
     window.open(url);
   });
@@ -562,7 +575,8 @@ $(function() {
     }
   });
   // SAVE SMS
-  $('#saveSms').on("click touchstart", function () {
+  $('#saveSms').on('click touchstart', function () {
+    e.preventDefault();//prevent ghost click
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
     $.ajax({
@@ -610,7 +624,8 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveText').on("click touchstart", function () {
+  $('#saveText').on('click touchstart', function () {
+    e.preventDefault();//prevent ghost click
     var textTitle = $("#textTitle").val();
     var textContent = $("#textContent").val();
     $.ajax({
@@ -653,6 +668,7 @@ $(function() {
 
 
   $("#viewLiveText").on('click touchstart',function(){
+    e.preventDefault();//prevent ghost click
     var url = 'http://'+document.location.hostname+'/livetext/writer.html';
     window.open(url);
   });
@@ -665,6 +681,7 @@ $(function() {
   ///////////////////////////////////////////////////////
 
   $('.group').on('click touchstart', function() {
+    e.preventDefault();//prevent ghost click
     var activeClass;
     if ($(this).hasClass("day")) activeClass = "day";
     if ($(this).hasClass("group")) activeClass = "group";
@@ -685,7 +702,8 @@ $(function() {
   $('#sec').val(0);
 
   // SEND PLAY
-  $(".starter").on("click touchstart",function(){
+  $(".starter").on('click touchstart',function(){
+    e.preventDefault();//prevent ghost click
     var fileToSend = $("#selectedFileGO").text();
     var who = $('input[name=group]:radio:checked').val();
     var time;
@@ -721,7 +739,8 @@ $(function() {
   });
 
   // SEND STOP
-  $("#stopAll").on("click touchstart",function(){
+  $("#stopAll").on('click touchstart',function(){
+    e.preventDefault();//prevent ghost click
     socket.emit('stop',{});
   });
 
@@ -827,6 +846,7 @@ $(function() {
 
     // SELECT
     this.view.on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
       unselectAllTasks();
       thisTask.view.addClass('fileSelected');
       thisTask.selected = true;
@@ -835,6 +855,7 @@ $(function() {
 
     // DELETE
     this.icondelete.on('click touchstart',function(){
+      e.preventDefault();//prevent ghost click
       console.log("DELETE TASK");
       removeTask(thisTask.timeStamp);
     });
