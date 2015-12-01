@@ -6,11 +6,11 @@ $(function() {
   var categorySelected = 'none';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
 
-  // var os = navigator.platform;
-  // console.log(os);
+
   var isTouchDevice = 'ontouchstart' in document.documentElement;
-  console.log(isTouchDevice);
   $("#osDisplay").html('touch device '+isTouchDevice);
+  // fast click
+  FastClick.attach(document.body);
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
