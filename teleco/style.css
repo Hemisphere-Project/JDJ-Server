@@ -4,7 +4,7 @@
     font-family: 'Lato', sans-serif;
     font-size: 10pt;
     background-color: white;
-    max-width: 1400px;
+    max-width: 1300px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -69,9 +69,8 @@
   #colonne3{
     width: 20%;
   }
-
   #colonne4{
-    width: 20%;
+    width: 25%;
   }
 
   .selector{
@@ -79,41 +78,30 @@
     height: 45px;
     line-height:45px;
     border: 2px solid black;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
+    margin-bottom: 1vw;
     text-align: center;
+  }
+
+  .section{
+    border: 2px dotted black;
+    margin-bottom: 1vw;
+    /*padding: 10px;*/
+    padding: 0.5vw;
+  }
+
+  .browserOptions{
+    display: none;
+  }
+
+  .serverOptions{
+    max-height:600px;
+    overflow-y:scroll;
   }
 
 
   /*--------   RESPONSIVE   ---------*/
   /*---------------------------------*/
-
-
-  /*@media only screen and (min-width:800px) {
-   body {
-     background-color: lightgrey;
-   }
-   .playerProgress{
-     width: 50%;
-   }
-   #colonne2{
-     min-height:800px;
-   }
-   #colonne3{
-     width:35%;
-   }
-   #colonne4{
-     width:35%;
-   }
-   #colonne1, #colonne2, #colonne3, #colonne4 {
-     margin: 4px;
-   }
-   .selector{
-     margin-bottom: 10px;
-   }
-   #browserUploader, .browserOptions, .sendOptions {
-     margin-bottom:8px;
-   }
-  }*/
 
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */ }
@@ -125,48 +113,7 @@
 
 
 
-/*@media only screen and (min-width:961px) {
-  body {
-    background-color: green;
-  }
-  #colonne1, #colonne2, #colonne3, #colonne4 {
-    margin: 4px;
-  }
- }*/
- /*@media only screen and (min-width:1025px) {
-   body {
-     background-color: yellow;
-   }
-  }*/
 
-  /*---------BROWSER OPTIONS---------*/
-  /*---------------------------------*/
-  #browserUploader{
-    border: 2px dotted black;
-    padding: 15px;
-    margin-bottom: 16px;
-  }
-
-  .browserOptions{
-    display: none;
-    border: 2px dotted black;
-    margin-bottom: 16px;
-    padding: 15px;
-  }
-
-  .sendOptions{
-    border: 2px dotted black;
-    padding: 5px;
-    padding-right:10px;
-    margin-bottom: 16px;
-  }
-
-  .serverOptions{
-    border: 2px dotted black;
-    padding: 5px;
-    max-height:600px;
-    overflow-y:scroll;
-  }
   /*---------- AUDIO PLAYER ---------*/
   /*---------------------------------*/
   #audioPreview{

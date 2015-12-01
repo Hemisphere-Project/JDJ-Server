@@ -36,7 +36,7 @@
   </div>
 
   <div id="colonne2">
-    <div id="browserUploader" class="browserOptions">
+    <div id="browserUploader" class="browserOptions section">
       <div id="uploader">
         <form id="fileForm" action="" enctype="multipart/form-data" method="post">
           <label for="fileInput" id="inputLabel"><i class="fa fa-plus"></i></label>
@@ -48,7 +48,7 @@
         </form>
       </div>
     </div>
-    <div id="audioPreview" class="browserOptions">
+    <div id="audioPreview" class="browserOptions section">
       <audio id="audioPlayer"></audio>
       <i id="audioPlay" class="playerControl fa fa-play"></i>
       <i id="audioPause" class="playerControl fa fa-pause"></i>
@@ -56,7 +56,7 @@
       <div id="timeCount" class="timeCount">0:00</div>
     </div>
 
-    <div id="videoPreview" class="browserOptions">
+    <div id="videoPreview" class="browserOptions section">
       <video id="videoPlayer"></video><br>
       <i id="videoPlay" class="playerControl fa fa-play"></i>
       <i id="videoPause" class="playerControl fa fa-pause"></i>
@@ -64,14 +64,14 @@
       <div id="videotimeCount" class="timeCount">0:00</div>
     </div>
 
-    <div id="urlOptions" class="browserOptions">
+    <div id="urlOptions" class="browserOptions section">
       <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/>
       <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" />
       <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
       <i id="viewUrl" class="fa fa-eye iconButtons"></i>
     </div>
 
-    <div id="browserOptions_Sms" class="browserOptions">
+    <div id="browserOptions_Sms" class="browserOptions section">
       <input type="text" id="smsTitle" value="Sms sans titre" class="textInput" />
       <textarea name="smsContent" id="smsContent" class="smsContent" rows=5  maxlength=160></textarea>
       <div id="charCount">160 Max</div>
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div id="liveText" class="browserOptions">
+    <div id="liveText" class="browserOptions section">
       <input type="text" id="textTitle" value="texte sans titre" class="textInput" />
       <br>
       <textarea name="textContent" id="textContent" class="textContent" rows=5></textarea>
@@ -98,7 +98,7 @@
   </div>
 
   <div id="colonne3">
-    <div id="who" class="sendOptions">
+    <div id="who" class="section">
       WHO<br><br>
       <input type="radio" name="group" class="radio" value="all" checked="checked"/>
       <span class="group fa fa-dot-circle-o"></span>  ALL <br>
@@ -109,7 +109,8 @@
       <input type="radio" name="group" class="radio" value="random" />
       <span class="group fa fa-circle-o"></span>  Random <br>
     </div>
-    <div id="sendFile" class="sendOptions">
+
+    <div id="sendFile" class="section">
       SEND<br>
       <div id="selectedFileGO">no file selected</div><br>
 
@@ -147,8 +148,8 @@
 
 
   <div id="colonne4">
-    <div id="serverDisplay" class="serverOptions">
-      <div id="osDisplay"></div>
+    <div id="serverDisplay" class="serverOptions section">
+      <div id="debugDisplay"></div>
       <div id="clientsDisplay">0 client</div>
       <div id="controlDisplay">0 controleur</div><br>
       Taches en Attente
