@@ -3,6 +3,13 @@ creditentials.php
 
 # MEDIA FILES
 files/
+*.mp3
+*.mp4
+*.avi
+*.txt
+*.live
+*.mov
+*.url
 
 # NODE
 node_modules/
