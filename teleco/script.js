@@ -438,7 +438,7 @@ $(function() {
 
     $('#audioProgress').on('click',function(e){
       var percent = e.offsetX / this.offsetWidth;
-      audioPlayer.currentTime = (percent * audioPlayer.duration).toFixed(2);;
+      audioPlayer.currentTime = percent * audioPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
     });
 
