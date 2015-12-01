@@ -6,6 +6,11 @@ $(function() {
   var categorySelected = 'none';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
 
+  // var os = navigator.platform;
+  // console.log(os);
+  var isTouchDevice = 'ontouchstart' in document.documentElement;
+  console.log(isTouchDevice);
+  $("#osDisplay").html('touch device '+isTouchDevice);
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
@@ -84,8 +89,7 @@ $(function() {
 
     //SELECT
     //------
-    this.view.on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    this.view.on('click',function(){
       var prevSelected = browser.getActiveFile();
       browser.unselectAllFiles();
       $("#selectedFileGO").html(thisfile.filename);
@@ -113,19 +117,16 @@ $(function() {
     });
 
     // FILE DELETE
-    this.icondelete.on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    this.icondelete.on('click',function(){
       // if (confirm("Supprimer ce fichier ?") == true) {
       //   deleteActiveFile();
       // } else { }
       $(".overlay").fadeIn(100);
       $("#delete_false, #delete_true").unbind();
-      $("#delete_false").on('click touchstart',function(){
-        e.preventDefault();//prevent ghost click
+      $("#delete_false").on('click',function(){
         $(".overlay").fadeOut(100);
       });
-      $("#delete_true").on('click touchstart',function(){
-        e.preventDefault();//prevent ghost click
+      $("#delete_true").on('click',function(){
         deleteActiveFile();
         $(".overlay").fadeOut(100);
       });
@@ -246,8 +247,7 @@ $(function() {
     if (categorySelected == 'files'){ $('.view').show(); }
   }
 
-  $(".selector").on('click touchstart', function(){
-    e.preventDefault();//prevent ghost click
+  $(".selector").on('click', function(){
     // COLOR STYLE
     $(".selector").css("background-color", "white");
     $(".selector").css("color", "black");
@@ -381,13 +381,11 @@ $(function() {
 
     var audioPlayer = $("#audioPlayer")[0];
 
-    $("#audioPlay").on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    $("#audioPlay").on('click',function(){
         playAudio();
     });
 
-    $("#audioPause").on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    $("#audioPause").on('click',function(){
         pauseAudio();
     });
 
@@ -437,8 +435,7 @@ $(function() {
       }
     }
 
-    $('#audioProgress').on('click touchstart',function(e){
-      e.preventDefault();//prevent ghost click
+    $('#audioProgress').on('click',function(e){
       var percent = e.offsetX / this.offsetWidth;
       audioPlayer.currentTime = percent * audioPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -452,13 +449,11 @@ $(function() {
 
     var videoPlayer = $("#videoPlayer")[0];
 
-    $("#videoPlay").on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    $("#videoPlay").on('click',function(){
         playVideo();
     });
 
-    $("#videoPause").on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    $("#videoPause").on('click',function(){
         pauseVideo();
     });
 
@@ -491,8 +486,7 @@ $(function() {
       $('#videoProgress').attr({value:time,max:duration});
     }
 
-    $('#videoProgress').on('click touchstart',function(e){
-      e.preventDefault();//prevent ghost click
+    $('#videoProgress').on('click',function(e){
       var percent = e.offsetX / this.offsetWidth;
       videoPlayer.currentTime = percent * videoPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -506,8 +500,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveUrl').on('click touchstart', function () {
-    e.preventDefault();//prevent ghost click
+  $('#saveUrl').on('click', function () {
     var urlTitle = $("#urlTitle").val();
     var urlContent = $("#urlContent").val();
     $.ajax({
@@ -549,8 +542,7 @@ $(function() {
     );
   }
 
-  $("#viewUrl").on('click touchstart',function(){
-    e.preventDefault();//prevent ghost click
+  $("#viewUrl").on('click',function(){
     var url = $("#urlContent").val();
     window.open(url);
   });
@@ -575,8 +567,7 @@ $(function() {
     }
   });
   // SAVE SMS
-  $('#saveSms').on('click touchstart', function () {
-    e.preventDefault();//prevent ghost click
+  $('#saveSms').on('click', function () {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
     $.ajax({
@@ -624,8 +615,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveText').on('click touchstart', function () {
-    e.preventDefault();//prevent ghost click
+  $('#saveText').on('click', function () {
     var textTitle = $("#textTitle").val();
     var textContent = $("#textContent").val();
     $.ajax({
@@ -667,8 +657,7 @@ $(function() {
   }
 
 
-  $("#viewLiveText").on('click touchstart',function(){
-    e.preventDefault();//prevent ghost click
+  $("#viewLiveText").on('click',function(){
     var url = 'http://'+document.location.hostname+'/livetext/writer.html';
     window.open(url);
   });
@@ -680,8 +669,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('.group').on('click touchstart', function() {
-    e.preventDefault();//prevent ghost click
+  $('.group').on('click', function() {
     var activeClass;
     if ($(this).hasClass("day")) activeClass = "day";
     if ($(this).hasClass("group")) activeClass = "group";
@@ -702,8 +690,7 @@ $(function() {
   $('#sec').val(0);
 
   // SEND PLAY
-  $(".starter").on('click touchstart',function(){
-    e.preventDefault();//prevent ghost click
+  $(".starter").on('click',function(){
     var fileToSend = $("#selectedFileGO").text();
     var who = $('input[name=group]:radio:checked').val();
     var time;
@@ -739,8 +726,7 @@ $(function() {
   });
 
   // SEND STOP
-  $("#stopAll").on('click touchstart',function(){
-    e.preventDefault();//prevent ghost click
+  $("#stopAll").on('click',function(){
     socket.emit('stop',{});
   });
 
@@ -845,8 +831,7 @@ $(function() {
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
 
     // SELECT
-    this.view.on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    this.view.on('click',function(){
       unselectAllTasks();
       thisTask.view.addClass('fileSelected');
       thisTask.selected = true;
@@ -854,8 +839,7 @@ $(function() {
     });
 
     // DELETE
-    this.icondelete.on('click touchstart',function(){
-      e.preventDefault();//prevent ghost click
+    this.icondelete.on('click',function(){
       console.log("DELETE TASK");
       removeTask(thisTask.timeStamp);
     });
