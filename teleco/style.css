@@ -1,521 +1,557 @@
 
-    body
-    {
-      font-family: 'Lato', sans-serif;
-      font-size: 10pt;
-      background-color: white;
-      max-width: 1400px;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    ::-webkit-scrollbar {
-    width: 12px;
-}
-
-    #colonne1, #colonne2, #colonne3, #colonne4 {
-      float:left;
-      margin: 8px;
-    }
-
-    #colonne1{
-      width: 80px;
-    }
-    #colonne2{
-      width: 40%;
-      height: 100%;
-    }
-    #colonne3{
-      width: 20%;
-    }
-
-    #colonne4{
-      width: 20%;
-    }
-
-    .selector{
-      cursor: pointer;
-      height: 45px;
-      line-height:45px;
-      border: 2px solid black;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-
-    /*--------   RESPONSIVE   ---------*/
-    /*---------------------------------*/
-
-
-    @media only screen and (max-width:800px) {
-     body {
-     }
-     .playerProgress{
-       width: 50%;
-     }
-     #colonne2{
-       min-height:800px;
-     }
-     #colonne3{
-       width:35%;
-     }
-     #colonne4{
-       width:35%;
-     }
-     #colonne1, #colonne2, #colonne3, #colonne4 {
-       margin: 4px;
-     }
-     .selector{
-       margin-bottom: 10px;
-     }
-     .sendOptions{
-       margin-bottom:8px;
-     }
-     #browserUploader{
-       margin-bottom: 8px;
-     }
-    }
-
-
-    /*---------BROWSER OPTIONS---------*/
-    /*---------------------------------*/
-    #browserUploader{
-      border: 2px dotted black;
-      padding: 15px;
-      margin-bottom: 16px;
-    }
-
-    .browserOptions{
-      display: none;
-      border: 2px dotted black;
-      margin-bottom: 16px;
-      padding: 15px;
-    }
-
-    .sendOptions{
-      border: 2px dotted black;
-      padding: 5px;
-      padding-right:10px;
-      margin-bottom: 16px;
-    }
-
-    .serverOptions{
-      border: 2px dotted black;
-      padding: 5px;
-      max-height:600px;
-      overflow-y:scroll;
-    }
-    /*---------- AUDIO PLAYER ---------*/
-    /*---------------------------------*/
-    #audioPreview{
-    }
-    .playerControl{
-      font-size: 20pt;
-      cursor:pointer;
-    }
-    .fa-play{
-      color:black;
-      vertical-align: middle;
-    }
-    .fa-pause{
-      display:none;
-      color:limegreen;
-      vertical-align: middle;
-    }
-
-    .playerProgress{
-      width: 72%;
-      margin-left: 5%;
-    }
-    .timeCount{
-      float:right;
-      line-height:30px;
-    }
-    /*---------- VIDEO PLAYER ---------*/
-    /*---------------------------------*/
-    #videoPreview{
-      padding:10px;
-      padding-left: 15px;
-      display:block;
-    }
-    #videoPlayer{
-      width: 50%;
-      vertical-align: middle;
-      margin-left: 20%;
-    }
-
-
-
-    /*------------ BROWSER ------------*/
-    /*---------------------------------*/
-    #browser{
-      max-height: 500px;
-      height: 100%;
-      width: 100%;
-      box-sizing: border-box;
-      border: 2px dotted black;
-      padding: 15px;
-      overflow-y: scroll;
-    }
-
-    #mediasList{
-    }
-    .icon{
-      font-size:16pt;
-      margin-right: 6px;
-    }
-    .view{
-      margin-top: 8px;
-      cursor: pointer;
-      width:50%;
-      box-sizing: border-box;
-      display: inline-block;
-      height:35px;
-    }
-
-    .icontext{
-
-      display: inline-block;
-      max-width:70%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .fileSelected{
-      color: limegreen;
-      font-weight: bold;
-    }
-
-    .textRename{
-      width: 60%;
-      outline:1px none transparent;
-    }
-
-    .fa-trash-o{
-      float: right;
-      cursor: pointer;
-      font-size: 20px;
-    }
-    .trashHide{
-      display:none;
-    }
-    .trashView{
-      display:inline;
-
-    }
-    #suppr{
-      margin-right:5px;
-    }
-
-    /*---------SMS WRITER---------
-    ----------------------------*/
-
-    #smsTitle{
-      width: 100%;
-      box-sizing: border-box;
-      outline: none;
-    }
-
-    .smsContent{
-      width: 100%;
-      box-sizing: border-box;
-      resize: none;
-      outline:1px none transparent;
-      margin-top: 10px;
-    }
-    #charCount{
-      float:right;
-      margin-top: 8px;
-      color: gray;
-      font-size: 12px;
-    }
-    #smsButtons{
-    }
-
-    .iconButtons{
-      margin-top:5px;
-      font-size: 24pt;
-    }
-    .iconButtons:active{
-      color: limegreen;
-    }
-
-    /*---------TEXT WRITER---------
-    ----------------------------*/
-    textarea, .textInput {
-     font-family: inherit;
-     font-size: inherit;
-    }
-
-
-    #textTitle{
-      width: 100%;
-      box-sizing: border-box;
-      outline: none;
-    }
-
-    .textContent{
-      width: 100%;
-      box-sizing: border-box;
-      height: 200px;
-      resize: none;
-      outline:0px none transparent;
-      border: 1px dotted black;
-      margin-top: 10px;
-    }
-
-    #viewLiveText{
-      float:right;
-    }
-    /*---------URL SAVER---------
-    ----------------------------*/
-
-    .urlTxt{
-      width: 100%;
-      box-sizing: border-box;
-      outline: none;
-      margin-bottom:10px;
-    }
-
-    #viewUrl{
-      float: right;
-      margin-right: 4%;
-    }
-
-    #wrap {
-      display: none;
-      width: 50%;
-      height: 80%;
-      padding: 0;
-      float:right;
-      margin: 10px;
+  body
+  {
+    font-family: 'Lato', sans-serif;
+    font-size: 10pt;
+    background-color: white;
+    max-width: 1400px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  ::-webkit-scrollbar {
+  width: 12px;
   }
 
-    #frame {
+  /*--------    OVERLAY    ---------*/
+  /*---------------------------------*/
+
+  .overlay{
+    display:none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.2);
+  }
+  #confirmdelete{
+    padding: 15px;
+    position: relative;
+    top: 40%;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -100px;
+    background-color: white;
+    border: 2px dotted black;
+  }
+  #delete_false{
+    margin-top: 50px;
+    float: left;
+  }
+  #delete_true{
+    margin-top: 50px;
+    float:right;
+  }
+
+  /*--------    GENERAL     ---------*/
+  /*---------------------------------*/
+
+  #colonne1, #colonne2, #colonne3, #colonne4 {
+    float:left;
+    margin: 8px;
+  }
+
+  #colonne1{
+    width: 80px;
+  }
+  #colonne2{
+    width: 40%;
+    height: 100%;
+  }
+  #colonne3{
+    width: 20%;
+  }
+
+  #colonne4{
+    width: 20%;
+  }
+
+  .selector{
+    cursor: pointer;
+    height: 45px;
+    line-height:45px;
+    border: 2px solid black;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+
+  /*--------   RESPONSIVE   ---------*/
+  /*---------------------------------*/
+
+
+  @media only screen and (max-width:800px) {
+   body {
+   }
+   .playerProgress{
+     width: 50%;
+   }
+   #colonne2{
+     min-height:800px;
+   }
+   #colonne3{
+     width:35%;
+   }
+   #colonne4{
+     width:35%;
+   }
+   #colonne1, #colonne2, #colonne3, #colonne4 {
+     margin: 4px;
+   }
+   .selector{
+     margin-bottom: 10px;
+   }
+   .sendOptions{
+     margin-bottom:8px;
+   }
+   #browserUploader{
+     margin-bottom: 8px;
+   }
+  }
+
+
+  /*---------BROWSER OPTIONS---------*/
+  /*---------------------------------*/
+  #browserUploader{
+    border: 2px dotted black;
+    padding: 15px;
+    margin-bottom: 16px;
+  }
+
+  .browserOptions{
+    display: none;
+    border: 2px dotted black;
+    margin-bottom: 16px;
+    padding: 15px;
+  }
+
+  .sendOptions{
+    border: 2px dotted black;
+    padding: 5px;
+    padding-right:10px;
+    margin-bottom: 16px;
+  }
+
+  .serverOptions{
+    border: 2px dotted black;
+    padding: 5px;
+    max-height:600px;
+    overflow-y:scroll;
+  }
+  /*---------- AUDIO PLAYER ---------*/
+  /*---------------------------------*/
+  #audioPreview{
+  }
+  .playerControl{
+    font-size: 20pt;
+    cursor:pointer;
+  }
+  .fa-play{
+    color:black;
+    vertical-align: middle;
+  }
+  .fa-pause{
+    display:none;
+    color:limegreen;
+    vertical-align: middle;
+  }
+
+  .playerProgress{
+    width: 72%;
+    margin-left: 5%;
+  }
+  .timeCount{
+    float:right;
+    line-height:30px;
+  }
+  /*---------- VIDEO PLAYER ---------*/
+  /*---------------------------------*/
+  #videoPreview{
+    padding:10px;
+    padding-left: 15px;
+    display:block;
+  }
+  #videoPlayer{
+    width: 50%;
+    vertical-align: middle;
+    margin-left: 20%;
+  }
+
+
+
+  /*------------ BROWSER ------------*/
+  /*---------------------------------*/
+  #browser{
+    max-height: 500px;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px dotted black;
+    padding: 15px;
+    overflow-y: scroll;
+  }
+
+  #mediasList{
+  }
+  .icon{
+    font-size:16pt;
+    margin-right: 6px;
+  }
+  .view{
+    margin-top: 8px;
+    cursor: pointer;
+    width:50%;
+    box-sizing: border-box;
+    display: inline-block;
+    height:35px;
+  }
+
+  .icontext{
+
+    display: inline-block;
+    max-width:70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fileSelected{
+    color: limegreen;
+    font-weight: bold;
+  }
+
+  .textRename{
+    width: 60%;
+    outline:1px none transparent;
+  }
+
+  .fa-trash-o{
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .trashHide{
+    display:none;
+  }
+  .trashView{
+    display:inline;
+
+  }
+  #suppr{
+    margin-right:5px;
+  }
+
+  /*---------SMS WRITER---------
+  ----------------------------*/
+
+  #smsTitle{
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .smsContent{
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+    outline:1px none transparent;
+    margin-top: 10px;
+  }
+  #charCount{
+    float:right;
+    margin-top: 8px;
+    color: gray;
+    font-size: 12px;
+  }
+  #smsButtons{
+  }
+
+  .iconButtons{
+    margin-top:5px;
+    font-size: 24pt;
+  }
+  .iconButtons:active{
+    color: limegreen;
+  }
+
+  /*---------TEXT WRITER---------
+  ----------------------------*/
+  textarea, .textInput {
+   font-family: inherit;
+   font-size: inherit;
+  }
+
+
+  #textTitle{
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .textContent{
+    width: 100%;
+    box-sizing: border-box;
+    height: 200px;
+    resize: none;
+    outline:0px none transparent;
+    border: 1px dotted black;
+    margin-top: 10px;
+  }
+
+  #viewLiveText{
+    float:right;
+  }
+  /*---------URL SAVER---------
+  ----------------------------*/
+
+  .urlTxt{
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    margin-bottom:10px;
+  }
+
+  #viewUrl{
+    float: right;
+    margin-right: 4%;
+  }
+
+  #wrap {
+    display: none;
+    width: 50%;
+    height: 80%;
+    padding: 0;
+    float:right;
+    margin: 10px;
+}
+
+  #frame {
+    width: 100%;
+    height:100%;
+    overflow: hidden;
+  }
+
+  /*---------UPLOADER-----------
+  ----------------------------*/
+  progress {
+      height: 8px;
+      /*width: 240px;*/
       width: 100%;
-      height:100%;
-      overflow: hidden;
-    }
-
-    /*---------UPLOADER-----------
-    ----------------------------*/
-    progress {
-        height: 8px;
-        /*width: 240px;*/
-        width: 100%;
-        background: white;
-        border: 1px solid black; /* Needed for Firefox */
-        -webkit-appearance: none; /* Needed for WebKit/Blink */
-    }
-    progress::-webkit-progress-bar {
-        background: transparent;
-    }
-    progress::-moz-progress-bar {
-        background: white;
-    }
-    progress[value]::-moz-progress-bar {
+      background: white;
+      border: 1px solid black; /* Needed for Firefox */
+      -webkit-appearance: none; /* Needed for WebKit/Blink */
+  }
+  progress::-webkit-progress-bar {
+      background: transparent;
+  }
+  progress::-moz-progress-bar {
+      background: white;
+  }
+  progress[value]::-moz-progress-bar {
+    background: black;
+  }
+  progress::-webkit-progress-value {
       background: black;
-    }
-    progress::-webkit-progress-value {
-        background: black;
-    }
+  }
 
 
-    #send {
-      cursor: pointer;
-      color:black;
-      background-color:white;
-      border: 2px solid black;
-      display:inline;
-      float:right;
-      /*display:none;*/
-    }
-    .btn{ }
-    .btn:focus {outline:0;}
-    .btn:active{opacity: 1.00;}
+  #send {
+    float:right;
+    /*display:none;*/
+  }
+  .btn{
+    cursor: pointer;
+    color:black;
+    background-color:white;
+    border: 2px solid black;
+    display:inline;
+  }
+  .btn:focus {outline:0;}
+  .btn:active{opacity: 1.00;}
 
-    #fileInput{
-      display: none;
-      opacity:0.2;
-      width:0px;
-      height:0px;
-    }
+  #fileInput{
+    display: none;
+    opacity:0.2;
+    width:0px;
+    height:0px;
+  }
 
-    #inputLabel{
-      font-size: 22pt;
-      cursor: pointer;
-      line-height:25px;
-    }
+  #inputLabel{
+    font-size: 22pt;
+    cursor: pointer;
+    line-height:25px;
+  }
 
-    #talkBox{
-      margin-left: 10px;
-      max-width: 40%;
-      display: inline-block;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
+  #talkBox{
+    margin-left: 10px;
+    max-width: 40%;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
 
 
 
 
-    /*---------COLONNE 3-----------
-    ----------------------------*/
+  /*---------COLONNE 3-----------
+  ----------------------------*/
 
-    .group{
-      font-size: 18pt;
-      line-height: 20pt;
-      cursor: pointer;
-    }
-    .group:active{
-      color: limegreen;
-    }
-    .radio {
-      display: none;
-    }
-    .icontime{
-      font-size: 18pt;
-      line-height: 20pt;
-    }
+  .group{
+    font-size: 18pt;
+    line-height: 20pt;
+    cursor: pointer;
+  }
+  .group:active{
+    color: limegreen;
+  }
+  .radio {
+    display: none;
+  }
+  .icontime{
+    font-size: 18pt;
+    line-height: 20pt;
+  }
 
-    .starterBTN{
-      font-size: 18pt;
-      cursor: pointer;
-      float: right;
-    }
-    .starterBTN:active{
-      color: limegreen;
-    }
-    #sendFile{
-      /*margin-top:16px;*/
-    }
-    #selectedFileGO{
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  .starterBTN{
+    font-size: 18pt;
+    cursor: pointer;
+    float: right;
+  }
+  .starterBTN:active{
+    color: limegreen;
+  }
+  #sendFile{
+    /*margin-top:16px;*/
+  }
+  #selectedFileGO{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    .exactHour{
-      box-sizing: border-box;
-      width:31%;
-      /*padding: 3px;*/
-      /*margin: 0px;*/
-      outline: 0px none;
-    }
+  .exactHour{
+    box-sizing: border-box;
+    width:32%;
+    outline: 0px none;
+  }
 
-    /*--------- RANGE -----------
-    ----------------------------*/
-    #delay{
-      width: 60%;
-    }
-    input[type=range]{
-    -webkit-appearance: none;
+  /*--------- RANGE -----------
+  ----------------------------*/
+  #delay{
+    width: 60%;
+  }
+  input[type=range]{
+  -webkit-appearance: none;
+  border: 1px solid black;
+  margin-left:0px;
+  }
+  input[type=range]:focus {
+      outline: none;
+  }
+  /*-------WEBKIT-------*/
+  input[type=range]::-webkit-slider-runnable-track {
+      height: 16px;
+      background: #fff;
+      border-radius: 0px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: none;
+      height: 16px;
+      width: 4px;
+      border-radius: 0;
+      background: black;
+  }
+  /*-------RANGE FF-------*/
+  input[type=range]::-moz-range-track {
+      height: 16px;
+      background: #fff;
+      border-radius: 0;
+  }
+
+  input[type=range]::-moz-range-thumb {
+      border: none;
+      height: 16px;
+      width: 4px;
+      border-radius: 0;
+      background: black;
+  }
+
+
+  /*--------- RANGE UI -----------
+  ----------------------------*/
+
+  #delayslider{
+    height:20px;
+    width: 95%;
+  }
+
+  .ui-corner-all {
     border: 1px solid black;
-    margin-left:0px;
-    }
-    input[type=range]:focus {
-        outline: none;
-    }
-    /*-------WEBKIT-------*/
-    input[type=range]::-webkit-slider-runnable-track {
-        height: 16px;
-        background: #fff;
-        border-radius: 0px;
-    }
-    input[type=range]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        border: none;
-        height: 16px;
-        width: 4px;
-        border-radius: 0;
-        background: black;
-    }
-    /*-------RANGE FF-------*/
-    input[type=range]::-moz-range-track {
-        height: 16px;
-        background: #fff;
-        border-radius: 0;
-    }
+    border-radius: 1px;
+  }
+  .ui-widget-header{
+    background:none;
+  }
+  .ui-widget-content{
+    background:none;
+  }
+  .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    background: none;
+    background-color: black;
+  }
+  .ui-slider .ui-slider-handle{
+    margin-top: 3px;
+    margin-left:-2px;
+    border: 1px solid black;
+    background-color: black;
+    height: inherit;
+    width:15px;
+    outline:none;
+  }
 
-    input[type=range]::-moz-range-thumb {
-        border: none;
-        height: 16px;
-        width: 4px;
-        border-radius: 0;
-        background: black;
-    }
+  /*---------- TASK MANAGER ----------*/
+  /*---------------------------------*/
 
+  .taskView{
+    margin-top: 8px;
+    line-height: 25px;
+    cursor: pointer;
+    box-sizing: border-box;
+    height:25px;
 
-    /*--------- RANGE UI -----------
-    ----------------------------*/
+  }
 
-    #delayslider{
-      height:20px;
-      width: 95%;
-    }
-
-    .ui-corner-all {
-      border: 1px solid black;
-      border-radius: 1px;
-    }
-    .ui-widget-header{
-      background:none;
-    }
-    .ui-widget-content{
-      background:none;
-    }
-    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
-      background: none;
-      background-color: black;
-    }
-    .ui-slider .ui-slider-handle{
-      margin-top: 3px;
-      margin-left:-2px;
-      border: 1px solid black;
-      background-color: black;
-      height: inherit;
-      width:15px;
-      outline:none;
-    }
-
-    /*---------- TASK MANAGER ----------*/
-    /*---------------------------------*/
-
-    .taskView{
-      margin-top: 8px;
-      line-height: 25px;
-      cursor: pointer;
-      box-sizing: border-box;
-      height:25px;
-
-    }
-
-    .taskText{
-      display: inline-block;
-      max-width:90%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  .taskText{
+    display: inline-block;
+    max-width:90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
 
-    .delHide{
-      display:none;
+  .delHide{
+    display:none;
 
-    }
-    .delView{
-      display:inline;
+  }
+  .delView{
+    display:inline;
 
-    }
-    #deleteTask{
-      font-size: 15pt;
-      line-height:25px;
-      float:right;
-      margin-right:2px;
-      vertical-align: middle;
-    }
+  }
+  #deleteTask{
+    font-size: 15pt;
+    line-height:25px;
+    float:right;
+    margin-right:2px;
+    vertical-align: middle;
+  }

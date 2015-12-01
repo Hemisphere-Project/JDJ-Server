@@ -113,7 +113,18 @@ $(function() {
 
     // FILE DELETE
     this.icondelete.on("click",function(){
-      deleteActiveFile();
+      // if (confirm("Supprimer ce fichier ?") == true) {
+      //   deleteActiveFile();
+      // } else { }
+      $(".overlay").fadeIn(100);
+      $("#delete_false, #delete_true").unbind();
+      $("#delete_false").on('click',function(){
+        $(".overlay").fadeOut(100);
+      });
+      $("#delete_true").on('click',function(){
+        deleteActiveFile();
+        $(".overlay").fadeOut(100);
+      });
     });
 
     // FILE RENAME
@@ -181,8 +192,6 @@ $(function() {
     }).done(function(reponse){
       getFiles();
     });
-
-
   }
 
   ///////////////////////////////////////////////////////
@@ -230,6 +239,7 @@ $(function() {
   function sortBrowser(){
     $('.view').hide();
     $('.'+categorySelected+'').show();
+    if (categorySelected == 'files'){ $('.view').show(); }
   }
 
   $(".selector").on("click", function(){
@@ -240,7 +250,6 @@ $(function() {
     $(this).css("color", "white");
     //get category
     categorySelected = $(this).attr("id");
-    console.log(categorySelected);
     // SPECIAL DISPLAYS
     $('.browserOptions').hide();
 
@@ -273,8 +282,8 @@ $(function() {
 
     if (categorySelected == 'files'){
       $('#browserUploader').show();
-      $('.view').show(); // show all files
-      return; // exit & don't sort browser
+      // $('.view').show(); // show all files
+      // return; // exit & don't sort browser
     }
 
     //

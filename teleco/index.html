@@ -16,6 +16,12 @@
   </HEAD>
 
   <BODY>
+  <div class="overlay">
+    <div id="confirmdelete">Supprimer ce fichier ? <br>
+      <input name="delete_false" id="delete_false" type="submit" value="NON" class="btn" />
+      <input name="delete_true" id="delete_true" type="submit" value="OUI" class="btn" />
+    </div>
+  </div>
 
   <div id="colonne1">
     <div id="files" class="selector">FILES</div>
@@ -31,7 +37,7 @@
     <div id="browserUploader" class="browserOptions">
       <div id="uploader">
         <form id="fileForm" action="" enctype="multipart/form-data" method="post">
-          <label for="fileInput" id="inputLabel" class="btn"><i class="fa fa-plus"></i></label>
+          <label for="fileInput" id="inputLabel"><i class="fa fa-plus"></i></label>
           <input name="fileInput" type="file" id="fileInput" multiple />
           <div id="talkBox">Ajoutez des fichiers</div>
           <input name="send" id="send" type="submit" value="UPLOAD" class="btn" />
@@ -111,8 +117,9 @@
       <div id="playnow">
         <i class="icontime fa fa-hand-o-right"></i>
         <i class="starter starterBTN NOW fa fa-play-circle"></i>
+        <br><br>
       </div>
-      <br><br>
+
 
       <div id="playdelay">
         <i class="icontime fa fa-hourglass-half"></i>
@@ -121,8 +128,8 @@
         <input id="delay" type="range" min="0" max="30" value="5" step="1"> -->
         <div id="delayslider_val">5 min</div>
         <div id="delayslider"></div>
+        <br><br>
       </div>
-      <br><br>
 
       <div id="playtime">
         <i class="icontime fa fa-clock-o"></i>
@@ -130,8 +137,9 @@
         <input class="exactHour" type="number" name="hour" id="hour" min="0" max="23" inputmode="numeric" pattern="[0-9]*" required>
         <input class="exactHour" type="number" name="min" id="min" min="0" max="59" inputmode="numeric" pattern="[0-9]*" required>
         <input class="exactHour" type="number" name="sec" id="sec" min="0" max="59" inputmode="numeric" pattern="[0-9]*" required>
+        <br><br>
       </div>
-      <br><br>
+
 
       STOP ALL
       <i id="stopAll" class="starterBTN fa fa-stop"></i><br><br>
