@@ -16,6 +16,7 @@
   </HEAD>
 
   <BODY ontouchstart="">
+    <!-- ontouchstart="" -> css :active classes work in ios -->
   <div class="overlay">
     <div id="confirmdelete">Supprimer ce fichier ? <br>
       <input name="delete_false" id="delete_false" type="submit" value="NON" class="btn" />
@@ -63,9 +64,6 @@
     </div>
 
     <div id="urlOptions" class="browserOptions">
-      <!-- <div id="wrap">
-        <iframe id="frame" frameborder=0></iframe>
-      </div> -->
       <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/>
       <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" />
       <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>

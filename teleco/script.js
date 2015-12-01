@@ -84,7 +84,7 @@ $(function() {
 
     //SELECT
     //------
-    this.view.on('click',function(){
+    this.view.on('click touchstart',function(){
       var prevSelected = browser.getActiveFile();
       browser.unselectAllFiles();
       $("#selectedFileGO").html(thisfile.filename);
@@ -112,16 +112,16 @@ $(function() {
     });
 
     // FILE DELETE
-    this.icondelete.on("click",function(){
+    this.icondelete.on("click touchstart",function(){
       // if (confirm("Supprimer ce fichier ?") == true) {
       //   deleteActiveFile();
       // } else { }
       $(".overlay").fadeIn(100);
       $("#delete_false, #delete_true").unbind();
-      $("#delete_false").on('click',function(){
+      $("#delete_false").on('click touchstart',function(){
         $(".overlay").fadeOut(100);
       });
-      $("#delete_true").on('click',function(){
+      $("#delete_true").on('click touchstart',function(){
         deleteActiveFile();
         $(".overlay").fadeOut(100);
       });
@@ -376,11 +376,11 @@ $(function() {
 
     var audioPlayer = $("#audioPlayer")[0];
 
-    $("#audioPlay").on('click',function(){
+    $("#audioPlay").on('click touchstart',function(){
         playAudio();
     });
 
-    $("#audioPause").on('click',function(){
+    $("#audioPause").on('click touchstart',function(){
         pauseAudio();
     });
 
@@ -430,7 +430,7 @@ $(function() {
       }
     }
 
-    $('#audioProgress').on('click',function(e){
+    $('#audioProgress').on('click touchstart',function(e){
       var percent = e.offsetX / this.offsetWidth;
       audioPlayer.currentTime = percent * audioPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -444,11 +444,11 @@ $(function() {
 
     var videoPlayer = $("#videoPlayer")[0];
 
-    $("#videoPlay").on('click',function(){
+    $("#videoPlay").on('click touchstart',function(){
         playVideo();
     });
 
-    $("#videoPause").on('click',function(){
+    $("#videoPause").on('click touchstart',function(){
         pauseVideo();
     });
 
@@ -495,7 +495,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveUrl').on("click", function () {
+  $('#saveUrl').on("click touchstart", function () {
     var urlTitle = $("#urlTitle").val();
     var urlContent = $("#urlContent").val();
     $.ajax({
@@ -533,14 +533,11 @@ $(function() {
     {
       $("#urlContent").val(contents);
       $("#frame").attr("src", contents+"&output=embed");
-      // $("#frame").attr("src", contents+"&target=_blank");
-      // $("#wrap").empty();
-      // $('<iframe />').attr('src', contents).attr("id", 'frame').appendTo('#wrap');
     }
     );
   }
 
-  $("#viewUrl").on('click',function(){
+  $("#viewUrl").on('click touchstart',function(){
     var url = $("#urlContent").val();
     window.open(url);
   });
@@ -565,7 +562,7 @@ $(function() {
     }
   });
   // SAVE SMS
-  $('#saveSms').on("click", function () {
+  $('#saveSms').on("click touchstart", function () {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
     $.ajax({
@@ -613,7 +610,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveText').on("click", function () {
+  $('#saveText').on("click touchstart", function () {
     var textTitle = $("#textTitle").val();
     var textContent = $("#textContent").val();
     $.ajax({
@@ -655,7 +652,7 @@ $(function() {
   }
 
 
-  $("#viewLiveText").on('click',function(){
+  $("#viewLiveText").on('click touchstart',function(){
     var url = 'http://'+document.location.hostname+'/livetext/writer.html';
     window.open(url);
   });
@@ -667,7 +664,7 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('.group').on('click', function() {
+  $('.group').on('click touchstart', function() {
     var activeClass;
     if ($(this).hasClass("day")) activeClass = "day";
     if ($(this).hasClass("group")) activeClass = "group";
@@ -688,7 +685,7 @@ $(function() {
   $('#sec').val(0);
 
   // SEND PLAY
-  $(".starter").on("click",function(){
+  $(".starter").on("click touchstart",function(){
     var fileToSend = $("#selectedFileGO").text();
     var who = $('input[name=group]:radio:checked').val();
     var time;
@@ -724,7 +721,7 @@ $(function() {
   });
 
   // SEND STOP
-  $("#stopAll").on("click",function(){
+  $("#stopAll").on("click touchstart",function(){
     socket.emit('stop',{});
   });
 
@@ -829,7 +826,7 @@ $(function() {
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
 
     // SELECT
-    this.view.on('click',function(){
+    this.view.on('click touchstart',function(){
       unselectAllTasks();
       thisTask.view.addClass('fileSelected');
       thisTask.selected = true;
@@ -837,7 +834,7 @@ $(function() {
     });
 
     // DELETE
-    this.icondelete.on('click',function(){
+    this.icondelete.on('click touchstart',function(){
       console.log("DELETE TASK");
       removeTask(thisTask.timeStamp);
     });
