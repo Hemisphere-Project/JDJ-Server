@@ -134,6 +134,11 @@
     background-color: green;
   }
  }
+ @media (min-width:1025px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+   body {
+     background-color: yellow;
+   }
+  }
 
   /*---------BROWSER OPTIONS---------*/
   /*---------------------------------*/
