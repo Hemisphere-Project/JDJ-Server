@@ -17,7 +17,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'major': 0, 'minor': 1};
+var VERSION = {'major': 0, 'minor': 2};
 var NEXTSHOW = (new Date(2015, 11, 09)).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -61,6 +61,7 @@ SERVER.onConsume = function(task) {
   // forge task request for Client
   // task.version = VERSION;
   task.group = 'all';
+  task.cache = true;
   task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
@@ -123,6 +124,13 @@ SERVER.onConsume = function(task) {
       } catch (e) { console.log('HLS flux NOT found: '+e); }
 
       task.url = MEDIAURL+task.filename;
+    }
+
+    // PHONE: convert into param 1
+    else if (task.category == 'phone')
+    {
+      task.param1 = task.filename.replace(/\.[^/.]+$/, "");
+      task.cache = false;
     }
 
     // RAW CONTENT

@@ -11,7 +11,7 @@ module.exports = {
 
     // Bind to server events
     this.server.sendTask = function(task) {
-      that.send(JSON.stringify(task));
+      that.send(JSON.stringify(task), task.cache);
       //console.log('task sent to APPS');
       //console.log(task);
     };
@@ -24,9 +24,9 @@ module.exports = {
     this.socket.bindSync('tcp://*:'+port);
 
     // Send shortcut
-    this.send = function(msg) {
+    this.send = function(msg, cache) {
       this.socket.send(msg);
-      this.lvc = msg;
+      if (cache) this.lvc = msg;
     }
 
     // Monitor events
