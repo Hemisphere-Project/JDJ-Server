@@ -7,7 +7,7 @@ $(function() {
   // .on('click touchstart') trigger 2 events ou touch devices: touchstart and a ghost click (after 300ms delay)
   // ---> best way to remove the 300ms delay : fastclick
   // https://github.com/ftlabs/fastclick
-  FastClick.attach(document.body);
+  // FastClick.attach(document.body);
 
   var categorySelected = 'none';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
