@@ -436,7 +436,7 @@ $(function() {
       }
     }
 
-    $('#audioProgress').on('click',function(e){
+    $('#audioProgress').on('click touchstart',function(e){
       $("#debugDisplay").html('clicked');
       var percent = e.offsetX / this.offsetWidth;
       audioPlayer.currentTime = percent * audioPlayer.duration;
