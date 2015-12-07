@@ -17,7 +17,7 @@ major: a new major version will prevent previous apps to run: they will exit imm
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
 var VERSION = {'major': 0, 'minor': 1};
-var NEXTSHOW = (new Date(2015, 10, 28)).getTime();
+var NEXTSHOW = (new Date(2015, 11, 09)).getTime();
 
 // LIBS
 var Engine = require('./server-engine');
@@ -55,7 +55,7 @@ SERVER.onConsume = function(task) {
   if (task.when !== undefined) delete task.when;
 
   // forge task request for Client
-  task.version = VERSION;
+  // task.version = VERSION;
   task.group = 'all';
   task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
@@ -106,6 +106,13 @@ SERVER.onConsume = function(task) {
       // send 'Reader Page' url to clients
       task.category = 'web';
       task.url = BASEURL+PADREADER;
+    }
+
+    // VIDEO: add HLS url
+    else if (task.category == 'video')
+    {
+      task.hls = 'http://hls.hmsphr.com/vidz/tears/tears.m3u8';
+      task.url = BASEURL+'files/'+task.filename;
     }
 
     // RAW CONTENT
