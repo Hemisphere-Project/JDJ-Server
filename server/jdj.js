@@ -9,6 +9,7 @@ var PORT_TIME = 8082;
 var PUB_DELAY = 1998;
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
+var MEDIAURL = BASEURL+'files/';
 var PADREADER = 'livetext/reader.html';
 
 /*
@@ -18,6 +19,9 @@ minor: a new minor version will invite previous apps to update: they will still 
 */
 var VERSION = {'major': 0, 'minor': 1};
 var NEXTSHOW = (new Date(2015, 11, 09)).getTime();
+
+var BASEPATH = __dirname+'/';
+var MEDIAPATH = BASEPATH+'../files/';
 
 // LIBS
 var Engine = require('./server-engine');
@@ -68,7 +72,7 @@ SERVER.onConsume = function(task) {
     {
       // read file
       var url_content;
-      try { url_content = Fs.readFileSync('../files/'+task.filename, 'utf8'); }
+      try { url_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
       catch (e) { console.log(e); return false;}
 
       // put actual url
@@ -81,7 +85,7 @@ SERVER.onConsume = function(task) {
     {
       // read file
       var sms_content;
-      try { sms_content = Fs.readFileSync('../files/'+task.filename, 'utf8'); }
+      try { sms_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
       catch (e) { console.log(e); return false;}
 
       // send sms
@@ -97,7 +101,7 @@ SERVER.onConsume = function(task) {
     {
       // read file
       var pad_content;
-      try { pad_content = Fs.readFileSync('../files/'+task.filename, 'utf8'); }
+      try { pad_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
       catch (e) { console.log(e); return false;}
 
       // set up PADSERVER
@@ -111,12 +115,18 @@ SERVER.onConsume = function(task) {
     // VIDEO: add HLS url
     else if (task.category == 'video')
     {
-      task.hls = 'http://hls.hmsphr.com/vidz/tears/tears.m3u8';
-      task.url = BASEURL+'files/'+task.filename;
+      try {
+        var filebasename = task.filename.replace(/\.[^/.]+$/, "");
+        var hlsflux = filebasename+'/'+filebasename+'.m3u8';
+        Fs.statSync(MEDIAPATH+hlsflux);
+        task.hls = MEDIAURL+hlsflux;
+      } catch (e) { console.log('HLS flux NOT found: '+e); }
+
+      task.url = MEDIAURL+task.filename;
     }
 
     // RAW CONTENT
-    else task.url = BASEURL+'files/'+task.filename;
+    else task.url = MEDIAURL+task.filename;
 
   }
 
