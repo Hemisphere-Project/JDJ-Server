@@ -1,7 +1,6 @@
 <?php
 
-  $filename = $_POST['filename'].'.live';
-  // $filename = $_POST['filename'].'.rtf'; //Ne peut pas les ouvrir sous mac???
+  $filename = $_POST['filename'].'.'.$_POST['extension'];
 
   $contents = $_POST['contents'];
 

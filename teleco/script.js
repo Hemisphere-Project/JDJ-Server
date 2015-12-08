@@ -42,6 +42,7 @@ $(function() {
         file.selected = false;
       });
       $("#selectedFileGO").html("no file selected");
+      // $('#sendFile').hide();
       noSelection = true;
     }
 
@@ -114,6 +115,8 @@ $(function() {
       noSelection = false;
       if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
       categorySelected = thisfile.category;
+
+      // $('#sendFile').show();
 
     });
 
@@ -254,8 +257,10 @@ $(function() {
     $(".selector").css("color", "black");
     $(this).css("background-color", "black");
     $(this).css("color", "white");
-    //get category
+
     categorySelected = $(this).attr("id");
+    browser.unselectAllFiles();
+
     // SPECIAL DISPLAYS
     $('.browserOptions').hide();
 
@@ -506,12 +511,12 @@ $(function() {
     var urlTitle = $("#urlTitle").val();
     var urlContent = $("#urlContent").val();
     $.ajax({
-        url: "php/saveUrl.php",
-        // dataType: "text",
+        url: "php/saveFile.php",
         type: "POST",
         data: {
             contents: urlContent,
-            filename: urlTitle
+            filename: urlTitle,
+            extension: 'url'
         }
     })
     .done(function(reponse)
@@ -573,12 +578,12 @@ $(function() {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
     $.ajax({
-        url: "php/saveTxt.php",
-        // dataType: "text",
+        url: "php/saveFile.php",
         type: "POST",
         data: {
             contents: smsContent,
-            filename: smsTitle
+            filename: smsTitle,
+            extension: 'txt'
         }
     })
     .done(function(reponse)
@@ -621,12 +626,12 @@ $(function() {
     var textTitle = $("#textTitle").val();
     var textContent = $("#textContent").val();
     $.ajax({
-        url: "php/saveLiveTxt.php",
-        // dataType: "text",
+        url: "php/saveFile.php",
         type: "POST",
         data: {
             contents: textContent,
-            filename: textTitle
+            filename: textTitle,
+            extension: 'live'
         }
     })
     .done(function(reponse)
