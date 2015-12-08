@@ -533,7 +533,7 @@ $(function() {
     $("#urlTitle").val(shortname);
 
     $.ajax({
-        url: "php/loadTxt.php",
+        url: "php/loadFile.php",
         dataType: "text",
         type: "POST",
         data: {
@@ -601,7 +601,7 @@ $(function() {
     $("#smsTitle").val(shortname);
 
     $.ajax({
-        url: "php/loadTxt.php",
+        url: "php/loadFile.php",
         dataType: "text",
         type: "POST",
         data: {
@@ -648,7 +648,7 @@ $(function() {
     $("#textTitle").val(shortname);
 
     $.ajax({
-        url: "php/loadTxt.php",
+        url: "php/loadFile.php",
         dataType: "text",
         type: "POST",
         data: {
