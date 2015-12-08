@@ -563,16 +563,26 @@ $(function() {
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('.smsContent').keyup(function () {
-    var max = 160;
-    var len = $(this).val().length;
-    if (len >= max) {
-    $('#charCount').text('0 left');
-    } else {
-    var char = max - len;
-    $('#charCount').text(char + ' left');
-    }
+  $('#smsContent').keyup(function () {
+    charCount();
   });
+
+  function charCount(){
+    var max = 160;
+    var len = $('#smsContent').val().length;
+    $('#charCount').text(max-len +' left');
+  }
+
+  $("#addDeeplink").on('click',function(){
+    var max = 160;
+    var len = $('#smsContent').val().length;
+    if (len < (max-11) ){
+      $('#smsContent').val($('#smsContent').val()+' *deeplink* ');
+    }
+    $('#smsContent').focus();
+    charCount();
+  });
+
   // SAVE SMS
   $('#saveSms').on('click', function () {
     var smsTitle = $("#smsTitle").val();

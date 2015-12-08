@@ -251,6 +251,12 @@
     color: limegreen;
   }
 
+  #addDeeplink{
+    font-size: 24px;
+    float: right;
+    margin-right: 4%;
+  }
+
   /*---------TEXT WRITER---------
   ----------------------------*/
   textarea, .textInput {
