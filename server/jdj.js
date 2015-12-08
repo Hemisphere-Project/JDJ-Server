@@ -17,7 +17,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'major': 0, 'minor': 2};
+var VERSION = {'major': 0, 'minor': 3};
 var NEXTSHOW = (new Date(2015, 11, 09)).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -62,7 +62,7 @@ SERVER.onConsume = function(task) {
   // task.version = VERSION;
   task.group = 'all';
   task.cache = true;
-  task.timestamp = (new Date()).getTime();
+  //task.timestamp = (new Date()).getTime();  // DISABLED: it doesn't work properly
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
   // PLAY something
