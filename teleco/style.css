@@ -361,6 +361,7 @@
     font-size: 18pt;
     line-height: 20pt;
     cursor: pointer;
+    letter-spacing: 5px;
   }
   .group:active{
     color: limegreen;
@@ -368,6 +369,19 @@
   .radio {
     display: none;
   }
+
+  input[type=checkbox] { display:none; }
+  input[type=checkbox] + label:before {
+    font-family: FontAwesome;
+    font-size: 18pt;
+    letter-spacing: 5px;
+  }
+  input[type=checkbox] + label:before {content: "\f204"; }
+  input[type=checkbox]:checked + label:before { content: "\f205"; }
+  .iconAlign{
+    vertical-align: 4px;
+  }
+
   .icontime{
     font-size: 18pt;
     line-height: 20pt;

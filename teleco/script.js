@@ -101,7 +101,7 @@ $(function() {
       thisfile.view.addClass('fileSelected');
       thisfile.selected = true;
       if (thisfile.icondelete) { thisfile.icondelete.addClass('trashView'); }
-      
+
       if ((prevSelected)&&(prevSelected.filename!=thisfile.filename)||(noSelection)){ // NOT SAME FILE & not first file || NO FILE SELECTED
         if (thisfile.category == 'audio'){
            $("#audioPlayer").attr("src", "../files/"+thisfile.filename);
@@ -749,14 +749,17 @@ $(function() {
 
   $('.group').on('click', function() {
     var activeClass;
-    if ($(this).hasClass("day")) activeClass = "day";
-    if ($(this).hasClass("group")) activeClass = "group";
+    // if ($(this).hasClass("day")) activeClass = "day";
+    if ($(this).hasClass("group")) {activeClass = "group";}
     $('.'+activeClass).removeClass('fa fa-dot-circle-o').addClass('fa fa-circle-o');
     $(this).removeClass('fa-circle-o').addClass('fa-dot-circle-o');
     //Check corresponding hidden radio
     $(this).prev('input.radio').prop('checked', true);
   });
 
+  // $('#notif').change(function() {
+  //   console.log($('input[name=notifSms]').prop('checked'));
+  // });
 
   var dt = new Date();
   var dt10 = new Date(dt.getTime() + 10*60000);
@@ -771,6 +774,7 @@ $(function() {
   $(".starter").on('click',function(){
     var fileToSend = $("#selectedFileGO").text();
     var who = $('input[name=group]:radio:checked').val();
+    var notif = $('input[name=notifSms]').prop('checked');
     var time;
     if ($(this).hasClass("NOW") == true) {
      time = 0;
@@ -794,12 +798,13 @@ $(function() {
       category: categorySelected,
       when:time,
       who:who,
+      notif: notif,
       localTime: new Date().getTime()
     };
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play '+data.category+' '+data.when+' '+data.who+' '+ data.filename);
+     console.log('play '+data.category+' '+data.when+' '+data.who+' '+notif+' '+ data.filename);
     }
   });
 
