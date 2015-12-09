@@ -38,7 +38,7 @@ $(function() {
     this.unselectAllFiles = function(){
       $.each(allFiles,function(index,file){
         file.view.removeClass('fileSelected');
-        file.icondelete.removeClass('trashView').addClass('trashHide');
+        if (file.icondelete) {file.icondelete.removeClass('trashView').addClass('trashHide');}
         file.selected = false;
       });
       $("#selectedFileGO").html("no file selected");
@@ -89,18 +89,19 @@ $(function() {
     //filename
     this.icontext = $('<div>').html(this.filename).addClass(''+thisfile.category+' icontext').appendTo( thisfile.view );
     // trash
-    this.icondelete = $('<div>').attr('id', "suppr").addClass('trashHide fa fa-trash-o').appendTo( thisfile.view );
+    if (this.category != 'phone'){
+      this.icondelete = $('<div>').attr('id', "suppr").addClass('trashHide fa fa-trash-o').appendTo( thisfile.view );
+    }
 
     //SELECT
-    //------
     this.view.on('click',function(){
       var prevSelected = browser.getActiveFile();
       browser.unselectAllFiles();
       $("#selectedFileGO").html(thisfile.filename);
       thisfile.view.addClass('fileSelected');
       thisfile.selected = true;
-      thisfile.icondelete.addClass('trashView');
-
+      if (thisfile.icondelete) { thisfile.icondelete.addClass('trashView'); }
+      
       if ((prevSelected)&&(prevSelected.filename!=thisfile.filename)||(noSelection)){ // NOT SAME FILE & not first file || NO FILE SELECTED
         if (thisfile.category == 'audio'){
            $("#audioPlayer").attr("src", "../files/"+thisfile.filename);
@@ -118,37 +119,37 @@ $(function() {
       noSelection = false;
       if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
       categorySelected = thisfile.category;
-
       // $('#sendFile').show();
-
     });
 
     // FILE DELETE
-    this.icondelete.on('click',function(){
-      // if (confirm("Supprimer ce fichier ?") == true) {
-      //   deleteActiveFile();
-      // } else { }
-      $(".overlay").fadeIn(100);
-      $("#delete_false, #delete_true").unbind();
-      $("#delete_false").on('click',function(){
-        $(".overlay").fadeOut(100);
+    if (this.category != 'phone'){
+      this.icondelete.on('click',function(){
+        // if (confirm("Supprimer ce fichier ?") == true) { deleteActiveFile(); }
+        $(".overlay").fadeIn(100);
+        $("#delete_false, #delete_true").unbind();
+        $("#delete_false").on('click',function(){
+          $(".overlay").fadeOut(100);
+        });
+        $("#delete_true").on('click',function(){
+          deleteActiveFile();
+          $(".overlay").fadeOut(100);
+        });
       });
-      $("#delete_true").on('click',function(){
-        deleteActiveFile();
-        $(".overlay").fadeOut(100);
-      });
-    });
+    }
 
     // FILE RENAME
-    var nameTemp = $('<input>').attr('type', 'text').addClass('textRename');
-    this.icontext.dblclick(function(){
-      ///UNBIND ?????????? a priori non
-      thisfile.icontext.hide();
-      thisfile.view.append(nameTemp);
-      nameTemp.val(thisfile.filename);
-      nameTemp.focus();
-      listenValidate();
-    });
+    if (this.category != 'phone'){
+      var nameTemp = $('<input>').attr('type', 'text').addClass('textRename');
+      this.icontext.dblclick(function(){
+        ///UNBIND ?????????? a priori non
+        thisfile.icontext.hide();
+        thisfile.view.append(nameTemp);
+        nameTemp.val(thisfile.filename);
+        nameTemp.focus();
+        listenValidate();
+      });
+    }
     function listenValidate(){
       nameTemp.keypress(function(e) {
         if (e.keyCode == 13){
