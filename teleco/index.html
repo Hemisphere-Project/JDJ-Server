@@ -66,24 +66,33 @@
     </div>
 
     <div id="urlOptions" class="browserOptions section">
-      <input type="text" id="urlTitle" value="Url sans titre" class="textInput fileTitle"/>
+      <input type="text" id="urlTitle" value="url sans titre" class="textInput fileTitle"/>
       <input type="text" id="urlContent" value="lien" class="textInput" onClick="this.select();" />
       <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
       <i id="viewUrl" class="fa fa-eye iconButtons"></i>
     </div>
 
-    <div id="browserOptions_Sms" class="browserOptions section">
-      <input type="text" id="smsTitle" value="Sms sans titre" class="textInput fileTitle" />
-      <textarea name="smsContent" id="smsContent" class="smsContent" rows=5  maxlength=160></textarea>
-      <div id="charCount">160 Max</div>
+    <div id="smsOptions" class="browserOptions section">
+      <input type="text" id="smsTitle" value="sms sans titre" class="textInput fileTitle" />
+      <textarea name="smsContent" id="smsContent" class="textContent" rows=5  maxlength=160></textarea>
+      <div id="smsCount">160 Max</div>
       <div id="smsButtons">
         <i id="saveSms" class="fa fa-floppy-o iconButtons"></i>
         <i id="addDeeplink" class="fa fa-link iconButtons"></i>
       </div>
     </div>
 
+    <div id="textOptions" class="browserOptions section">
+      <input type="text" id="textTitle" value="texte sans titre" class="textInput fileTitle" />
+      <textarea name="textContent" id="textContent" class="textContent" rows=5  maxlength=160></textarea>
+      <div id="textCount">160 Max</div>
+      <div id="textButtons">
+        <i id="saveText" class="fa fa-floppy-o iconButtons"></i>
+      </div>
+    </div>
+
     <div id="livePad" class="browserOptions section">
-      <input type="text" id="padTitle" value="Pad sans titre" class="textInput fileTitle" />
+      <input type="text" id="padTitle" value="pad sans titre" class="textInput fileTitle" />
       <br>
       <textarea name="padContent" id="padContent" class="" rows=5></textarea>
       <i id="savePad" class="fa fa-floppy-o iconButtons"></i>

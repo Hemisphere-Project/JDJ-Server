@@ -66,6 +66,7 @@ $(function() {
       if (extension == "mp3"||extension == "aiff"||extension == "wav") { thisfile.category = "audio" ;}
       else if (extension == "mov"||extension == "mp4"||extension == "avi"||extension == "mpg") { thisfile.category = "video" ;}
       else if (extension == "sms") { thisfile.category = "sms" ;}
+      else if (extension == "txt") { thisfile.category = "text" ;}
       else if (extension == "url") { thisfile.category = "url" ;}
       else if (extension == "pad") { thisfile.category = "pad" ;}
       else if (extension == "phone") { thisfile.category = "phone" ;}
@@ -81,6 +82,7 @@ $(function() {
     if (this.category=="video"){ this.icon = $('<div>').addClass('icon fa fa-file-video-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="text"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="pad"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="phone"){ this.icon = $('<div>').addClass('icon fa fa-mobile').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
@@ -109,6 +111,7 @@ $(function() {
         stopAudio();
         stopVideo();
         if (thisfile.category == 'sms'){ getSmsContent(); }
+        if (thisfile.category == 'text'){ getTextContent(); }
         if (thisfile.category == 'url'){ getUrlContent(); }
         if (thisfile.category == 'pad'){ getPadContent(); }
       }
@@ -266,7 +269,11 @@ $(function() {
 
 
     if (categorySelected == "sms") {
-    $('#browserOptions_Sms').show();
+    $('#smsOptions').show();
+    }
+
+    if (categorySelected == "text") {
+    $('#textOptions').show();
     }
 
     if (categorySelected == 'audio'){
@@ -570,7 +577,7 @@ $(function() {
   function charCount(){
     var max = 160;
     var len = $('#smsContent').val().length;
-    $('#charCount').text(max-len +' left');
+    $('#smsCount').text(max-len +' left');
   }
 
   $("#addDeeplink").on('click',function(){
@@ -583,7 +590,6 @@ $(function() {
     charCount();
   });
 
-  // SAVE SMS
   $('#saveSms').on('click', function () {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
@@ -602,7 +608,7 @@ $(function() {
     }
     );
   });
-  //GET SMS
+
 
   function getSmsContent(){
     var fileO = browser.getActiveFile();
@@ -622,6 +628,60 @@ $(function() {
     .done(function(contents)
     {
       $("#smsContent").val(contents);
+    }
+    );
+  }
+
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                       TEXT
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+
+  $('#textContent').keyup(function () {
+    var max = 160;
+    var len = $('#textContent').val().length;
+    $('#textCount').text(max-len +' left');
+  });
+
+
+  $('#saveText').on('click', function () {
+    var textTitle = $("#textTitle").val();
+    var textContent = $("#textContent").val();
+    $.ajax({
+        url: "php/saveFile.php",
+        type: "POST",
+        data: {
+            contents: textContent,
+            filename: textTitle,
+            extension: 'txt'
+        }
+    })
+    .done(function(reponse)
+    {
+      getFiles();
+    }
+    );
+  });
+
+  function getTextContent(){
+    var fileO = browser.getActiveFile();
+    var filename = fileO.filename;
+    var shortname = fileO.filename.split('.')[0];
+    $("#textTitle").val(shortname);
+
+    $.ajax({
+        url: "php/loadFile.php",
+        dataType: "text",
+        type: "POST",
+        data: {
+            filename: filename,
+            type: 'text'
+        }
+    })
+    .done(function(contents)
+    {
+      $("#textContent").val(contents);
     }
     );
   }

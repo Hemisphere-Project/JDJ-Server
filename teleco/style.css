@@ -227,13 +227,13 @@
     outline: none;
     margin-bottom: 10px;
   }
-  .smsContent{
+  .textContent{
     width: 100%;
     box-sizing: border-box;
     resize: none;
     outline:1px none transparent;‡
   }
-  #charCount{
+  #smsCount, #textCount{
     float:right;
     margin-top: 8px;
     color: gray;
