@@ -221,26 +221,23 @@
   /*---------SMS WRITER---------
   ----------------------------*/
 
-  #smsTitle{
+  .fileTitle{
     width: 100%;
     box-sizing: border-box;
     outline: none;
+    margin-bottom: 10px;
   }
-
   .smsContent{
     width: 100%;
     box-sizing: border-box;
     resize: none;
-    outline:1px none transparent;
-    margin-top: 10px;
+    outline:1px none transparent;‡
   }
   #charCount{
     float:right;
     margin-top: 8px;
     color: gray;
     font-size: 12px;
-  }
-  #smsButtons{
   }
 
   .iconButtons{
@@ -265,29 +262,22 @@
   }
 
 
-  #textTitle{
-    width: 100%;
-    box-sizing: border-box;
-    outline: none;
-  }
-
-  .textContent{
+  #padContent{
     width: 100%;
     box-sizing: border-box;
     height: 200px;
     resize: none;
     outline:0px none transparent;
     border: 1px dotted black;
-    margin-top: 10px;
   }
 
-  #viewLiveText{
+  #viewPad{
     float:right;
   }
   /*---------URL SAVER---------
   ----------------------------*/
 
-  .urlTxt{
+  #urlContent{
     width: 100%;
     box-sizing: border-box;
     outline: none;

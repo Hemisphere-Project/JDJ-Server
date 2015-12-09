@@ -31,7 +31,8 @@
     <div id="video" class="selector">VIDEO</div>
     <div id="url" class="selector">URL</div>
     <div id="sms" class="selector">SMS</div>
-    <div id="text" class="selector">TEXTE</div>
+    <div id="text" class="selector">TEXT</div>
+    <div id="pad" class="selector">PAD</div>
     <div id="phone" class="selector">PHONE</div>
   </div>
 
@@ -65,14 +66,14 @@
     </div>
 
     <div id="urlOptions" class="browserOptions section">
-      <input type="text" id="urlTitle" value="titre" class="textInput urlTxt"/>
-      <input type="text" id="urlContent" value="lien" class="textInput urlTxt" onClick="this.select();" />
+      <input type="text" id="urlTitle" value="Url sans titre" class="textInput fileTitle"/>
+      <input type="text" id="urlContent" value="lien" class="textInput" onClick="this.select();" />
       <i id="saveUrl" class="fa fa-floppy-o iconButtons"></i>
       <i id="viewUrl" class="fa fa-eye iconButtons"></i>
     </div>
 
     <div id="browserOptions_Sms" class="browserOptions section">
-      <input type="text" id="smsTitle" value="Sms sans titre" class="textInput" />
+      <input type="text" id="smsTitle" value="Sms sans titre" class="textInput fileTitle" />
       <textarea name="smsContent" id="smsContent" class="smsContent" rows=5  maxlength=160></textarea>
       <div id="charCount">160 Max</div>
       <div id="smsButtons">
@@ -81,13 +82,12 @@
       </div>
     </div>
 
-    <div id="liveText" class="browserOptions section">
-      <input type="text" id="textTitle" value="texte sans titre" class="textInput" />
+    <div id="livePad" class="browserOptions section">
+      <input type="text" id="padTitle" value="Pad sans titre" class="textInput fileTitle" />
       <br>
-      <textarea name="textContent" id="textContent" class="textContent" rows=5></textarea>
-
-        <i id="saveText" class="fa fa-floppy-o iconButtons"></i>
-        <i id="viewLiveText" class="fa fa-keyboard-o iconButtons"></i>
+      <textarea name="padContent" id="padContent" class="" rows=5></textarea>
+      <i id="savePad" class="fa fa-floppy-o iconButtons"></i>
+      <i id="viewPad" class="fa fa-keyboard-o iconButtons"></i>
 
     </div>
 
@@ -100,7 +100,7 @@
 
   <div id="colonne3">
     <div id="who" class="section">
-      WHO<br><br>
+      <!-- WHO<br> -->
       <input type="radio" name="group" class="radio" value="all" checked="checked"/>
       <span class="group fa fa-dot-circle-o"></span>  ALL <br>
       <input type="radio" name="group" class="radio" value="grp1"/>

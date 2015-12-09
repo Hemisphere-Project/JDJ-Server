@@ -65,9 +65,9 @@ $(function() {
       var extension = thisfile.filename.split('.')[1];
       if (extension == "mp3"||extension == "aiff"||extension == "wav") { thisfile.category = "audio" ;}
       else if (extension == "mov"||extension == "mp4"||extension == "avi"||extension == "mpg") { thisfile.category = "video" ;}
-      else if (extension == "txt") { thisfile.category = "sms" ;}
+      else if (extension == "sms") { thisfile.category = "sms" ;}
       else if (extension == "url") { thisfile.category = "url" ;}
-      else if (extension == "live") { thisfile.category = "text" ;}
+      else if (extension == "pad") { thisfile.category = "pad" ;}
       else if (extension == "phone") { thisfile.category = "phone" ;}
       else { thisfile.category = "unknown" ; }
     }
@@ -79,9 +79,9 @@ $(function() {
     //icon
     if (this.category=="audio"){ this.icon = $('<div>').addClass('icon fa fa-file-audio-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="video"){ this.icon = $('<div>').addClass('icon fa fa-file-video-o').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="text"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="pad"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="phone"){ this.icon = $('<div>').addClass('icon fa fa-mobile').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
     //filename
@@ -110,7 +110,7 @@ $(function() {
         stopVideo();
         if (thisfile.category == 'sms'){ getSmsContent(); }
         if (thisfile.category == 'url'){ getUrlContent(); }
-        if (thisfile.category == 'text'){ getTextContent(); }
+        if (thisfile.category == 'pad'){ getPadContent(); }
       }
       noSelection = false;
       if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
@@ -283,8 +283,8 @@ $(function() {
       $('#urlOptions').show();
     }
 
-    if (categorySelected == 'text'){
-      $('#liveText').show();
+    if (categorySelected == 'pad'){
+      $('#livePad').show();
       $('#playtime,#playdelay').hide();
     }
     else{
@@ -593,7 +593,7 @@ $(function() {
         data: {
             contents: smsContent,
             filename: smsTitle,
-            extension: 'txt'
+            extension: 'sms'
         }
     })
     .done(function(reponse)
@@ -628,20 +628,20 @@ $(function() {
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
-  //                       TEXTE
+  //                    LIVE PAD
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
 
-  $('#saveText').on('click', function () {
-    var textTitle = $("#textTitle").val();
-    var textContent = $("#textContent").val();
+  $('#savePad').on('click', function () {
+    var padTitle = $("#padTitle").val();
+    var padContent = $("#padContent").val();
     $.ajax({
         url: "php/saveFile.php",
         type: "POST",
         data: {
-            contents: textContent,
-            filename: textTitle,
-            extension: 'live'
+            contents: padContent,
+            filename: padTitle,
+            extension: 'pad'
         }
     })
     .done(function(reponse)
@@ -651,11 +651,11 @@ $(function() {
     );
   });
 
-  function getTextContent(){
+  function getPadContent(){
     var fileO = browser.getActiveFile();
     var filename = fileO.filename;
     var shortname = fileO.filename.split('.')[0];
-    $("#textTitle").val(shortname);
+    $("#padTitle").val(shortname);
 
     $.ajax({
         url: "php/loadFile.php",
@@ -668,14 +668,14 @@ $(function() {
     })
     .done(function(contents)
     {
-      $("#textContent").val(contents);
+      $("#padContent").val(contents);
     }
     );
   }
 
 
-  $("#viewLiveText").on('click',function(){
-    var url = 'http://'+document.location.hostname+'/livetext/writer.html';
+  $("#viewPad").on('click',function(){
+    var url = 'http://'+document.location.hostname+'/livepad/writer.html';
     window.open(url);
   });
 
