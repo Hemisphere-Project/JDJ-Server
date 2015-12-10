@@ -117,8 +117,8 @@ $(function() {
         if (thisfile.category == 'pad'){ getPadContent(); }
       }
       noSelection = false;
+      if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
       categorySelected = thisfile.category;
-      // if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
 
       // $('#sendFile').show();
     });
