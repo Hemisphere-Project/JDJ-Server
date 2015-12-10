@@ -117,8 +117,9 @@ $(function() {
         if (thisfile.category == 'pad'){ getPadContent(); }
       }
       noSelection = false;
-      if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
       categorySelected = thisfile.category;
+      // if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
+
       // $('#sendFile').show();
     });
 
@@ -214,7 +215,8 @@ $(function() {
   ///////////////////////////////////////////////////////
 
   browser = new browser();
-  var allFilenames = ["son1.mp3", "son2.mp3", "video1.mov", "Video2.mov", "url1", "sms1.txt" ];
+  getFiles();
+  // var allFilenames = ["son1.mp3", "son2.mp3", "video1.mov", "Video2.mov", "url1", "sms1.txt" ];
   var allPhoneFunctions = ['light.phone', 'blink.phone', 'vibre.phone'];
 
   function getFiles(){
@@ -244,7 +246,7 @@ $(function() {
       browser.unselectAllFiles();
     });
   }
-  getFiles();
+
 
   $('.browserOptions').hide();
   $('#browserUploader').show();
