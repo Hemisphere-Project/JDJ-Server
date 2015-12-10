@@ -790,6 +790,7 @@ $(function() {
       timePlay.setMinutes($('#min').val());
       timePlay.setSeconds($('#sec').val());
       var delay = timePlay.getTime() - timeNow.getTime();
+      if (delay<0){ delay = delay + 86400000; } // 24h
       time = Math.round(delay/1000);
     }
 
