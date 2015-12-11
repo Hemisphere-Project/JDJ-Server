@@ -108,5 +108,15 @@ $(function() {
     force: true
   }
   userPool.addUser(user2);
+    userPool.addUser(user2);
+      userPool.addUser(user2);
+        userPool.addUser(user2);
+          userPool.addUser(user2);
+            userPool.addUser(user2);
+              userPool.addUser(user2);
+                userPool.addUser(user2);
+                  userPool.addUser(user2);
+                    userPool.addUser(user2);
+                      userPool.addUser(user2);
 
 });
