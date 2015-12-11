@@ -5,6 +5,8 @@ $(function() {
   FastClick.attach(document.body);
 
   var dates=["19/36/1897","20/46/1897","49/36/1897","19/36/4397","43/85/1897","74/56/1783","94/94/1873","73/43/5432","94/43/6374","11/11/1111"];
+
+  $("#dateviewer").append(('<option value="all">all</option>'));
   $.each(dates,function(index,date){
     $("#dateviewer").append(('<option value="'+date+'">'+date+'</option>'));
   });
@@ -16,10 +18,12 @@ $(function() {
 
   function sortUsers(dateSelect){
     $.each(allUsers,function(index,user){
-      console.log(user.date);
       if (user.date != dateSelect){ user.userDiv.hide(); }
       else { user.userDiv.show(); }
-    })
+
+      if (dateSelect=='all') { user.userDiv.show(); }
+    });
+
   }
 
 
