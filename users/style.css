@@ -64,7 +64,7 @@ body
 }
 .user{
   width:100%;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .user_field{
   /*margin-right: -4px;*/
@@ -95,8 +95,13 @@ body
   width:10%;
 }
 .col_force{
-  width:10%;
+  width:7%;
 }
+.col_save{
+  width:10%;
+  font-size:14pt;
+}
+
 
 
 
@@ -111,10 +116,12 @@ body
 .active{
   color: #00AA44;
 }
+.fa-floppy-o:active{
+  color: blue;
+}
 .dropdown{
   font-family: "Lato";
   font-size:10pt;
-
   background: url(css/image/arrow.png) no-repeat right #FFFFFF;
   border: none;
   border: 1px solid lightgrey;
@@ -132,7 +139,7 @@ body
     padding-right: .5em;
   }
   .small{
-    width:80%;
+    width:90%;
     height: 20px;
   }
 

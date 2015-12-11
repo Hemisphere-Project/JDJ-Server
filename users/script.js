@@ -67,7 +67,9 @@ $(function() {
     this.forceDiv = $('<div>').addClass('user_field col_force').appendTo(this.userDiv);
     this.forcebox = $('<input>').attr({type: 'checkbox', id: this.id+'_force'}).appendTo(this.forceDiv);
     this.forcebox.after($("<label>").attr("for", this.forcebox.attr("id")) );
-
+    // saveText
+    this.saveDiv = $('<div>').addClass('user_field col_save').appendTo(this.userDiv);
+    this.saveButton = $('<i>').addClass('fa fa-floppy-o').appendTo(this.saveDiv);
 
 
     // ACTU VISUS
@@ -108,15 +110,5 @@ $(function() {
     force: true
   }
   userPool.addUser(user2);
-    userPool.addUser(user2);
-      userPool.addUser(user2);
-        userPool.addUser(user2);
-          userPool.addUser(user2);
-            userPool.addUser(user2);
-              userPool.addUser(user2);
-                userPool.addUser(user2);
-                  userPool.addUser(user2);
-                    userPool.addUser(user2);
-                      userPool.addUser(user2);
 
 });
