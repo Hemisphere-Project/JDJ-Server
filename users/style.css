@@ -52,7 +52,10 @@ body
   display:inline-block;
   padding-left: 5px;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .header.col_section{
   letter-spacing: 5px;
@@ -71,7 +74,10 @@ body
   display: inline-block;
   padding-left: 5px;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .col_actif{
   width:5%;

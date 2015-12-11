@@ -10,8 +10,17 @@ $(function() {
   });
 
   $('#dateviewer').change(function(){
-    // $("#dateviewer").html($('#datepicker option:selected').val());
+    var dateselected = $('#dateviewer option:selected').val();
+    sortUsers(dateselected);
   });
+
+  function sortUsers(dateSelect){
+    $.each(allUsers,function(index,user){
+      console.log(user.date);
+      if (user.date != dateSelect){ user.userDiv.hide(); }
+      else { user.userDiv.show(); }
+    })
+  }
 
 
   allUsers = new Array();
@@ -90,7 +99,7 @@ $(function() {
   //Fake_DB
   var user1={
     active: true,
-    id: 'szekiurh',
+    id: 'dédé_du_69',
     number: '0673645293',
     date: '11/11/1111',
     os: 'ios',
@@ -100,8 +109,8 @@ $(function() {
   }
   userPool.addUser(user1);
   var user2={
-    active: true,
-    id: '3434343',
+    active: false,
+    id: 'croco',
     number: '0653674843',
     date: '43/85/1897',
     os: 'android',
@@ -110,5 +119,16 @@ $(function() {
     force: true
   }
   userPool.addUser(user2);
+  var user3={
+    active: true,
+    id: 'aziz',
+    number: '0635426354',
+    date: '49/36/1897',
+    os: 'android',
+    group: 'group2',
+    section: {A:true,B:true,C:false},
+    force: false
+  }
+  userPool.addUser(user3);
 
 });
