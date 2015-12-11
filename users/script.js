@@ -4,6 +4,7 @@ $(function() {
 
   FastClick.attach(document.body);
 
+
   var dates=["19/36/1897","20/46/1897","49/36/1897","19/36/4397","43/85/1897","74/56/1783","94/94/1873","73/43/5432","94/43/6374","11/11/1111"];
 
   $("#dateviewer").append(('<option value="all">all</option>'));
@@ -20,10 +21,8 @@ $(function() {
     $.each(allUsers,function(index,user){
       if (user.date != dateSelect){ user.userDiv.hide(); }
       else { user.userDiv.show(); }
-
       if (dateSelect=='all') { user.userDiv.show(); }
     });
-
   }
 
 
@@ -31,6 +30,7 @@ $(function() {
   userPool = new user_pool();
 
   function user_pool(){
+
     this.addUser = function(userarray){
         allUsers.push(new user(userarray));
     }
@@ -85,7 +85,7 @@ $(function() {
     this.saveButton = $('<i>').addClass('fa fa-floppy-o').appendTo(this.saveDiv);
 
 
-    // ACTU VISUS
+    // INIT VISUS
     if (this.active == true){this.activeView.removeClass('inactive').addClass('active'); }
     this.idView.html(this.id);
     this.numberView.html(this.number);
@@ -96,7 +96,37 @@ $(function() {
     this.sectionB.prop( "checked", this.section['B'] );
     this.sectionC.prop( "checked", this.section['C'] );
     this.forcebox.prop( "checked", this.force);
+
+    // INTERACT VISUS
+    this.datepicker.change(function(){
+      thisuser.date = $(this).find('option:selected').val();
+    });
+    this.sectionA.change(function(){
+      thisuser.section['A'] = $(this).prop('checked');
+    });
+    this.sectionB.change(function(){
+      thisuser.section['B'] = $(this).prop('checked');
+    });
+    this.sectionC.change(function(){
+      thisuser.section['C'] = $(this).prop('checked');
+    });
+    this.forcebox.change(function(){
+      thisuser.force = $(this).prop('checked');
+    });
+
+
+    // SAVE
+    this.saveButton.on('click',function(){
+      // SEND OBJECT
+      console.log('saving '+thisuser.id);
+    });
+
+
+
   }
+
+
+
 
 
 
@@ -134,5 +164,21 @@ $(function() {
     force: false
   }
   userPool.addUser(user3);
+  var user4={
+    active: true,
+    id: 'skee',
+    number: '0763547351',
+    date: '74/56/1783',
+    os: 'ios',
+    group: 'group1',
+    section: {A:true,B:true,C:true},
+    force: true
+  }
+  userPool.addUser(user4);
+
+
+
+
+
 
 });
