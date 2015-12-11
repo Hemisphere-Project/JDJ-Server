@@ -54,6 +54,9 @@ body
   box-sizing: border-box;
   overflow-x: hidden;
 }
+.header.col_section{
+  letter-spacing: 5px;
+}
 #users{
   width:101%;
   height:90vh;
@@ -69,6 +72,7 @@ body
   padding-left: 5px;
   box-sizing: border-box;
   overflow-x: hidden;
+  /*border: 1px solid lightgrey;*/
 }
 .col_actif{
   width:5%;
@@ -77,7 +81,7 @@ body
   width:15%;
 }
 .col_os{
-  width:15%;
+  width:10%;
 }
 .col_num{
   width:15%;
@@ -96,15 +100,23 @@ body
 }
 
 
+
+
+/*------------------UI-------------------*/
+.fa-circle{
+  font-size: 14pt;
+}
+.inactive{
+  color: #DDDDDD;
+}
+.active{
+  color: #00AA44;
+}
 .dropdown{
   font-family: "Lato";
   font-size:10pt;
-  width:90%;
-  height: 30px;
-  margin-bottom: 10px;
+
   background: url(css/image/arrow.png) no-repeat right #FFFFFF;
-  padding-left: 4px;
-  padding-right: .5em;
   border: none;
   border: 1px solid lightgrey;
   border-radius: 0px;
@@ -113,3 +125,28 @@ body
   .dropdown:focus{
     outline: none;
   }
+  .big{
+    width:90%;
+    height: 30px;
+    margin-bottom: 10px;
+    padding-left: 4px;
+    padding-right: .5em;
+  }
+  .small{
+    width:80%;
+    height: 20px;
+  }
+
+  input[type=checkbox] { display:none; }
+  input[type=checkbox] + label:before {
+    font-family: FontAwesome;
+    font-weight: lighter;
+    font-size: 14pt;
+    letter-spacing: 5px;
+    color: #606060;
+  }
+  .col_section input[type=checkbox] + label:before {content: "\f10c"; }
+  .col_section input[type=checkbox]:checked + label:before { content: "\f192"; }
+
+  .col_force input[type=checkbox] + label:before {content: "\f204"; }
+  .col_force input[type=checkbox]:checked + label:before { content: "\f205"; }
