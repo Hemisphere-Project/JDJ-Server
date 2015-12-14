@@ -56,12 +56,14 @@ $(function() {
   });
 
   socket.on('fulltext', function (data) {
+    console.log('fulltext '+data);
     text = data;
     buildText();
     initApp = true;
   });
 
   socket.on('progress', function (data) {
+    console.log('progress '+data);
     progressServer = data;
     actuVisu();
 
