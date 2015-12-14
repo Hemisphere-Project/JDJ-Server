@@ -24,8 +24,8 @@ $(function() {
         $(charDiv).removeClass('untyped').addClass('typed');
       }
       console.log($(charDiv).html());
-    if (charDiv.text() == '['){console.log('start fake');}
-    if (charDiv.text() == ']'){console.log('end fake');}
+    if ($(charDiv).html() == '['){console.log('start fake');}
+    if ($(charDiv).html() == ']'){console.log('end fake');}
     });
     autoscrolldown();
   }
