@@ -14,6 +14,7 @@ $(function() {
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
     });
+    var cursor = $('<div>').addClass('cursor').html('|').appendTo($("#visuText"));
   }
 
 
@@ -23,9 +24,8 @@ $(function() {
       if (key < progressServer){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
-      console.log($(charDiv).html());
-    if ($(charDiv).html() == '['){console.log('start fake');}
-    if ($(charDiv).html() == ']'){console.log('end fake');}
+    if ($(charDiv).html() == '['){$(charDiv).removeClass('typed').addClass('untyped');}
+    if ($(charDiv).html() == ']'){$(charDiv).removeClass('typed').addClass('untyped');}
     });
     autoscrolldown();
   }
@@ -40,6 +40,10 @@ $(function() {
       // $('body').scrollTop(document.body.scrollHeight);
       visuHeight = newvisuHeight;
     }
+  }
+
+  function blink(){
+
   }
 
 
