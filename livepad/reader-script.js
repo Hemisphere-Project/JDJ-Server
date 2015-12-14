@@ -23,9 +23,9 @@ $(function() {
       if (key < progressServer){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
-      // console.log(charDiv);
-    if (charDiv.html() == '['){console.log('start fake');}
-    if (charDiv.html() == ']'){console.log('end fake');}
+      console.log(charDiv.text());
+    if (charDiv.text() == '['){console.log('start fake');}
+    if (charDiv.text() == ']'){console.log('end fake');}
     });
     autoscrolldown();
   }
