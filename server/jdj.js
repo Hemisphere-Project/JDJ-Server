@@ -37,11 +37,11 @@ var databasename = "database.db";
 var DATABASE = new Sqlite3.Database(databasename);
 DATABASE.serialize(function() {
   if(!Fs.existsSync(databasename)) {
-    db.run("CREATE TABLE Dates ( \
+    DATABASE.run("CREATE TABLE Dates ( \
                                       dateid INTEGER PRIMARY KEY, \
                                       date TEXT, \
                                       )");
-    db.run("CREATE TABLE Users ( \
+    DATABASE.run("CREATE TABLE Users ( \
                                       userid INTEGER PRIMARY KEY, \
                                       phone TEXT, \
                                       ostype TEXT, \
