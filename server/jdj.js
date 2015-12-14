@@ -30,6 +30,33 @@ var Apps = require('./server-apps');
 var Pad = require('./server-pad');
 var Sms = require('./server-sms');
 var Fs = require('fs');
+var Sqlite3 = require("sqlite3").verbose();
+
+// DATABASE
+var databasename = "database.db";
+var DATABASE = new Sqlite3.Database(databasename);
+DATABASE.serialize(function() {
+  if(!Fs.existsSync(databasename)) {
+    db.run("CREATE TABLE Dates ( \
+                                      dateid INTEGER PRIMARY KEY, \
+                                      date TEXT, \
+                                      )");
+    db.run("CREATE TABLE Users ( \
+                                      userid INTEGER PRIMARY KEY, \
+                                      phone TEXT, \
+                                      ostype TEXT, \
+                                      dateid INTEGER, \
+                                      group INTEGER, \
+                                      optionA INTEGER, \
+                                      optionB INTEGER, \
+                                      optionC INTEGER \
+                                      enable INTEGER, \
+                                      lastcon INTEGER, \
+                                      FOREIGN KEY(dateid) REFERENCES Dates(dateid) \
+                                      )");
+  }
+
+});
 
 // MAIN SERVER
 var SERVER = new Engine.MainServer();
@@ -40,7 +67,7 @@ var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 // PUBLISHER
 var PUBLISHER = new Apps.Publisher(PORT_PUB, SERVER);
 
-// LIVE PAD
+// APPS WS
 var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION, NEXTSHOW);
 
 // TIME SERVER

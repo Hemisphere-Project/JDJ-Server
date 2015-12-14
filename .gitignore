@@ -11,6 +11,9 @@ files/
 *.mov
 *.url
 
+# DATABASE
+*.db
+
 # NODE
 node_modules/
 
