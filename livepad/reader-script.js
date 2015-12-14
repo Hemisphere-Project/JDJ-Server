@@ -23,8 +23,9 @@ $(function() {
       if (key < progressServer){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
-    if (charDiv == '['){console.log('start fake');}
-    if (charDiv == ']'){console.log('end fake');}
+      // console.log(charDiv);
+    if (charDiv.html() == '['){console.log('start fake');}
+    if (charDiv.html() == ']'){console.log('end fake');}
     });
     autoscrolldown();
   }
