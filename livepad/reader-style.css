@@ -24,3 +24,7 @@
     .typed{
       color: black;
     }
+
+    .cursor{
+      display: inline;
+    }
