@@ -14,7 +14,7 @@ $(function() {
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
     });
-    var cursor = $('<div>').addClass('cursor').html('|').appendTo($("#visuText"));
+    var cursor = $('<div>').addClass('cursor').html(' |').appendTo($("#visuText"));
   }
 
 
