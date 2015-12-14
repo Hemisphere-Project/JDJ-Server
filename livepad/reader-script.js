@@ -4,7 +4,7 @@ $(function() {
 
   var text='waiting for text from server';
   var progressServer = 0;
-
+  var falseText = false;
 
   buildText();
 
@@ -13,9 +13,25 @@ $(function() {
     var textArray = text.split('');
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
+
+      if ($(charDiv).html() == '['){
+        $(charDiv).addClass('falseStart');
+        falseText = true;
+      }
+      if ($(charDiv).html() == ']'){
+        $(charDiv).addClass('falseEnd');
+        falseText = false;
+      }
+      if (falseText == true){
+        $(charDiv).addClass('falseText');
+      }
+
     });
-    var cursor = $('<div>').addClass('cursor').html(' |').appendTo($("#visuText"));
+
+    var cursor = $('<div>').addClass('cursor').html('').appendTo($("#visuText"));
+
   }
+
 
 
   function actuVisu(){
@@ -24,11 +40,33 @@ $(function() {
       if (key < progressServer){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
-    if ($(charDiv).html() == '['){$(charDiv).removeClass('typed').addClass('untyped');}
-    if ($(charDiv).html() == ']'){$(charDiv).removeClass('typed').addClass('untyped');}
     });
+    getLastChar();
     autoscrolldown();
   }
+
+  function getLastChar(){
+    var length = $('.typed').length;
+    $('.typed').each(function(key, charDiv){
+      if ( (key==(length-1) )&&($(charDiv).html()==']') ){
+        console.log('START DELETE');
+        deleteFalseText();
+      }
+    });
+  }
+  function deleteFalseText(){
+    var textToDelete = new Array();
+    $($(".falseText.typed").get().reverse()).each(function(index,div) {
+     console.log($(div).html());
+    //  $(div).addClass('falseText_DELETED');
+     textToDelete.push(div);
+   });
+
+   $.each(textToDelete, function(index,div){
+     setTimeout(function(){ $(div).addClass('falseText_DELETED'); }, index*200);
+   });
+  }
+
 
   var visuHeight;
 
@@ -43,9 +81,9 @@ $(function() {
   }
 
   function blink(){
-
+    $('.cursor').fadeOut(100).delay( 700 ).fadeIn(100);
   }
-
+  setInterval(blink, 1500 );
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
