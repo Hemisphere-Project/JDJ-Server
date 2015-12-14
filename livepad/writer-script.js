@@ -2,7 +2,7 @@
 $(function() {
 
 
-  var text='temp text ceci est un texte essai';
+  var text='waiting for text from server';
   var progressLocal = 0;
   var progressServer = 0;
   var typingtimer;
