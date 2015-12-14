@@ -10,7 +10,7 @@ var PUB_DELAY = 1998;
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
 var MEDIAURL = BASEURL+'files/';
-var PADREADER = 'livepad/reader.html';
+var PADREADER = 'livetext/reader.html';
 
 /*
 VERSIONING
@@ -125,7 +125,7 @@ SERVER.onConsume = function(task) {
     }
 
     // PAD: handle .live
-    else if (task.category == 'text')
+    else if (task.category == 'pad')
     {
       // read file
       var pad_content;
