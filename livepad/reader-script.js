@@ -23,7 +23,7 @@ $(function() {
       if (key < progressServer){
         $(charDiv).removeClass('untyped').addClass('typed');
       }
-      console.log(charDiv.text());
+      console.log($(charDiv).html());
     if (charDiv.text() == '['){console.log('start fake');}
     if (charDiv.text() == ']'){console.log('end fake');}
     });
