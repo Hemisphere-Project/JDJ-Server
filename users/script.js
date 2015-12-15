@@ -206,8 +206,7 @@ $(function() {
         force: thisuser.force
       };
       socket.emit('editeduser', editedUser);
-      //WAIT FOR SERVER RESPONSE TO CHANGE BUTTON COLOR !
-      thisuser.saveButton.removeClass("userModified");
+      
     });
 
 
@@ -292,6 +291,14 @@ $(function() {
     userPool.clearUsers();
     $.each(data.users,function(index,user){
       userPool.addUser(user);
+    });
+
+  });
+
+  socket.on('updateduser', function (userid) {
+
+    $.each(allUsers,function(index,user){
+      if (userid == user.id ){ user.saveButton.removeClass("userModified"); }
     });
 
   });
