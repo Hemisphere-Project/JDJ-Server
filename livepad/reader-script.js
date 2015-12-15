@@ -64,6 +64,7 @@ $(function() {
 
    $.each(textToDelete, function(index,div){
      setTimeout(function(){ $(div).addClass('falseText_DELETED'); }, index*200);
+     if (index == textToDelete.length-1){ console.log("end delete"); }
    });
   }
 
