@@ -4,7 +4,11 @@ $(function() {
 
   FastClick.attach(document.body);
 
-  ////////////////// DATES //////////////////////
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                     EVENTS
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
 
   allEvents = new Array();
@@ -77,7 +81,11 @@ $(function() {
 
 
 
-  ////////////////// USERS //////////////////////
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                     USERS
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
 
   allUsers = new Array();
@@ -95,8 +103,6 @@ $(function() {
     this.active = userarray.active;
     this.id = userarray.id;
     this.number = userarray.number;
-    // this.place = userarray.place;
-    // this.date = userarray.date;
     this.event = userarray.event;
     this.os = userarray.os;
     this.group = userarray.group;
@@ -159,18 +165,23 @@ $(function() {
       $.each(allEvents,function(index,event){
         if (thisuser.event.date == event.date){ thisuser.event.place = event.place; }
       });
+      thisuser.saveButton.addClass("userModified");
     });
     this.sectionA.change(function(){
       thisuser.section['A'] = $(this).prop('checked');
+      thisuser.saveButton.addClass("userModified");
     });
     this.sectionB.change(function(){
       thisuser.section['B'] = $(this).prop('checked');
+      thisuser.saveButton.addClass("userModified");
     });
     this.sectionC.change(function(){
       thisuser.section['C'] = $(this).prop('checked');
+      thisuser.saveButton.addClass("userModified");
     });
     this.forcebox.change(function(){
       thisuser.force = $(this).prop('checked');
+      thisuser.saveButton.addClass("userModified");
     });
 
 
@@ -178,6 +189,8 @@ $(function() {
     this.saveButton.on('click',function(){
       // SEND OBJECT
       console.log('saving '+thisuser.id);
+      //WAIT FOR SERVER RESPONSE TO CHANGE BUTTON COLOR !
+      thisuser.saveButton.removeClass("userModified");
     });
 
 
@@ -206,8 +219,6 @@ $(function() {
     id: 'croco',
     number: '0653674843',
     event: {place:'puno', date: '62/76/1563'},
-    // place: 'puno',
-    // date: '43/85/1897',
     os: 'android',
     group: 'group2',
     section: {A:false,B:true,C:false},
@@ -219,8 +230,6 @@ $(function() {
     id: 'aziz',
     number: '0635426354',
     event:{place:'buenos', date: '74/27/8273'},
-    // place: 'buenos',
-    // date: '49/36/1897',
     os: 'android',
     group: 'group2',
     section: {A:true,B:true,C:false},
@@ -232,8 +241,6 @@ $(function() {
     id: 'skee',
     number: '0763547351',
     event:{place:'buenos', date: '74/27/8273'},
-    // place: 'istanbul',
-    // date: '74/56/1783',
     os: 'ios',
     group: 'group1',
     section: {A:true,B:true,C:true},
@@ -241,6 +248,12 @@ $(function() {
   }
   userPool.addUser(user4);
 
+
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                     SOCKET
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
 
 

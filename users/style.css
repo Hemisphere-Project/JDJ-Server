@@ -174,9 +174,14 @@ body
 .active{
   color: #00AA44;
 }
-.fa-floppy-o:active{
-  color: blue;
+.fa-floppy-o{
   font-size: 15pt;
+}
+.fa-floppy-o:active{
+  font-size: 17pt;
+}
+.userModified{
+  color:#00AA44;
 }
 .dropdown{
   font-family: "Lato";
