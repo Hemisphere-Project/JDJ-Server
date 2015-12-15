@@ -96,7 +96,16 @@ $(function() {
     this.addUser = function(userarray){
         allUsers.push(new user(userarray));
     }
+
+    this.clearUsers = function(){
+      allUsers = [];
+      $("#users").empty();
+    }
   }
+
+  $('#debug').on('click',function(){
+    userPool.clearUsers();
+  });
 
   function user(userarray){
 
@@ -254,7 +263,34 @@ $(function() {
   //                     SOCKET
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
+  var IO_PORT = 8087;
+  url = 'http://'+document.location.hostname+':'+IO_PORT;
+  var socket = io(url);
 
+  socket.on('connect', function () {
+    console.log('Connected to Server: '+url);
+  });
+
+  socket.on('alldata', function (data) {
+
+    console.log(data.events);
+    allEvents = data.events;
+    buildEvents();
+
+    console.log(data.users);
+    userPool.clearUsers();
+    $.each(data.users,function(index,user){
+      userPool.addUser(user);
+    });
+
+  });
+
+  socket.on('progress', function (data) {
+    console.log('progress '+data);
+    progressServer = data;
+    actuVisu();
+
+  });
 
 
 
