@@ -23,19 +23,30 @@
     <div id="col1_header">
       SELECT
     </div>
-    <div id="dates">
+    <div id="dates" class='leftSection'>
       Date
       <select name="dateviewer" id="dateviewer" class="dropdown big"></select>
       <br><br>
-
       Delete
-      <i class="fa fa-minus-circle dateButton" id="deleteDate"></i>
+      <i class="fa fa-minus-circle leftButton" id="deleteDate"></i>
       <br><br>
-
       New<br>
-      <div class='dateSection'>
+      <div class='leftAdd'>
         <input type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
-        <i class="fa fa-plus-circle dateButton" id="addDate"></i>
+        <i class="fa fa-plus-circle leftButton" id="addDate"></i>
+      </div>
+    </div>
+    <div id="places" class='leftSection'>
+      Lieu
+      <select name="placeviewer" id="placeviewer" class="dropdown big"></select>
+      <br><br>
+      Delete
+      <i class="fa fa-minus-circle leftButton" id="deletePlace"></i>
+      <br><br>
+      New<br>
+      <div class='leftAdd'>
+        <input type="text" class="textInput" value="lieu" onClick="this.select();">
+        <i class="fa fa-plus-circle leftButton" id="addDate"></i>
       </div>
     </div>
   </div>
@@ -45,6 +56,7 @@
       <div class='header col_actif'> Actif </div>
       <div class='header col_name'> Identifiant </div>
       <div class='header col_num'> Numero </div>
+      <div class='header col_lieu'> Lieu </div>
       <div class='header col_date'> Date </div>
       <div class='header col_os'> OS </div>
       <div class='header col_group'> Group </div>

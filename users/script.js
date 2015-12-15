@@ -5,6 +5,8 @@ $(function() {
   FastClick.attach(document.body);
 
 
+  ////////////////// DATES //////////////////////
+
   var dates=["19/36/1897","20/46/1897","49/36/1897","19/36/4397","43/85/1897","74/56/1783","94/94/1873","73/43/5432","94/43/6374","11/11/1111"];
 
   $("#dateviewer").append(('<option value="all">all</option>'));
@@ -14,14 +16,37 @@ $(function() {
 
   $('#dateviewer').change(function(){
     var dateselected = $('#dateviewer option:selected').val();
-    sortUsers(dateselected);
+    sortUsersByDate(dateselected);
   });
 
-  function sortUsers(dateSelect){
+  function sortUsersByDate(dateSelect){
     $.each(allUsers,function(index,user){
       if (user.date != dateSelect){ user.userDiv.hide(); }
       else { user.userDiv.show(); }
       if (dateSelect=='all') { user.userDiv.show(); }
+    });
+  }
+
+  ////////////////// PLACES //////////////////////
+
+  var places = ["caracas", "buenos", "puno", "istanbul", "meyzieu", "copenhague", "bristol"];
+
+  $("#placeviewer").append(('<option value="all">all</option>'));
+  $.each(places,function(index,lieu){
+    $("#placeviewer").append(('<option value="'+lieu+'">'+lieu+'</option>'));
+  });
+
+  $('#placeviewer').change(function(){
+    var placeselected = $('#placeviewer option:selected').val();
+    sortUsersByPlace(placeselected);
+  });
+
+
+  function sortUsersByPlace(placeSelect){
+    $.each(allUsers,function(index,user){
+      if (user.place != placeSelect){ user.userDiv.hide(); }
+      else { user.userDiv.show(); }
+      if (placeSelect=='all') { user.userDiv.show(); }
     });
   }
 
@@ -41,6 +66,7 @@ $(function() {
     this.active = userarray.active;
     this.id = userarray.id;
     this.number = userarray.number;
+    this.place = userarray.place;
     this.date = userarray.date;
     this.os = userarray.os;
     this.group = userarray.group;
@@ -58,6 +84,12 @@ $(function() {
     this.idView = $('<div>').addClass('user_field col_name').appendTo(this.userDiv);
     // number
     this.numberView = $('<div>').addClass('user_field col_num').appendTo(this.userDiv);
+    // place
+    this.placeDiv = $('<div>').addClass('user_field col_lieu').appendTo(this.userDiv);
+    this.placepicker = $('<select>').addClass('dropdown small').appendTo(this.placeDiv);
+    $.each(places,function(index,lieu){
+      thisuser.placepicker.append(('<option value="'+lieu+'">'+lieu+'</option>'));
+    });
     // date
     this.dateDiv = $('<div>').addClass('user_field col_date').appendTo(this.userDiv);
     this.datepicker = $('<select>').addClass('dropdown small').appendTo(this.dateDiv);
@@ -89,6 +121,7 @@ $(function() {
     if (this.active == true){this.activeView.removeClass('inactive').addClass('active'); }
     this.idView.html(this.id);
     this.numberView.html(this.number);
+    this.placepicker.val(this.place);
     this.datepicker.val(this.date);
     this.osView.html(this.os);
     this.groupView.html(this.group);
@@ -98,6 +131,10 @@ $(function() {
     this.forcebox.prop( "checked", this.force);
 
     // INTERACT VISUS
+    this.placepicker.change(function(){
+      thisuser.place = $(this).find('option:selected').val();
+      console.log(thisuser.place);
+    });
     this.datepicker.change(function(){
       thisuser.date = $(this).find('option:selected').val();
     });
@@ -135,6 +172,7 @@ $(function() {
     active: true,
     id: 'dede_du_69',
     number: '0673645293',
+    place: 'caracas',
     date: '11/11/1111',
     os: 'ios',
     group: 'group1',
@@ -146,6 +184,7 @@ $(function() {
     active: false,
     id: 'croco',
     number: '0653674843',
+    place: 'puno',
     date: '43/85/1897',
     os: 'android',
     group: 'group2',
@@ -157,6 +196,7 @@ $(function() {
     active: true,
     id: 'aziz',
     number: '0635426354',
+    place: 'buenos',
     date: '49/36/1897',
     os: 'android',
     group: 'group2',
@@ -168,6 +208,7 @@ $(function() {
     active: true,
     id: 'skee',
     number: '0763547351',
+    place: 'istanbul',
     date: '74/56/1783',
     os: 'ios',
     group: 'group1',
