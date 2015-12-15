@@ -51,6 +51,7 @@ $(function() {
     allEvents.push(newevent);
     buildEvents();
     buildUserEvents();
+    socket.emit('newevent', newevent);
   });
 
   $("#deleteEvent").on('click',function(){
@@ -63,6 +64,7 @@ $(function() {
       allEvents.splice(indextoremove,1);
       buildEvents();
       buildUserEvents();
+      socket.emit('removedate', dateselected);
     }
   });
 
