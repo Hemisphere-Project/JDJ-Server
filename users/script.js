@@ -13,11 +13,11 @@ $(function() {
 
   allEvents = new Array();
 
-  var event1={ place:'caracas', date: '18/32/7623' }
+  var event1={ place:'caracas', date: '18/32/7623' };
   allEvents.push(event1);
-  var event2={ place:'puno', date: '62/76/1563' }
+  var event2={ place:'puno', date: '62/76/1563' };
   allEvents.push(event2);
-  var event3={ place:'buenos', date: '74/27/8273' }
+  var event3={ place:'buenos', date: '74/27/8273' };
   allEvents.push(event3);
 
 
@@ -195,6 +195,17 @@ $(function() {
     this.saveButton.on('click',function(){
       // SEND OBJECT
       console.log('saving '+thisuser.id);
+      var editedUser = {
+        active: thisuser.active,
+        id: thisuser.id,
+        number: thisuser.number,
+        event: thisuser.event,
+        os: thisuser.os,
+        group: thisuser.group,
+        section: thisuser.section,
+        force: thisuser.force
+      };
+      socket.emit('useredited', editedUser);
       //WAIT FOR SERVER RESPONSE TO CHANGE BUTTON COLOR !
       thisuser.saveButton.removeClass("userModified");
     });
