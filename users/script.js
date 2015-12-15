@@ -17,11 +17,14 @@ $(function() {
   allEvents.push(event3);
 
 
-  $("#eventviewer").append(('<option value="all">all</option>'));
-
-  $.each(allEvents,function(index,event){
-    $("#eventviewer").append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
-  });
+  buildEvents();
+  function buildEvents(){
+    $('#eventviewer').empty();
+    $("#eventviewer").append(('<option value="all">all</option>'));
+    $.each(allEvents,function(index,event){
+      $("#eventviewer").append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
+    });
+  }
 
   $('#eventviewer').change(function(){
     var dateselected = $('#eventviewer option:selected').val();
@@ -37,6 +40,39 @@ $(function() {
   }
 
 
+  $("#addEvent").on('click',function(){
+    var newdate = $('#addDate').val();
+    var newplace = $('#addPlace').val();
+    var newevent = { place: newplace, date: newdate };
+    allEvents.push(newevent);
+    buildEvents();
+    buildUserEvents();
+  });
+
+  $("#deleteEvent").on('click',function(){
+    var dateselected = $('#eventviewer option:selected').val();
+    if (dateselected != 'all'){
+      var indextoremove;
+      $.each(allEvents,function(index,event){
+        if (dateselected == event.date){ indextoremove = index; }
+      });
+      allEvents.splice(indextoremove,1);
+      buildEvents();
+      buildUserEvents();
+    }
+  });
+
+  function buildUserEvents(){
+    $.each(allUsers, function(index,user){
+      //REBUILD
+      user.eventpicker.empty();
+      $.each(allEvents,function(index,event){
+        user.eventpicker.append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
+      });
+      //RESELECT
+      user.eventpicker.val(user.event.date);
+    });
+  }
 
 
 
@@ -84,18 +120,6 @@ $(function() {
     $.each(allEvents,function(index,event){
       thisuser.eventpicker.append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
     });
-    // place
-    // this.placeDiv = $('<div>').addClass('user_field col_lieu').appendTo(this.userDiv);
-    // this.placepicker = $('<select>').addClass('dropdown small').appendTo(this.placeDiv);
-    // $.each(places,function(index,lieu){
-    //   thisuser.placepicker.append(('<option value="'+lieu+'">'+lieu+'</option>'));
-    // });
-    // date
-    // this.dateDiv = $('<div>').addClass('user_field col_date').appendTo(this.userDiv);
-    // this.datepicker = $('<select>').addClass('dropdown small').appendTo(this.dateDiv);
-    // $.each(dates,function(index,date){
-    //   thisuser.datepicker.append(('<option value="'+date+'">'+date+'</option>'));
-    // });
     // os
     this.osView = $('<div>').addClass('user_field col_os').appendTo(this.userDiv);
     // group
@@ -122,8 +146,6 @@ $(function() {
     this.idView.html(this.id);
     this.numberView.html(this.number);
     this.eventpicker.val(thisuser.event.date);
-    // this.placepicker.val(this.place);
-    // this.datepicker.val(this.date);
     this.osView.html(this.os);
     this.groupView.html(this.group);
     this.sectionA.prop( "checked", this.section['A'] );
@@ -137,15 +159,7 @@ $(function() {
       $.each(allEvents,function(index,event){
         if (thisuser.event.date == event.date){ thisuser.event.place = event.place; }
       });
-      console.log(thisuser.event);
     });
-    // this.placepicker.change(function(){
-    //   thisuser.place = $(this).find('option:selected').val();
-    //   console.log(thisuser.place);
-    // });
-    // this.datepicker.change(function(){
-    //   thisuser.date = $(this).find('option:selected').val();
-    // });
     this.sectionA.change(function(){
       thisuser.section['A'] = $(this).prop('checked');
     });
