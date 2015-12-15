@@ -103,9 +103,6 @@ $(function() {
     }
   }
 
-  $('#debug').on('click',function(){
-    userPool.clearUsers();
-  });
 
   function user(userarray){
 
@@ -214,7 +211,7 @@ $(function() {
   //Fake_DB
   var user1={
     active: true,
-    id: 'dede_du_69',
+    id: 'alphatesteur',
     number: '0673645293',
     event: {place: 'caracas',date:'18/32/7623'},
     os: 'ios',
@@ -225,7 +222,7 @@ $(function() {
   userPool.addUser(user1);
   var user2={
     active: false,
-    id: 'croco',
+    id: 'betatesteur',
     number: '0653674843',
     event: {place:'puno', date: '62/76/1563'},
     os: 'android',
@@ -236,7 +233,7 @@ $(function() {
   userPool.addUser(user2);
   var user3={
     active: true,
-    id: 'aziz',
+    id: 'gammatesteur',
     number: '0635426354',
     event:{place:'buenos', date: '74/27/8273'},
     os: 'android',
@@ -247,7 +244,7 @@ $(function() {
   userPool.addUser(user3);
   var user4={
     active: true,
-    id: 'skee',
+    id: 'omegatesteur',
     number: '0763547351',
     event:{place:'buenos', date: '74/27/8273'},
     os: 'ios',
@@ -258,6 +255,9 @@ $(function() {
   userPool.addUser(user4);
 
 
+
+  $('#debug').on('click',function(){
+  });
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   //                     SOCKET
@@ -285,12 +285,7 @@ $(function() {
 
   });
 
-  socket.on('progress', function (data) {
-    console.log('progress '+data);
-    progressServer = data;
-    actuVisu();
 
-  });
 
 
 
