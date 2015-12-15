@@ -47,11 +47,13 @@ $(function() {
   $("#addEvent").on('click',function(){
     var newdate = $('#addDate').val();
     var newplace = $('#addPlace').val();
-    var newevent = { place: newplace, date: newdate };
-    allEvents.push(newevent);
-    buildEvents();
-    buildUserEvents();
-    socket.emit('newevent', newevent);
+    if ((newplace!='lieu')&&(newdate!='jj/mm/aaaa')){
+      var newevent = { place: newplace, date: newdate };
+      allEvents.push(newevent);
+      buildEvents();
+      buildUserEvents();
+      socket.emit('newevent', newevent);
+    }
   });
 
   $("#deleteEvent").on('click',function(){
