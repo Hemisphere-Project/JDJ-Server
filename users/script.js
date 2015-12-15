@@ -206,7 +206,7 @@ $(function() {
         force: thisuser.force
       };
       socket.emit('editeduser', editedUser);
-      
+
     });
 
 
@@ -296,9 +296,8 @@ $(function() {
   });
 
   socket.on('updateduser', function (userid) {
-
     $.each(allUsers,function(index,user){
-      if (userid == user.id ){ user.saveButton.removeClass("userModified"); }
+      if (userid == user.id ){ console.log('updated user '+ user.id); user.saveButton.removeClass("userModified"); }
     });
 
   });
