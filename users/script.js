@@ -205,7 +205,7 @@ $(function() {
         section: thisuser.section,
         force: thisuser.force
       };
-      socket.emit('useredited', editedUser);
+      socket.emit('editeduser', editedUser);
       //WAIT FOR SERVER RESPONSE TO CHANGE BUTTON COLOR !
       thisuser.saveButton.removeClass("userModified");
     });
