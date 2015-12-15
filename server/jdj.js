@@ -1,5 +1,6 @@
 
 // CONFIG
+var PORT_WS_USERS = 8087;
 var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
 var PORT_WS_CLIENT = 8090;
@@ -26,49 +27,29 @@ var MEDIAPATH = BASEPATH+'../files/';
 // LIBS
 var Engine = require('./server-engine');
 var Remote = require('./server-remote');
+var Users = require('./server-users');
 var Apps = require('./server-apps');
 var Pad = require('./server-pad');
 var Sms = require('./server-sms');
 var Fs = require('fs');
-var Sqlite3 = require("sqlite3").verbose();
 
-// DATABASE
-var databasename = "database.db";
-var DATABASE = new Sqlite3.Database(databasename);
-DATABASE.serialize(function() {
-  if(!Fs.existsSync(databasename)) {
-    DATABASE.run("CREATE TABLE Dates ( \
-                                      dateid INTEGER PRIMARY KEY, \
-                                      date TEXT, \
-                                      )");
-    DATABASE.run("CREATE TABLE Users ( \
-                                      userid INTEGER PRIMARY KEY, \
-                                      phone TEXT, \
-                                      ostype TEXT, \
-                                      dateid INTEGER, \
-                                      group INTEGER, \
-                                      optionA INTEGER, \
-                                      optionB INTEGER, \
-                                      optionC INTEGER \
-                                      enable INTEGER, \
-                                      lastcon INTEGER, \
-                                      FOREIGN KEY(dateid) REFERENCES Dates(dateid) \
-                                      )");
-  }
 
-});
 
 // MAIN SERVER
 var SERVER = new Engine.MainServer();
 
-// CONTROLLER
+// CONTROLLERS
 var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
+
+// USERS / SHOW MANAGEMENT
+var SHOWBASE = new Users.Showbase(BASEPATH+'db/show.db');
+var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, SHOWBASE);
 
 // PUBLISHER
 var PUBLISHER = new Apps.Publisher(PORT_PUB, SERVER);
 
 // APPS WS
-var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION, NEXTSHOW);
+var INFOCLIENT = new Apps.Info(PORT_WS_CLIENT, SERVER, PUBLISHER, VERSION, SHOWBASE);
 
 // TIME SERVER
 var TIMESERVER = new Apps.TimeServer(PORT_TIME);
@@ -175,4 +156,11 @@ SERVER.onConsume = function(task) {
 
 
 //var ip = require( 'os' ).networkInterfaces( ).eth0[0].address;
-console.log("Server Ready - REMOTE: "+PORT_WS_TELECO+" - PAD: "+PORT_WS_PAD+" - PUB: "+PORT_PUB+" - TIME: "+PORT_TIME);
+console.log("\n");
+console.log("Users/Shows Manager: "+PORT_WS_USERS);
+console.log("Remote Control: "+PORT_WS_TELECO);
+console.log("Livepad: "+PORT_WS_PAD);
+console.log("Client Com: "+PORT_WS_CLIENT);
+console.log("App Publisher: "+PORT_PUB);
+console.log("Time Sync: "+PORT_TIME);
+console.log("\nServer READY!\n");

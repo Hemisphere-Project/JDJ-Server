@@ -12,8 +12,6 @@ module.exports = {
     // Bind to server events
     this.server.sendTask = function(task) {
       that.send(JSON.stringify(task), task.cache);
-      //console.log('task sent to APPS');
-      //console.log(task);
     };
 
     // Last Value Cache
@@ -29,23 +27,6 @@ module.exports = {
       if (cache) this.lvc = msg;
     }
 
-    // Monitor events
-    /*this.socket.on('monitor_error', function(err) {
-        console.log('Error in monitoring: %s, will restart monitoring in 5 seconds', err);
-        setTimeout(function() { that.socket.monitor(100, 0); }, 5000);
-    });*/
-
-    // Connect / Disconnect events
-    /*ùthis.socket.on('accept', function(fd, ep) {
-      that.server.addClient(fd, ep);
-
-      // New Client: we redistribute the last order
-      if (that.lvc != null) { setTimeout(function() {that.socket.send(that.lvc);}, 200); console.log('last value sent');}
-    });
-    this.socket.on('disconnect', function() {that.server.removeClient});*/
-
-    // Start monitor
-    //this.socket.monitor(100, 0);
   },
 
   Info: function(port, server, publisher, version, showdate) {
