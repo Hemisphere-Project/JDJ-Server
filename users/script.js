@@ -285,13 +285,11 @@ $(function() {
     console.log('Connected to Server: '+url);
   });
 
-  socket.on('alldata', function (data) {
-
-    console.log(data.events);
+  socket.on('alldata', function(data) {
+    // events
     allEvents = data.events;
     buildEvents();
-
-    console.log(data.users);
+    // users
     userPool.clearUsers();
     $.each(data.users,function(index,user){
       userPool.addUser(user);
@@ -306,7 +304,16 @@ $(function() {
 
   });
 
+  socket.on('newuser', function (newuser) {
+    var addUser = true;
+    $.each(allUsers, function(index,user){
+      if (user.id==newuser.id ){ addUser = false; }
+    });
+    if (addUser==true){ userPool.addUser(newuser); }
+  });
 
+  $('#debug').on('click',function(){
+  });
 
 
 
