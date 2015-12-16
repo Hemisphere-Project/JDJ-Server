@@ -101,6 +101,14 @@
   }
 
 
+  #viewUsers{
+     margin-top: 0px;
+     float: left;
+     margin-right: 5%;
+  }
+
+
+
   /*--------   RESPONSIVE   ---------*/
   /*---------------------------------*/
 
@@ -241,6 +249,7 @@
   }
 
   .iconButtons{
+    cursor: pointer;
     margin-top:5px;
     font-size: 24pt;
   }

@@ -452,7 +452,6 @@ $(function() {
     }
 
     $('#audioProgress').on('click',function(e){
-      $("#debugDisplay").html('clicked');
       var percent = e.offsetX / this.offsetWidth;
       audioPlayer.currentTime = percent * audioPlayer.duration;
       this.value = percent / 100; // set value direct (si time stream)
@@ -930,7 +929,7 @@ $(function() {
       removeTask(thisTask.timeStamp);
     });
 
-  }
+  } // end task object
 
   function unselectAllTasks(){
     $.each(allTasks,function(index,task){
@@ -948,6 +947,10 @@ $(function() {
     socket.emit('remove', timeStamp);
   }
 
+  $("#viewUsers").on('click',function(){
+    var url = 'http://'+document.location.hostname+'/users/index.html';
+    window.open(url);
+  });
 
 
 
