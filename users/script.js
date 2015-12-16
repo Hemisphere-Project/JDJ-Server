@@ -13,6 +13,7 @@ $(function() {
 
   allEvents = new Array();
 
+  // fake DB
   var event1={ place:'caracas', date: '18/32/7623' };
   allEvents.push(event1);
   var event2={ place:'puno', date: '62/76/1563' };
@@ -20,8 +21,8 @@ $(function() {
   var event3={ place:'buenos', date: '74/27/8273' };
   allEvents.push(event3);
 
-
   buildEvents();
+
   function buildEvents(){
     $('#eventviewer').empty();
     $("#eventviewer").append(('<option value="all">all</option>'));
@@ -45,14 +46,26 @@ $(function() {
 
 
   $("#addEvent").on('click',function(){
+    $("#addPlace,#addDate").css('color','black');
     var newdate = $('#addDate').val();
     var newplace = $('#addPlace').val();
-    if ((newplace!='lieu')&&(newdate!='jj/mm/aaaa')){
+
+    var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+    var dateFormat = regex.test(newdate);
+
+    if ((newplace!='lieu')&&(dateFormat)){
       var newevent = { place: newplace, date: newdate };
       allEvents.push(newevent);
       buildEvents();
       buildUserEvents();
       socket.emit('newevent', newevent);
+      console.log('NEW');
+    }
+    if (newplace=='lieu'){
+      $("#addPlace").css('color','blue');
+    }
+    if (!dateFormat){
+      $("#addDate").css('color','blue');
     }
   });
 
@@ -94,6 +107,53 @@ $(function() {
 
   allUsers = new Array();
   userPool = new user_pool();
+
+  // Fake_DB
+  var user1={
+    active: true,
+    id: 'alphatesteur',
+    number: '0673645293',
+    event: {place: 'caracas',date:'18/32/7623'},
+    os: 'ios',
+    group: 'group1',
+    section: {A:false,B:false,C:true},
+    force: true
+  }
+  userPool.addUser(user1);
+  var user2={
+    active: false,
+    id: 'betatesteur',
+    number: '0653674843',
+    event: {place:'puno', date: '62/76/1563'},
+    os: 'android',
+    group: 'group2',
+    section: {A:false,B:true,C:false},
+    force: true
+  }
+  userPool.addUser(user2);
+  var user3={
+    active: true,
+    id: 'gammatesteur',
+    number: '0635426354',
+    event:{place:'buenos', date: '74/27/8273'},
+    os: 'android',
+    group: 'group2',
+    section: {A:true,B:true,C:false},
+    force: false
+  }
+  userPool.addUser(user3);
+  var user4={
+    active: true,
+    id: 'omegatesteur',
+    number: '0763547351',
+    event:{place:'buenos', date: '74/27/8273'},
+    os: 'ios',
+    group: 'group1',
+    section: {A:true,B:true,C:true},
+    force: true
+  }
+  userPool.addUser(user4);
+
 
   function user_pool(){
 
@@ -198,7 +258,7 @@ $(function() {
     // SAVE
     this.saveButton.on('click',function(){
       // SEND OBJECT
-      console.log('saving '+thisuser.id);
+      console.log('saving '+thisuser.id+'... waiting for server response');
       var editedUser = {
         active: thisuser.active,
         id: thisuser.id,
@@ -214,63 +274,13 @@ $(function() {
     });
 
 
-
   }
-
-
-
-
-
-
-  //Fake_DB
-  var user1={
-    active: true,
-    id: 'alphatesteur',
-    number: '0673645293',
-    event: {place: 'caracas',date:'18/32/7623'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:false,B:false,C:true},
-    force: true
-  }
-  userPool.addUser(user1);
-  var user2={
-    active: false,
-    id: 'betatesteur',
-    number: '0653674843',
-    event: {place:'puno', date: '62/76/1563'},
-    os: 'android',
-    group: 'group2',
-    section: {A:false,B:true,C:false},
-    force: true
-  }
-  userPool.addUser(user2);
-  var user3={
-    active: true,
-    id: 'gammatesteur',
-    number: '0635426354',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'android',
-    group: 'group2',
-    section: {A:true,B:true,C:false},
-    force: false
-  }
-  userPool.addUser(user3);
-  var user4={
-    active: true,
-    id: 'omegatesteur',
-    number: '0763547351',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:true,B:true,C:true},
-    force: true
-  }
-  userPool.addUser(user4);
-
+  // End User object
 
 
   $('#debug').on('click',function(){
+
+
   });
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
