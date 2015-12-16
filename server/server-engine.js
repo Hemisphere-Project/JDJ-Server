@@ -34,6 +34,7 @@ module.exports = {
 
     this.pendingTasks = {};
     this.timersTasks = {};
+    this.lastTask = {};
 
     // Auto observer: trigger onChange
     this.TasksObserver = new Tools.Observer(that.pendingTasks, function() {that.onTasksChange()});
@@ -58,6 +59,7 @@ module.exports = {
 
     this.consumeTask = function(timestamp) {
       var task = that.removeTask(timestamp); // remove Task from queue
+      that.lastTask = task;
       task = that.onConsume(task); // process Task
       if (task !== false) that.sendTask(task); // send task to binded publishers
     };
@@ -74,7 +76,10 @@ module.exports = {
     };
 
     this.getTasks = function() {
-      return that.pendingTasks;
+      return {
+        pendingtasks: that.pendingTasks,
+        lasttask: that.lastTask
+      }
     };
 
 
