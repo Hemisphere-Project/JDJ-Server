@@ -62,10 +62,10 @@ $(function() {
       console.log('NEW');
     }
     if (newplace=='lieu'){
-      $("#addPlace").css('color','blue');
+      $("#addPlace").css('color','darkorange');
     }
     if (!dateFormat){
-      $("#addDate").css('color','blue');
+      $("#addDate").css('color','darkorange');
     }
   });
 
