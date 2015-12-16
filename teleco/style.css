@@ -502,6 +502,17 @@
   /*---------- TASK MANAGER ----------*/
   /*---------------------------------*/
 
+  .sectionTitle{
+    font-weight: bold;
+  }
+
+  #lastTask{
+    margin-top: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .taskView{
     margin-top: 8px;
     line-height: 25px;

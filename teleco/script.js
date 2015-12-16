@@ -806,7 +806,7 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play '+data.category+' '+data.when+' '+data.who+' '+notif+' '+ data.filename);
+     console.log('play '+data.category+' '+data.when+' '+data.who+' '+data.notif+' '+ data.filename);
     }
   });
 
@@ -952,7 +952,11 @@ $(function() {
   }
 
   function actuLastTask(task){
-    $("#lastTask").html(task);
+    console.log(task);
+    var viewOrder;
+    if(task.action=='stop'){ viewOrder=task.action +' <br><br>'; }
+    if(task.action=='play'){ viewOrder=task.category+' : '+ task.filename+' <br>group : '+task.group+' , notif : '+task.notif; }
+    $("#lastTask").html(viewOrder);
   }
 
   $("#viewUsers").on('click',function(){
