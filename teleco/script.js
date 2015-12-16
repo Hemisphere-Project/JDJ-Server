@@ -869,29 +869,13 @@ $(function() {
   });
 
   socket.on('tasks', function (data) {
-    pendingTasks = data;
+    pendingTasks = data.pendingtasks;
     actuManager();
+    actuLastTask(data.lasttask);
   });
 
 
-  function actuManager(){
-    $('#taskManager').empty();
-    allTasks = [];
 
-    // remplissage allTasks par ordre croissant keys (timeStamps)
-    var keys = Object.keys(pendingTasks);
-    keys.sort();
-    $.each(keys, function(index,key){
-      var timeStamp = key;
-      var task = pendingTasks[key];
-      allTasks.push(new Task(timeStamp,task));
-    });
-    // Avant: remplissage non trié
-    // $.each(pendingTasks,function(timeStamp,task){
-    //   allTasks.push(new Task(timeStamp,task));
-    // });
-
-  }
 
   function Task(timeStamp, task){
 
@@ -945,6 +929,30 @@ $(function() {
     actuManager();
     // delete server
     socket.emit('remove', timeStamp);
+  }
+
+
+  function actuManager(){
+    $('#taskManager').empty();
+    allTasks = [];
+
+    // remplissage allTasks par ordre croissant keys (timeStamps)
+    var keys = Object.keys(pendingTasks);
+    keys.sort();
+    $.each(keys, function(index,key){
+      var timeStamp = key;
+      var task = pendingTasks[key];
+      allTasks.push(new Task(timeStamp,task));
+    });
+    // Avant: remplissage non trié
+    // $.each(pendingTasks,function(timeStamp,task){
+    //   allTasks.push(new Task(timeStamp,task));
+    // });
+
+  }
+
+  function actuLastTask(task){
+    $("#lastTask").html(task);
   }
 
   $("#viewUsers").on('click',function(){
