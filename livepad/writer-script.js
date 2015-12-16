@@ -70,6 +70,7 @@ $(function() {
   });
 
   socket.on('fulltext', function (data) {
+    console.log(data);
     text = data;
     buildText();
     initApp = true;

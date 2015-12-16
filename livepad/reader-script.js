@@ -41,8 +41,8 @@ $(function() {
         $(charDiv).removeClass('untyped').addClass('typed');
       }
     });
-    getLastChar();
     autoscrolldown();
+    getLastChar();
   }
 
   function getLastChar(){
@@ -58,7 +58,6 @@ $(function() {
     var textToDelete = new Array();
     $($(".falseText.typed").get().reverse()).each(function(index,div) {
      console.log($(div).html());
-    //  $(div).addClass('falseText_DELETED');
      textToDelete.push(div);
    });
 
