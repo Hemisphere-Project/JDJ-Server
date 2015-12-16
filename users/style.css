@@ -145,7 +145,7 @@ body
   color: #606060;
   font-size: 14pt;
   float:right;
-  margin-right: 0%;
+  margin-right: 2%;
 }
 .leftButton:active{
   color: blue;
