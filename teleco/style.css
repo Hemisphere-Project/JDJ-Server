@@ -322,6 +322,9 @@
       background: black;
   }
 
+  .fa-plus:active{
+    color:limegreen;
+  }
 
   #send {
     float:right;
@@ -335,7 +338,9 @@
     display:inline;
   }
   .btn:focus {outline:0;}
-  .btn:active{opacity: 1.00;}
+  .btn:active{
+    border-color: limegreen;
+    color: limegreen;}
 
   #fileInput{
     display: none;
