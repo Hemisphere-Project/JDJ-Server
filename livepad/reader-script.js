@@ -13,7 +13,6 @@ $(function() {
     var textArray = text.split('');
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
-
       // falsetext
       if ($(charDiv).html() == '['){
         $(charDiv).addClass('falseStart');
@@ -26,12 +25,12 @@ $(function() {
       if (falseText == true){
         $(charDiv).addClass('falseText');
       }
-    });
+      /////////////
 
+    });
     var cursor = $('<div>').addClass('cursor').html('').appendTo($("#visuText"));
 
   }
-
 
 
   function actuVisu(){
@@ -47,6 +46,7 @@ $(function() {
 
 
   // falsetext
+  ////////////
   function getLastChar(){
     var length = $('.typed').length;
     $('.typed').each(function(key, charDiv){
@@ -74,7 +74,10 @@ $(function() {
      }
    });
   }
-  // ----------
+  // ---------
+  ////////////
+
+
 
   var visuHeight;
 
@@ -120,7 +123,7 @@ $(function() {
     progressServer = data;
     if (deleting==false) { actuVisu(); }
 
-    // DON'T SHOW TYPE FALSE TEXT
+    // DON'T SHOW TYPED FALSE TEXT
     if (initApp == true){
       $('.singleChar').each(function(index,div){
         if ($(div).hasClass('falseText')&&(index<progressServer)){
