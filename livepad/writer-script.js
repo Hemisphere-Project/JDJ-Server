@@ -30,12 +30,12 @@ $(function() {
     progressLocal ++;
     actuVisu();
     socket.emit('keypressed', 1);
-    // actu visu avec progressServer apres 1 seconde d'inactivité
+    // actu visu avec progressServer apres 500 ms d'inactivité
     clearTimeout(typingtimer);
     typingtimer = setTimeout(function(){
       console.log("done typing");
       synchroVisu();
-    }, 1000);
+    }, 500);
   }
 
   function actuVisu(){
