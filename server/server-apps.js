@@ -3,40 +3,16 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  Publisher: function (port, server) {
-    var that = this;
-
-    // tasks server
-    this.server = server;
-
-    // Bind to server events
-    this.server.sendTask = function(task) {
-      that.send(JSON.stringify(task), task.cache);
-    };
-
-    // Last Value Cache
-    this.lvc = null;
-
-    // ZMQ socket
-    this.socket = zmq.socket('pub');
-    this.socket.bindSync('tcp://*:'+port);
-
-    // Send shortcut
-    this.send = function(msg, cache) {
-      this.socket.send(msg);
-      if (cache) this.lvc = msg;
-    }
-
-  },
-
-  Info: function(port, server, publisher, version, showdate) {
+  AppServer: function(port, server, version, showdate) {
     var that = this;
 
     // controlled server
     this.server = server;
-    this.publisher = publisher;
     this.version = version;
     this.showdate = showdate;
+
+    // Last Value Cache
+    this.lvc = null;
 
     // SocketIO websocket
     this.socket = new SocketIO();
@@ -55,7 +31,7 @@ module.exports = {
 
       // send HELLO package
       var hellomsg = { version: that.version, nextshow: that.showdate }
-      if (that.publisher.lvc != null) hellomsg.lvc = that.publisher.lvc;
+      if (that.lvc != null) hellomsg.lvc = that.lvc;
       client.emit('hello', hellomsg);
 
     });
@@ -63,6 +39,15 @@ module.exports = {
     this.socket.on('error', function(err) {
         console.log('Socket.io Error: '+err);
     });
+
+    // Publish task command to all (and store in lvc cache)
+    this.sendTask = function(task) {
+      that.send('task', task);
+      if (task.cache === true) that.lvc = task;
+    }
+
+    // Link with server consumer
+    this.server.sendTask = that.sendTask;
 
     // Emit shortcut
     this.send = function(subject, data) {
