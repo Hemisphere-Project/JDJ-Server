@@ -18,7 +18,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'major': 0, 'minor': 3};
+var VERSION = {'main': 0, 'major': 4, 'minor': 0};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -42,11 +42,11 @@ var SERVER = new Engine.MainServer();
 var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 
 // USERS / SHOW MANAGEMENT
-var SHOWBASE = new Users.Showbase(BASEPATH+'db/show.db');
-var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, SHOWBASE);
+var USERBASE = new Users.Userbase(BASEPATH+'db/dev.db');
+var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
 
 // APPS & TIME SERVERS
-var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, NEXTSHOW);
+var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, USERBASE);
 var TIMESERVER = new Apps.TimeServer(PORT_TIME);
 
 // LIVE PAD

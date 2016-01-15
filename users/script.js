@@ -14,12 +14,14 @@ $(function() {
   allEvents = new Array();
 
   // fake DB
+  /*
   var event1={ place:'caracas', date: '18/32/7623' };
   allEvents.push(event1);
   var event2={ place:'puno', date: '62/76/1563' };
   allEvents.push(event2);
   var event3={ place:'buenos', date: '74/27/8273' };
   allEvents.push(event3);
+  */
 
   buildEvents();
 
@@ -109,6 +111,7 @@ $(function() {
   userPool = new user_pool();
 
   // Fake_DB
+  /*
   var user1={
     active: true,
     id: 'alphatesteur',
@@ -153,7 +156,7 @@ $(function() {
     force: true
   }
   userPool.addUser(user4);
-
+*/
 
   function user_pool(){
 

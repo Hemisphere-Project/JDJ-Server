@@ -17,7 +17,7 @@ function showDate(input) {
 
 module.exports = {
 
-  Showbase: function (basepath) {
+  Userbase: function (basepath) {
     var that = this;
 
     // Save DB to disk
@@ -43,17 +43,28 @@ module.exports = {
       return base;
     }
 
+    // Get All Users
+    this.getAllUsers = function() {
+      return this.getAll().users;
+    }
+
+    // Get All Users
+    this.getAllEvents = function() {
+      return this.getAll().events;
+    }
+
     // Clean user pattern
     this.User = function() {
       return {
         id: null,
-        number: '0673645293',
-        event: {place: 'caracas',date:'18/32/7623'},
-        os: 'ios',
-        group: 'group1',
-        section: {A:false,B:false,C:true},
-        force: true,
+        number: null,
+        event: null, //{place: 'caracas',date:'18/32/7623'},
+        os: '',
+        group: '', //group1
+        section: {A:false,B:false,C:false},
+        force: false,
         active: true
+        //connected: false
       }
     }
 
@@ -68,19 +79,48 @@ module.exports = {
     // Get user
     this.getUser = function(userid) {
       if (this.existUser(userid)) return this.db.users[userid];
-      else return null;
+      else return this.User();
+    }
+
+    // Get user by Phone number
+    this.getUserByNumber = function(phone) {
+      var user = this.User();
+      _.each(this.db.users, function(el, index) {
+        if (phone != '' && el.number == phone) user = el;
+      });
+      return user;
     }
 
     // Get user
     this.existUser = function(userid) {
-      return userid !== null && (userid in this.db.users) && (this.db.users[userid] !== null);
+      return userid !== null && userid >= 0 && (userid in this.db.users) && (this.db.users[userid] !== null);
+    }
+
+    // Validate User info
+    this.errorUser = function(user) {
+      // TODO: Validate user information (phone / show, etc..)
+      var error = null;
+      if (user.number != '')
+        if (user.number.length != 10)
+          error = 'Le numéro de téléphone doit comporter 10 chiffres.\nLaissez le champ vide si vous ne souhaitez pas recevoir de SMS.';
+
+      if (user.event == null)
+        error = 'Merci de choisir la représentation\nà laquelle vous souhaitez assister !';
+
+      //if (error == null) error = 'yo';
+
+      return error;
     }
 
     // Add user
-    this.saveUser = function(user) {
-      if (user.id === null) user.id = this.db.users.length;
-      this.db.users[user.id] = user;
-      this.save();
+    this.saveUser = function(user, allowError) {
+      user.error = this.errorUser(user);
+      if (allowError === undefined) allowError = true;
+      if (allowError || user.error == null) {
+        if (user.id === null || user.id < 0) user.id = this.db.users.length;
+        this.db.users[user.id] = user;
+        this.save();
+      }
       return user;
     }
 
@@ -98,6 +138,13 @@ module.exports = {
         this.db.users[userid] = null;
         this.save();
       }
+    }
+
+    // update user connection state
+    this.userState = function(userid, isConnected) {
+      var user = this.getUser(userid);
+      user.active = isConnected; 
+      this.updateUser(user);
     }
 
     // Get Show by ID
@@ -122,7 +169,8 @@ module.exports = {
     this.existShowDate = function(date) {
       var exist = false;
       _.each(this.db.events, function(el) {
-        if (el.date == date) exist = true;
+        if (el != null) 
+          if (el.date == date) exist = true;
       });
       return exist;
     }

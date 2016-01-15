@@ -217,7 +217,7 @@ $(function() {
   browser = new browser();
   getFiles();
   // var allFilenames = ["son1.mp3", "son2.mp3", "video1.mov", "Video2.mov", "url1", "sms1.txt" ];
-  var allPhoneFunctions = ['light.phone', 'blink.phone', 'vibre.phone'];
+  var allPhoneFunctions = ['lightOn.phone', 'lightOff.phone', 'lightStrobe.phone', 'vibre.phone'];
 
   function getFiles(){
     console.log("GET FILES");
