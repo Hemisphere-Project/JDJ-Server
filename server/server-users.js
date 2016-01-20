@@ -143,7 +143,7 @@ module.exports = {
     // update user connection state
     this.userState = function(userid, isConnected) {
       var user = this.getUser(userid);
-      user.active = isConnected; 
+      user.active = isConnected;
       this.updateUser(user);
     }
 
@@ -169,7 +169,7 @@ module.exports = {
     this.existShowDate = function(date) {
       var exist = false;
       _.each(this.db.events, function(el) {
-        if (el != null) 
+        if (el != null)
           if (el.date == date) exist = true;
       });
       return exist;
@@ -214,13 +214,17 @@ module.exports = {
     this.socket = new SocketIO();
     this.socket.listen(port);
 
+    // events binding
+    this.onUserUpdated = function() {};
+
     // NEW Remote interface connected
     this.socket.on('connection', function(client){
 
       // EDIT User event
       client.on('editeduser', function(data){
         var uu = that.showbase.updateUser(data);
-        if (uu != null) client.emit('updateduser', uu.id);
+        if (uu != null) client.emit('updateduser', uu);
+        that.onUserUpdated(uu);
       });
 
       // ADD Date event

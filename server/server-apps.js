@@ -3,13 +3,17 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  AppServer: function(port, server, version, userbase) {
+  AppServer: function(port, server, version, userbase, userinterface) {
     var that = this;
 
     // controlled server
     this.server = server;
     this.version = version;
     this.userbase = userbase;
+    this.userinterface = userinterface;
+
+    // Bind to userinterface event
+    this.userinterface.onUserUpdated = function(userinfo) { that.sendInfo(userinfo); };
 
     // Last Value Cache
     this.lvc = null;
@@ -29,7 +33,8 @@ module.exports = {
       client.on('iam', function(data){
         console.log('iam :'+JSON.stringify(data));
         var userinfo = that.userbase.getUser(data.userid);
-        that.sayHello(client, userinfo);
+        that.isConnected(client, userinfo.id);
+        that.sendInfo(userinfo);
       });
 
       // New Client want to subscribe (or update info)
@@ -49,10 +54,11 @@ module.exports = {
 
         // check if valid, and save
         newuser = that.userbase.saveUser(newuser);
-        
+
         // sendHello
-        that.sayHello(client, newuser);
-      });          
+        that.isConnected(client, newuser.id);
+        that.sendInfo(newuser);
+      });
 
       // Unregister App client
       client.on('disconnect', function(){
@@ -71,7 +77,7 @@ module.exports = {
         console.log('Socket.io Error: '+err);
     });
 
-    
+
 
     // Emit shortcut
     this.send = function(subject, data) {
@@ -87,12 +93,26 @@ module.exports = {
     // Link with server consumer
     this.server.sendTask = that.sendTask;
 
-    // Send Hello package
-    this.sayHello = function(client, userinfo) {
-
+    // Is Connected
+    this.isConnected = function(client, userid) {
       // store id in socketio client (for disconnect) an register connection
-      client.userid = userinfo.id;
-      this.userbase.userState(userinfo.id, true);
+      client.userid = userid;
+      this.userbase.userState(userid, true);
+    }
+
+    // Send Hello package
+    this.sendInfo = function(userinfo) {
+
+      // find client corresponding to user
+      client = null;
+      clients = that.socket.sockets.connected;
+      for (var cli in clients)
+        if (clients[cli].userid == userinfo.id) client = clients[cli];
+
+      if (client == null) {
+        console.log('Client not connected...');
+        return;
+      }
 
       // send Hello package with userinfo
       var hellomsg = { version: that.version, user: userinfo }
@@ -102,7 +122,6 @@ module.exports = {
       if (userinfo.id == null || userinfo.error != null) {
         hellomsg.showlist = that.userbase.getAllEvents();
       }
-
 
       console.log('send:'+JSON.stringify(hellomsg.user));
       client.emit('hello', hellomsg);

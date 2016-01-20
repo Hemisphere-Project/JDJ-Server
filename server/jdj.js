@@ -46,7 +46,7 @@ var USERBASE = new Users.Userbase(BASEPATH+'db/dev.db');
 var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
 
 // APPS & TIME SERVERS
-var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, USERBASE);
+var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, USERBASE, USERSCTRL);
 var TIMESERVER = new Apps.TimeServer(PORT_TIME);
 
 // LIVE PAD
@@ -55,17 +55,17 @@ var LIVEPAD = new Pad.PadServer(PORT_WS_PAD);
 // SERVER TASKS PROCESSOR
 SERVER.onConsume = function(task) {
 
-  console.log('start consuming task');
+  console.log('start consuming task ');
+  //console.log(task);
   // clean up task
-  if (task.who !== undefined) {channel = task.who; delete task.who; }
   if (task.localTime !== undefined) delete task.localTime;
   if (task.when !== undefined) delete task.when;
 
   // forge task request for Client
   // task.version = VERSION;
-  task.group = 'all';
+  //task.group = 'all';
   task.cache = true;
-  task.timestamp = (new Date()).getTime();  
+  task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
   // PLAY something
