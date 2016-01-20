@@ -65,7 +65,7 @@ SERVER.onConsume = function(task) {
   // task.version = VERSION;
   task.group = 'all';
   task.cache = true;
-  //task.timestamp = (new Date()).getTime();  // DISABLED: it doesn't work properly
+  task.timestamp = (new Date()).getTime();  
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
   // PLAY something
@@ -98,6 +98,18 @@ SERVER.onConsume = function(task) {
       sms.send();
       console.log('did send sms..');
       return false;
+    }
+
+    // PAD: handle .live
+    else if (task.category == 'text')
+    {
+      // read file
+      var text_content;
+      try { text_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
+      catch (e) { console.log(e); return false;}
+
+      // send 'Reader Page' url to clients
+      task.content = text_content;
     }
 
     // PAD: handle .live
