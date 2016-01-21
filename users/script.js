@@ -314,7 +314,13 @@ $(function() {
     $.each(allUsers,function(index,user){
       if (userid == user.id ){ console.log('updated user '+ user.id); user.saveButton.removeClass("userModified"); }
     });
+  });
 
+  socket.on('stateuser', function (state) {
+    $.each(allUsers, function(index,user){
+      if (state.id == user.id )
+        user.activeView.toggleClass('inactive', !state.active).toggleClass('active', state.active);
+    });
   });
 
   socket.on('newuser', function (newuser) {

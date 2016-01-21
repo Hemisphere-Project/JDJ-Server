@@ -63,6 +63,7 @@ module.exports = {
       // Unregister App client
       client.on('disconnect', function(){
         that.userbase.userState(client.userid, false);
+        that.userinterface.send('stateuser', {id: client.userid, state: false});
         console.log("client disconnected "+client.userid);
         that.server.removeClient(client);
       });
@@ -96,8 +97,21 @@ module.exports = {
     // Is Connected
     this.isConnected = function(client, userid) {
       // store id in socketio client (for disconnect) an register connection
-      client.userid = userid;
-      this.userbase.userState(userid, true);
+      if (userid != null) {
+
+        // de-associate other clients from this id
+        clients = that.socket.sockets.connected;
+        for (var cli in clients) //console.log(cli+" "+client.id);
+          if (clients[cli].userid == userid && cli != client.id) {
+            console.log("User "+userid+" moved from "+cli+" to "+client.id)
+            clients[cli].userid = null;
+          }
+
+        // associate client with user
+        client.userid = userid;
+        this.userbase.userState(userid, true);
+        this.userinterface.send('stateuser', {id: userid, state: true});
+      }
     }
 
     // Send Hello package
@@ -110,7 +124,7 @@ module.exports = {
         if (clients[cli].userid == userinfo.id) client = clients[cli];
 
       if (client == null) {
-        console.log('Client not connected...');
+        //console.log('Client not connected...');
         return;
       }
 
@@ -123,7 +137,7 @@ module.exports = {
         hellomsg.showlist = that.userbase.getEvents();
       }
 
-      console.log('send:'+JSON.stringify(hellomsg.user));
+      //console.log('send:'+JSON.stringify(hellomsg.user));
       client.emit('hello', hellomsg);
     }
 

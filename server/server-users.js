@@ -274,7 +274,7 @@ module.exports = {
       // EDIT User event
       client.on('editeduser', function(data){
         var uu = that.showbase.updateUser(data);
-        if (uu != null) client.emit('updateduser', uu);
+        if (uu != null) client.emit('updateduser', uu.id);
         that.onUserUpdated(uu);
       });
 
