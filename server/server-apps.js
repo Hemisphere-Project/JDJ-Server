@@ -27,11 +27,10 @@ module.exports = {
 
       // register App & create userID in client
       client.userid = null;
-      that.server.addClient(client);
 
       // Client send his ID, answer with server version / lvc and user state
       client.on('iam', function(data){
-        console.log('iam :'+JSON.stringify(data));
+        //console.log('iam :'+JSON.stringify(data));
         var userinfo = that.userbase.getUser(data.userid);
         that.isConnected(client, userinfo.id);
         that.sendInfo(userinfo);
@@ -40,7 +39,8 @@ module.exports = {
       // New Client want to subscribe (or update info)
       client.on('subscribe', function(data)
       {
-        console.log('subscribe :'+JSON.stringify(data));
+        // console.log('subscribe :'+JSON.stringify(data));
+        console.log("New Subscription");
         // check if user already exist or get a fresh one
         var newuser = that.userbase.getUser(data.userid);
         // check if number correspond to exisiting user
@@ -50,7 +50,7 @@ module.exports = {
         newuser.number = data.number;
         newuser.event = that.userbase.getShowById(data.showid);
         newuser.os = data.os;
-        newuser.group = 'group1';
+        newuser.group = that.userbase.getLowerGroup();
 
         // check if valid, and save
         newuser = that.userbase.saveUser(newuser);
@@ -62,15 +62,16 @@ module.exports = {
 
       // Unregister App client
       client.on('disconnect', function(){
-        that.userbase.userState(client.userid, false);
-        that.userinterface.send('stateuser', {id: client.userid, state: false});
-        console.log("client disconnected "+client.userid);
-        that.server.removeClient(client);
+        if (client.userid != null) {
+          that.userbase.userState(client.userid, false);
+          that.userinterface.send('stateuser', {id: client.userid, state: false});
+          that.server.removeClient(client.userid);
+        }
       });
 
       // send WHOAREYOU package
       client.emit('whoareyou');
-      console.log('whoareyou ?');
+      //console.log('whoareyou ?');
 
     });
 
@@ -100,17 +101,20 @@ module.exports = {
       if (userid != null) {
 
         // de-associate other clients from this id
+        var newClient = true;
         clients = that.socket.sockets.connected;
         for (var cli in clients) //console.log(cli+" "+client.id);
           if (clients[cli].userid == userid && cli != client.id) {
             console.log("User "+userid+" moved from "+cli+" to "+client.id)
             clients[cli].userid = null;
+            newClient = false;
           }
 
         // associate client with user
         client.userid = userid;
         this.userbase.userState(userid, true);
         this.userinterface.send('stateuser', {id: userid, state: true});
+        if (newClient) that.server.addClient(userid);
       }
     }
 

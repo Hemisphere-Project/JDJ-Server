@@ -18,9 +18,9 @@ module.exports = {
     this.StateObserver = new Tools.Observer(that.serverState, function() {that.onStateChange()});
     this.onStateChange = function() { }; // Public events (to overwrite)
 
-    this.addClient = function(fd, ep) { that.serverState.clientCount++; };
+    this.addClient = function(userid) { console.log("Client connect: "+userid); that.serverState.clientCount++; };
 
-    this.removeClient = function(fd, ep) { that.serverState.clientCount--; };
+    this.removeClient = function(userid) { console.log("Client disconnect: "+userid); that.serverState.clientCount--; };
 
     this.addController = function(client) { that.serverState.controllerCount++; };
 
