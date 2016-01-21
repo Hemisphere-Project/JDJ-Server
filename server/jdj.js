@@ -92,10 +92,15 @@ SERVER.onConsume = function(task) {
       try { sms_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
       catch (e) { console.log(e); return false;}
 
-      // send sms
+      // make sms
       var sms = new Sms.HighCoSms(sms_content);
-      sms.addDest('0675471820');
+
+      // get dests list
+      var destinataires = USERBASE.getPhones(/*put event here*/);
+      for (var i = 0; i < destinataires.length; i++) sms.addDest(destinataires[i]);
+
       sms.send();
+      //console.log(destinataires);
       console.log('did send sms..');
       return false;
     }

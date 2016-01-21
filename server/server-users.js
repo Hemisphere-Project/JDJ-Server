@@ -71,6 +71,7 @@ module.exports = {
     // Clean date pattern
     this.Event = function() {
       return {
+        id: null,
         place: '',
         date: null
       }
@@ -145,6 +146,27 @@ module.exports = {
       var user = this.getUser(userid);
       user.active = isConnected;
       this.updateUser(user);
+    }
+
+    // get all users for given event
+    this.getUsersByEvent = function(event) {
+      var users = [];
+      _.each(this.getAllUsers(), function(el) {
+        if (el.event.id == event.id) users[el.id] = el;
+      });
+      return users;
+    }
+
+    // get all phone for given event
+    this.getPhones = function(event) {
+      var phones = [];
+      var users = [];
+      if (event === undefined) users = this.getAllUsers();
+      else users = this.getUsersByEvent(event)
+      _.each(users, function(el) { phones.push(el.number) });
+      phones = _.without(phones, null, '');
+      phones = _.uniq(phones);
+      return phones;
     }
 
     // Get Show by ID
