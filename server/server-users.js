@@ -17,22 +17,34 @@ function showDate(input) {
 
 module.exports = {
 
-  Userbase: function (basepath) {
+  Userbase: function (userbasepath, showbasepath) {
     var that = this;
+
+    this.userbasepath = userbasepath;
+    this.showbasepath = showbasepath;
 
     // Save DB to disk
     this.save = function() {
-      fs.writeFileSync(this.basepath, JSON.stringify(this.db));
+      fs.writeFileSync(this.userbasepath, JSON.stringify(this.db.users));
+      fs.writeFileSync(this.showbasepath, JSON.stringify(this.db.events));
     }
 
     // Create/Load DB
-    this.basepath = basepath;
-    try { this.db = JSON.parse(fs.readFileSync(this.basepath)); }
+    var doSave = false;
+    this.db = {users: [], events:[]};
+    try { this.db.users = JSON.parse(fs.readFileSync(this.userbasepath)); }
     catch (e) {
-      this.db = {users: [], events:[]};
-      if (e.code === 'ENOENT') this.save();
+      this.db.users = [];
+      if (e.code === 'ENOENT') doSave = true;
       else throw e;
     }
+    try { this.db.events = JSON.parse(fs.readFileSync(this.showbasepath)); }
+    catch (e) {
+      this.db.events = [];
+      if (e.code === 'ENOENT') doSave = true;
+      else throw e;
+    }
+    if (doSave) this.save();
 
     // Get Complete Database
     this.getAll = function() {
@@ -199,8 +211,13 @@ module.exports = {
     }
 
     // choose a group for new users
-    this.chooseGroup = function(grps) {
-      var 
+    this.chooseGroup = function(grps, params) {
+      var count = {};
+      _.each(grps, function(el) { count[el] = 0 });
+      _.each(this.getUsers(params), function(el) { if (_.contains(grps,el.group)) count[el.group]++; });
+      var lower = grps[0];
+      _.each(count, function(n, g) { if (count[lower] > n) lower = g; });
+      return lower;
     }
 
     // Get Show by ID

@@ -43,7 +43,7 @@ var SERVER = new Engine.MainServer();
 var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 
 // USERS / SHOW MANAGEMENT
-var USERBASE = new Users.Userbase(BASEPATH+'db/dev.db');
+var USERBASE = new Users.Userbase(BASEPATH+'db/users_feur.db', BASEPATH+'db/show_beta.db');
 var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
 
 // APPS & TIME SERVERS
@@ -56,7 +56,7 @@ var LIVEPAD = new Pad.PadServer(PORT_WS_PAD);
 // SERVER TASKS PROCESSOR
 SERVER.onConsume = function(task) {
 
-  console.log('start consuming task ');
+  console.log('executing task');
   //console.log(task);
   // clean up task
   if (task.localTime !== undefined) delete task.localTime;
@@ -67,6 +67,7 @@ SERVER.onConsume = function(task) {
   // WHO TO GROUP & SECTION
   if (task.who == 'A' || task.who == 'B' || task.who == 'C') task.section = task.who;
   else if (task.who != 'all') task.group = task.who;
+  //console.log(task.group);
 
   task.cache = true;
   task.timestamp = (new Date()).getTime();
@@ -182,7 +183,7 @@ SERVER.onConsume = function(task) {
 
 
   // publish
-  console.log('finnished consuming task');
+  //console.log('finnished consuming task');
   return task;
 };
 
