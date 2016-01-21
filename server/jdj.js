@@ -25,6 +25,7 @@ var BASEPATH = __dirname+'/';
 var MEDIAPATH = BASEPATH+'../files/';
 
 // LIBS
+var _ = require('underscore');
 var Engine = require('./server-engine');
 var Remote = require('./server-remote');
 var Users = require('./server-users');
@@ -96,22 +97,36 @@ SERVER.onConsume = function(task) {
       catch (e) { console.log(e); return false;}
 
       // split multi SMS
-      
+      sms_content = sms_content.split('//');
+      sms_content = _.map(sms_content, function(txt){ return txt.trim(); });
+      sms_content = _.without(sms_content, null, '');
 
-      // make sms
-      var sms = new Sms.HighCoSms(sms_content);
+      // check if sms array is not empty
+      if (sms_content.length == 0) return false;
 
-      // get dests list
-      var destinataires = USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ });
-      for (var i = 0; i < destinataires.length; i++) sms.addDest(destinataires[i]);
+      // get dests list (randomized)
+      //console.log(USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }));
+      var destinataires = _.shuffle(USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }));
 
-      sms.send();
-      console.log(destinataires);
+      // chunk into small groups for each SMS
+      destinataires = _.toArray(_.groupBy(destinataires, function(element, index){ return index % sms_content.length; }));
+
+      // for each sms send to his sub-group
+      for (var k=0; k<sms_content.length; k++)
+      {
+        if (destinataires[k] === undefined || destinataires[k].length == 0) break;
+        // make sms
+        var sms = new Sms.HighCoSms(sms_content[k]);
+        for (var i = 0; i < destinataires[k].length; i++) sms.addDest(destinataires[k][i]);
+        sms.send();
+        //console.log ('SMS ['+sms_content[k]+'] -- sent to '+destinataires[k]);
+      }
+
       console.log('did send sms..');
       return false;
     }
 
-    // PAD: handle .live
+    // TEXT: send to app if available or send SMS
     else if (task.category == 'text')
     {
       // read file
