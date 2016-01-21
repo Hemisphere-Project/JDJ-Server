@@ -13,7 +13,7 @@ $(function() {
     var textArray = text.split('');
     $.each(textArray, function(index,char){
       var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
-
+      // falsetext
       if ($(charDiv).html() == '['){
         $(charDiv).addClass('falseStart');
         falseText = true;
@@ -25,13 +25,12 @@ $(function() {
       if (falseText == true){
         $(charDiv).addClass('falseText');
       }
+      /////////////
 
     });
-
     var cursor = $('<div>').addClass('cursor').html('').appendTo($("#visuText"));
 
   }
-
 
 
   function actuVisu(){
@@ -45,27 +44,39 @@ $(function() {
     getLastChar();
   }
 
+
+  // falsetext
+  ////////////
   function getLastChar(){
     var length = $('.typed').length;
     $('.typed').each(function(key, charDiv){
       if ( (key==(length-1) )&&($(charDiv).html()==']') ){
-        console.log('START DELETE');
         deleteFalseText();
       }
     });
   }
+
+  var deleting = false;
   function deleteFalseText(){
+    deleting = true;
     var textToDelete = new Array();
     $($(".falseText.typed").get().reverse()).each(function(index,div) {
-     console.log($(div).html());
      textToDelete.push(div);
    });
-
+   console.log(textToDelete);
    $.each(textToDelete, function(index,div){
-     setTimeout(function(){ $(div).addClass('falseText_DELETED'); }, index*200);
-     if (index == textToDelete.length-1){ console.log("end delete"); }
+     var randomTime = Math.floor(Math.random()*(200)+100*index);
+     if (index != textToDelete.length-1){
+       setTimeout(function(){ $(div).removeClass('falseText').addClass('falseText_DELETED'); }, randomTime);
+     }
+     if (index == textToDelete.length-1){
+       setTimeout(function(){ $(div).removeClass('falseText').addClass('falseText_DELETED'); deleting = false; console.log('END DELETE'); }, randomTime);
+     }
    });
   }
+  // ---------
+  ////////////
+
 
 
   var visuHeight;
@@ -110,7 +121,18 @@ $(function() {
   socket.on('progress', function (data) {
     console.log('progress '+data);
     progressServer = data;
-    actuVisu();
+    if (deleting==false) { actuVisu(); }
+
+    // DON'T SHOW TYPED FALSE TEXT
+    if (initApp == true){
+      $('.singleChar').each(function(index,div){
+        if ($(div).hasClass('falseText')&&(index<progressServer)){
+          $(div).removeClass('falseText').addClass('falseText_DELETED');
+        }
+      });
+      initApp = false;
+    }
+
 
   });
 
