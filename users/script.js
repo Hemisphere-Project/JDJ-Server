@@ -276,6 +276,12 @@ $(function() {
 
     });
 
+    // UPDATE active
+    this.updateActive = function(isActive) {
+      this.activeView.toggleClass('inactive', !isActive).toggleClass('active', isActive);
+      this.active = isActive;
+    }
+
 
   }
   // End User object
@@ -318,8 +324,7 @@ $(function() {
 
   socket.on('stateuser', function (state) {
     $.each(allUsers, function(index,user){
-      if (state.id == user.id )
-        user.activeView.toggleClass('inactive', !state.active).toggleClass('active', state.active);
+      if (state.id == user.id ) user.updateActive(state.active);
     });
   });
 

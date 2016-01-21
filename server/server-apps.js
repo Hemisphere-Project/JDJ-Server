@@ -50,7 +50,8 @@ module.exports = {
         newuser.number = data.number;
         newuser.event = that.userbase.getShowById(data.showid);
         newuser.os = data.os;
-        newuser.group = that.userbase.getLowerGroup();
+        if (newuser.group == null)
+          newuser.group = that.userbase.chooseGroup(['group1', 'group2']);
 
         // check if valid, and save
         newuser = that.userbase.saveUser(newuser);

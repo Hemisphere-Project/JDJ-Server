@@ -100,7 +100,7 @@ module.exports = {
         number: null,
         event: null, //{place: 'caracas',date:'18/32/7623'},
         os: '',
-        group: '', //group1
+        group: null, //group1
         section: {A:false,B:false,C:false},
         force: false,
         active: true
@@ -196,6 +196,11 @@ module.exports = {
       phones = _.without(phones, null, '');
       phones = _.uniq(phones);
       return phones;
+    }
+
+    // choose a group for new users
+    this.chooseGroup = function(grps) {
+      var 
     }
 
     // Get Show by ID
