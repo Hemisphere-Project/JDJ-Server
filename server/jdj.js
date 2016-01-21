@@ -62,8 +62,11 @@ SERVER.onConsume = function(task) {
   if (task.when !== undefined) delete task.when;
 
   // forge task request for Client
-  // task.version = VERSION;
-  //task.group = 'all';
+
+  // WHO TO GROUP & SECTION
+  if (task.who == 'A' || task.who == 'B' || task.who == 'C') task.section = task.who;
+  else if (task.who != 'all') task.group = task.who;
+
   task.cache = true;
   task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
@@ -92,15 +95,18 @@ SERVER.onConsume = function(task) {
       try { sms_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
       catch (e) { console.log(e); return false;}
 
+      // split multi SMS
+      
+
       // make sms
       var sms = new Sms.HighCoSms(sms_content);
 
       // get dests list
-      var destinataires = USERBASE.getPhones(/*put event here*/);
+      var destinataires = USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ });
       for (var i = 0; i < destinataires.length; i++) sms.addDest(destinataires[i]);
 
       sms.send();
-      //console.log(destinataires);
+      console.log(destinataires);
       console.log('did send sms..');
       return false;
     }

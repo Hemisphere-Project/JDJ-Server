@@ -43,14 +43,54 @@ module.exports = {
       return base;
     }
 
-    // Get All Users
-    this.getAllUsers = function() {
-      return this.getAll().users;
+    this.isObject = function(obj) {
+      return obj === Object(obj) && Object.prototype.toString.call(obj) !== '[object Array]';
+    }
+
+    this.compare = function(val1, val2) {
+      var tester; var tested;
+      if (this.isObject(val2) && !this.isObject(val1)) {tester = val1; tested=val2;}
+      else {tester = val2; tested=val1;}
+
+      // both objects, we check each properties
+      if (this.isObject(tester)) {
+        for (var prop in tester)
+          if (!this.compare(tested[prop], tester[prop])) return false;
+        return true;
+      }
+      else {
+        // tested is object, check if property corresponding to tester value is explicitly true
+        if (this.isObject(tested)) return tested[tester] == true;
+        // neither are object => direct comparaison
+        else return tested == tester;
+      }
+    }
+
+    this.filter = function(array, params) {
+      if (params === undefined || params == null) return array;
+      var filteredArray = [];
+
+      for (var k = 0; k < array.length; k++) // each item in the array
+      {
+        var add = true;
+        for (var prop in params)  //each prop of conditions object
+          if (_.has(array[k], prop)) // check if item has this property (if not ignore this condition)
+            if (params[prop] !== undefined) // if condition is not undefined
+              add = add && this.compare(array[k][prop], params[prop]); // check condition
+              //console.log('tested '+prop+'='+params[prop]+' on item '+k+'='+array[k][prop]+' / result is '+add);
+        if (add) filteredArray.push(array[k]);
+      }
+      return filteredArray;
     }
 
     // Get All Users
-    this.getAllEvents = function() {
-      return this.getAll().events;
+    this.getUsers = function(params) {
+      return this.filter(this.getAll().users, params);
+    }
+
+    // Get All Users
+    this.getEvents = function(params) {
+      return this.filter(this.getAll().events, params);
     }
 
     // Clean user pattern
@@ -148,21 +188,10 @@ module.exports = {
       this.updateUser(user);
     }
 
-    // get all users for given event
-    this.getUsersByEvent = function(event) {
-      var users = [];
-      _.each(this.getAllUsers(), function(el) {
-        if (el.event.id == event.id) users[el.id] = el;
-      });
-      return users;
-    }
-
     // get all phone for given event
-    this.getPhones = function(event) {
+    this.getPhones = function(params) {
       var phones = [];
-      var users = [];
-      if (event === undefined) users = this.getAllUsers();
-      else users = this.getUsersByEvent(event)
+      var users = this.getUsers(params);
       _.each(users, function(el) { phones.push(el.number) });
       phones = _.without(phones, null, '');
       phones = _.uniq(phones);

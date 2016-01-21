@@ -120,7 +120,7 @@ module.exports = {
 
       // If user is new or with error, provide show list
       if (userinfo.id == null || userinfo.error != null) {
-        hellomsg.showlist = that.userbase.getAllEvents();
+        hellomsg.showlist = that.userbase.getEvents();
       }
 
       console.log('send:'+JSON.stringify(hellomsg.user));
