@@ -105,9 +105,12 @@ module.exports = {
         var newClient = true;
         clients = that.socket.sockets.connected;
         for (var cli in clients) //console.log(cli+" "+client.id);
-          if (clients[cli].userid == userid && cli != client.id) {
-            console.log("User "+userid+" moved from "+cli+" to "+client.id)
-            clients[cli].userid = null;
+          if (clients[cli].userid == userid)
+          {
+            if (cli != client.id) {
+              console.log("User "+userid+" moved from "+cli+" to "+client.id)
+              clients[cli].userid = null;
+            }
             newClient = false;
           }
 
@@ -142,7 +145,7 @@ module.exports = {
         hellomsg.showlist = that.userbase.getEvents();
       }
 
-      //console.log('send:'+JSON.stringify(hellomsg.user));
+      //console.log('send:'+JSON.stringify(hellomsg));
       client.emit('hello', hellomsg);
     }
 

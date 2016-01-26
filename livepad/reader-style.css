@@ -1,9 +1,10 @@
 
+
     body
     {
       font-family: Helvetica, Sans-Serif;
       font-size: 18pt;
-      background-color: white;
+      background-color: black;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -14,6 +15,10 @@
     }
 
     #visuText{
+      border: 1px solid #111;
+      min-height: 30px;
+      margin: 5px;
+      padding: 5px;
     }
 
     .untyped{
@@ -21,7 +26,7 @@
     }
 
     .typed{
-      color: black;
+      color: white;
     }
 
     .falseStart{
@@ -38,7 +43,7 @@
 
     .cursor{
       margin-left: 2px;
-      border-left: 2px solid black;
+      border-left: 2px solid white;
       display: inline;
       color: grey;
     }

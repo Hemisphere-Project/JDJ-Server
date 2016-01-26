@@ -11,14 +11,17 @@ var PUB_DELAY = 1998;  // Preemptive delay: ms
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
 var MEDIAURL = BASEURL+'files/';
-var PADREADER = 'livepad/reader.html';
+var IMGREADER = BASEURL+'imager/show.php?img=';
+var PADREADER = BASEURL+'livepad/reader.html';
+
+var MULTITXT_SEPARATOR = '%%';
 
 /*
 VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 0, 'major': 4, 'minor': 0};
+var VERSION = {'main': 0, 'major': 4, 'minor': 1};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -35,6 +38,26 @@ var Sms = require('./server-sms');
 var Fs = require('fs');
 
 
+// TOOLS
+// Read file content
+function readFile (filename) {
+  try { return Fs.readFileSync(MEDIAPATH+filename, 'utf8'); }
+  catch (e) { console.log(e);}
+  return null;
+}
+
+// Search HLS variant and return .m3u8 path
+function addHLS (task) {
+  try {
+    var filebasename = task.filename.replace(/\.[^/.]+$/, "");
+    var hlsflux = filebasename+'/'+filebasename+'.m3u8';
+    Fs.statSync(MEDIAPATH+hlsflux);
+    task.hls = MEDIAURL+hlsflux;
+  } catch (e) { console.log('HLS flux NOT found: '+e); }
+}
+
+
+
 
 // MAIN SERVER
 var SERVER = new Engine.MainServer();
@@ -43,7 +66,7 @@ var SERVER = new Engine.MainServer();
 var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 
 // USERS / SHOW MANAGEMENT
-var USERBASE = new Users.Userbase(BASEPATH+'db/users_feur.db', BASEPATH+'db/show_beta.db');
+var USERBASE = new Users.Userbase(BASEPATH+'db/users_feur2.db', BASEPATH+'db/show_beta.db');
 var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
 
 // APPS & TIME SERVERS
@@ -62,127 +85,65 @@ SERVER.onConsume = function(task) {
   if (task.localTime !== undefined) delete task.localTime;
   if (task.when !== undefined) delete task.when;
 
-  // forge task request for Client
-
   // WHO TO GROUP & SECTION
   if (task.who == 'A' || task.who == 'B' || task.who == 'C') task.section = task.who;
   else if (task.who != 'all') task.group = task.who;
-  //console.log(task.group);
 
+  task.url = MEDIAURL+task.filename; // deafault for raw content
   task.cache = true;
   task.timestamp = (new Date()).getTime();
   task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
 
-  // PLAY something
-  if (task.action == 'play') {
+  // VIDEO: add HLS url
+  if (task.category == 'video') addHLS(task);
+
+  // IMAGE: use web player
+  if (task.category == 'image') {
+    task.category = 'web';
+    task.url = IMGREADER+task.filename;
+  }
+
+  // PHONE: convert into param 1
+  else if (task.category == 'phone') {
+    task.param1 = task.filename.replace(/\.[^/.]+$/, "");
+    task.cache = false;
+  }
+
+  // MEDIA based on file content
+  else if (task.action == 'play') {
+
+    // Get file content (exit if file not found)
+    var filecontent = readFile(task.filename);
+    if (filecontent == null) return false;
 
     // URL: convert .url files to actual url
-    if (task.category == 'url')
-    {
-      // read file
-      var url_content;
-      try { url_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
-      catch (e) { console.log(e); return false;}
-
-      // put actual url
-      task.url = url_content;
+    if (task.category == 'url') {
       task.category = 'web';
-    }
-
-    // SMS: send sms using HighCoSms
-    else if (task.category == 'sms')
-    {
-      // read file
-      var sms_content;
-      try { sms_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
-      catch (e) { console.log(e); return false;}
-
-      // split multi SMS
-      sms_content = sms_content.split('//');
-      sms_content = _.map(sms_content, function(txt){ return txt.trim(); });
-      sms_content = _.without(sms_content, null, '');
-
-      // check if sms array is not empty
-      if (sms_content.length == 0) return false;
-
-      // get dests list (randomized)
-      //console.log(USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }));
-      var destinataires = _.shuffle(USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }));
-
-      // chunk into small groups for each SMS
-      destinataires = _.toArray(_.groupBy(destinataires, function(element, index){ return index % sms_content.length; }));
-
-      // for each sms send to his sub-group
-      for (var k=0; k<sms_content.length; k++)
-      {
-        if (destinataires[k] === undefined || destinataires[k].length == 0) break;
-        // make sms
-        var sms = new Sms.HighCoSms(sms_content[k]);
-        for (var i = 0; i < destinataires[k].length; i++) sms.addDest(destinataires[k][i]);
-        sms.send();
-        //console.log ('SMS ['+sms_content[k]+'] -- sent to '+destinataires[k]);
-      }
-
-      console.log('did send sms..');
-      return false;
-    }
-
-    // TEXT: send to app if available or send SMS
-    else if (task.category == 'text')
-    {
-      // read file
-      var text_content;
-      try { text_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
-      catch (e) { console.log(e); return false;}
-
-      // send 'Reader Page' url to clients
-      task.content = text_content;
+      task.url = filecontent;
     }
 
     // PAD: handle .live
-    else if (task.category == 'pad')
-    {
-      // read file
-      var pad_content;
-      try { pad_content = Fs.readFileSync(MEDIAPATH+task.filename, 'utf8'); }
-      catch (e) { console.log(e); return false;}
-
-      // set up PADSERVER
-      LIVEPAD.loadText(pad_content);
-
-      // send 'Reader Page' url to clients
+    else if (task.category == 'pad') {
       task.category = 'web';
-      task.url = BASEURL+PADREADER;
+      LIVEPAD.loadText(filecontent);
+      task.url = PADREADER;
     }
 
-    // VIDEO: add HLS url
-    else if (task.category == 'video')
-    {
-      try {
-        var filebasename = task.filename.replace(/\.[^/.]+$/, "");
-        var hlsflux = filebasename+'/'+filebasename+'.m3u8';
-        Fs.statSync(MEDIAPATH+hlsflux);
-        task.hls = MEDIAURL+hlsflux;
-      } catch (e) { console.log('HLS flux NOT found: '+e); }
+    // TEXT: send to app if available or send SMS
+    else if (task.category == 'text') {
+      task.content = Sms.splitMSG(filecontent, MULTITXT_SEPARATOR).join('@%%#');
 
-      task.url = MEDIAURL+task.filename;
+      // TODO: get non-smartphone clients and send SMS !
     }
 
-    // PHONE: convert into param 1
-    else if (task.category == 'phone')
-    {
-      task.param1 = task.filename.replace(/\.[^/.]+$/, "");
-      task.cache = false;
+    // SMS: send sms using HighCoSms
+    else if (task.category == 'sms') {
+      var sms = new Sms.HighCoSms(filecontent, MULTITXT_SEPARATOR);
+      sms.sendTo( USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }) );
+      return false;
     }
-
-    // RAW CONTENT
-    else task.url = MEDIAURL+task.filename;
-
   }
 
-
-
-  // publish
   //console.log('finnished consuming task');
   return task;
 };
