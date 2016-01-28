@@ -7,7 +7,10 @@ var PORT_WS_USERS = 8087;
 var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
 
-var PUB_DELAY = 1998;  // Preemptive delay: ms
+var PUB_DELAY_VIDEO = 4000;  // Preemptive delay: ms
+var PUB_DELAY_AUDIO = 1500;
+var PUB_DELAY_WEB = 1500;
+var PUB_DELAY_TXT = 500;
 
 var BASEURL = 'http://app.journaldunseuljour.fr/';
 var MEDIAURL = BASEURL+'files/';
@@ -21,7 +24,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 0, 'major': 4, 'minor': 1};
+var VERSION = {'main': 0, 'major': 4, 'minor': 4};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -92,15 +95,23 @@ SERVER.onConsume = function(task) {
   task.url = MEDIAURL+task.filename; // deafault for raw content
   task.cache = true;
   task.timestamp = (new Date()).getTime();
-  task.atTime = task.timestamp + PUB_DELAY; // Add transmission delay
+  task.atTime = task.timestamp; // Add transmission delay
 
   // VIDEO: add HLS url
-  if (task.category == 'video') addHLS(task);
+  if (task.category == 'video') {
+    addHLS(task);
+    task.atTime += PUB_DELAY_VIDEO;
+  }
+
+  if (task.category == 'audio') {
+    task.atTime += PUB_DELAY_AUDIO;
+  }
 
   // IMAGE: use web player
   if (task.category == 'image') {
     task.category = 'web';
     task.url = IMGREADER+task.filename;
+    task.atTime += PUB_DELAY_WEB;
   }
 
   // PHONE: convert into param 1
@@ -120,6 +131,7 @@ SERVER.onConsume = function(task) {
     if (task.category == 'url') {
       task.category = 'web';
       task.url = filecontent;
+      task.atTime += PUB_DELAY_WEB;
     }
 
     // PAD: handle .live
@@ -127,12 +139,13 @@ SERVER.onConsume = function(task) {
       task.category = 'web';
       LIVEPAD.loadText(filecontent);
       task.url = PADREADER;
+      task.atTime += PUB_DELAY_WEB;
     }
 
     // TEXT: send to app if available or send SMS
     else if (task.category == 'text') {
       task.content = Sms.splitMSG(filecontent, MULTITXT_SEPARATOR).join('@%%#');
-
+      task.atTime += PUB_DELAY_TXT;
       // TODO: get non-smartphone clients and send SMS !
     }
 
