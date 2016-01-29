@@ -1,0 +1,6 @@
+[submodule "HLS-server"]
+	path = HLS-server
+	url = git@github.com:Hemisphere-Project/HLS-server.git
+[submodule "hls"]
+	path = hls
+	url = git@github.com:Hemisphere-Project/HLS-server.git
