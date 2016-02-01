@@ -185,9 +185,9 @@ $(function() {
   renameFile = function(oldname,newname){
     console.log("Rename start");
     $.ajax({
-        url: "php/fileRename.php",
+        url: "php/files.php",
         type: "POST",
-        data: { oldname: oldname, newname: newname }
+        data: { action: 'rename', oldname: oldname, newname: newname }
     }).done(function(reponse){
       getFiles();
     });
@@ -200,13 +200,45 @@ $(function() {
     });
 
     $.ajax({
-        url: "php/fileDelete.php",
+        url: "php/files.php",
         type: "POST",
-        data: { fileName: fileToDelete}
+        data: { action: 'delete', fileName: fileToDelete}
     }).done(function(reponse){
       getFiles();
     });
   }
+
+  saveFileContent = function(content, name, ext) {
+    $.ajax({
+        url: "php/files.php",
+        type: "POST",
+        data: {
+            action: 'save',
+            contents: content,
+            filename: name,
+            extension: ext
+        }
+    })
+    .done(function(reponse) {
+      getFiles();
+    }
+    );
+  }
+
+  loadFileContent = function(name, onSuccess) {
+    $.ajax({
+        url: "php/files.php",
+        dataType: "text",
+        type: "POST",
+        data: {
+            action: 'load',
+            filename: name
+        }
+    })
+    .done(onSuccess);
+  }
+
+
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
@@ -225,19 +257,15 @@ $(function() {
     allFiles = [];
     $('#mediasList').empty();
     $.ajax({
-        url: "php/fileList.php",
+        url: "php/files.php",
         type: "POST",
-        data: { type: 'file',
-                directory: '../../files'
-        }
+        data: { action: 'list' }
     })
     .done(function(filelist) {
       var allFilenames = JSON.parse(filelist);;
       //console.log(allFilenames);
       $.each(allFilenames, function(index,filename){
-        if (filename != '.' && filename != '..' && filename != '.DS_Store'){
-          browser.addFile(filename);
-        }
+        browser.addFile(filename);
       });
       $.each(allPhoneFunctions, function(index, fonction){
         browser.addFile(fonction);
@@ -366,7 +394,7 @@ $(function() {
         }
         return myXhr;
         },
-        url         : 'php/upload.php',
+        url         : 'php/files.php?action=upload',
         data        : formdata ? formdata : form.serialize(),
         cache       : false,
         contentType : false,
@@ -519,20 +547,9 @@ $(function() {
   $('#saveUrl').on('click', function () {
     var urlTitle = $("#urlTitle").val();
     var urlContent = $("#urlContent").val();
-    $.ajax({
-        url: "php/saveFile.php",
-        type: "POST",
-        data: {
-            contents: urlContent,
-            filename: urlTitle,
-            extension: 'url'
-        }
-    })
-    .done(function(reponse)
-    {
-      getFiles();
-    }
-    );
+
+    saveFileContent(urlContent, urlTitle, 'url');
+    
   });
 
   function getUrlContent(){
@@ -541,21 +558,11 @@ $(function() {
     var shortname = fileO.filename.split('.')[0];
     $("#urlTitle").val(shortname);
 
-    $.ajax({
-        url: "php/loadFile.php",
-        dataType: "text",
-        type: "POST",
-        data: {
-            filename: filename,
-            type: 'text'
-        }
-    })
-    .done(function(contents)
+    loadFileContent(filename, function(contents)
     {
       $("#urlContent").val(contents);
       $("#frame").attr("src", contents+"&output=embed");
-    }
-    );
+    });
   }
 
   $("#viewUrl").on('click',function(){
@@ -595,20 +602,9 @@ $(function() {
   $('#saveSms').on('click', function () {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
-    $.ajax({
-        url: "php/saveFile.php",
-        type: "POST",
-        data: {
-            contents: smsContent,
-            filename: smsTitle,
-            extension: 'sms'
-        }
-    })
-    .done(function(reponse)
-    {
-      getFiles();
-    }
-    );
+
+    saveFileContent(smsContent, smsTitle, 'sms');
+ 
   });
 
 
@@ -618,20 +614,9 @@ $(function() {
     var shortname = fileO.filename.split('.')[0];
     $("#smsTitle").val(shortname);
 
-    $.ajax({
-        url: "php/loadFile.php",
-        dataType: "text",
-        type: "POST",
-        data: {
-            filename: filename,
-            type: 'text'
-        }
-    })
-    .done(function(contents)
-    {
+    loadFileContent(filename, function(contents) {
       $("#smsContent").val(contents);
-    }
-    );
+    });
   }
 
   ///////////////////////////////////////////////////////
@@ -650,20 +635,9 @@ $(function() {
   $('#saveText').on('click', function () {
     var textTitle = $("#textTitle").val();
     var textContent = $("#textContent").val();
-    $.ajax({
-        url: "php/saveFile.php",
-        type: "POST",
-        data: {
-            contents: textContent,
-            filename: textTitle,
-            extension: 'txt'
-        }
-    })
-    .done(function(reponse)
-    {
-      getFiles();
-    }
-    );
+
+    saveFileContent(textContent, textTitle, 'txt');
+    
   });
 
   function getTextContent(){
@@ -672,20 +646,9 @@ $(function() {
     var shortname = fileO.filename.split('.')[0];
     $("#textTitle").val(shortname);
 
-    $.ajax({
-        url: "php/loadFile.php",
-        dataType: "text",
-        type: "POST",
-        data: {
-            filename: filename,
-            type: 'text'
-        }
-    })
-    .done(function(contents)
-    {
+    loadFileContent(filename, function(contents) {
       $("#textContent").val(contents);
-    }
-    );
+    });
   }
 
   ///////////////////////////////////////////////////////
@@ -697,20 +660,9 @@ $(function() {
   $('#savePad').on('click', function () {
     var padTitle = $("#padTitle").val();
     var padContent = $("#padContent").val();
-    $.ajax({
-        url: "php/saveFile.php",
-        type: "POST",
-        data: {
-            contents: padContent,
-            filename: padTitle,
-            extension: 'pad'
-        }
-    })
-    .done(function(reponse)
-    {
-      getFiles();
-    }
-    );
+
+    saveFileContent(padContent, padTitle, 'pad');
+    
   });
 
   function getPadContent(){
@@ -719,20 +671,9 @@ $(function() {
     var shortname = fileO.filename.split('.')[0];
     $("#padTitle").val(shortname);
 
-    $.ajax({
-        url: "php/loadFile.php",
-        dataType: "text",
-        type: "POST",
-        data: {
-            filename: filename,
-            type: 'text'
-        }
-    })
-    .done(function(contents)
-    {
+    loadFileContent(filename, function(contents) {
       $("#padContent").val(contents);
-    }
-    );
+    });
   }
 
 

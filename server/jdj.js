@@ -1,5 +1,6 @@
 
 // CONFIG
+var PORT_PROXY = 8080;
 var PORT_WS_APP = 8081;
 var PORT_TIME = 8082;
 
@@ -7,12 +8,13 @@ var PORT_WS_USERS = 8087;
 var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
 
-var PUB_DELAY_VIDEO = 4000;  // Preemptive delay: ms
+var PUB_DELAY_VIDEO = 3000;  // Preemptive delay: ms
 var PUB_DELAY_AUDIO = 1500;
-var PUB_DELAY_WEB = 1500;
+var PUB_DELAY_WEB = 1000;
 var PUB_DELAY_TXT = 500;
+var PUB_DELAY_DEFAULT = 200;
 
-var BASEURL = 'http://app.journaldunseuljour.fr/';
+var BASEURL = 'http://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
 var PADREADER = BASEURL+'livepad/reader.html';
@@ -38,7 +40,7 @@ var Users = require('./server-users');
 var Apps = require('./server-apps');
 var Pad = require('./server-pad');
 var Sms = require('./server-sms');
-var Fs = require('fs');
+var Fs = require('fs'); 
 
 
 // TOOLS
@@ -51,12 +53,18 @@ function readFile (filename) {
 
 // Search HLS variant and return .m3u8 path
 function addHLS (task) {
+  var filebasename = task.filename.replace(/\.[^/.]+$/, "");
+  var url = filebasename+'/'+filebasename;
   try {
-    var filebasename = task.filename.replace(/\.[^/.]+$/, "");
-    var hlsflux = filebasename+'/'+filebasename+'.m3u8';
-    Fs.statSync(MEDIAPATH+hlsflux);
-    task.hls = MEDIAURL+hlsflux;
+    Fs.statSync(MEDIAPATH+url+'.m3u8');
+    task.hls = MEDIAURL+url+'.m3u8';
+    console.log('HLS found: '+task.hls);
   } catch (e) { console.log('HLS flux NOT found: '+e); }
+  try {
+    Fs.statSync(MEDIAPATH+url+'.mp4');
+    task.url = MEDIAURL+url+'.mp4';
+    console.log('UGLY found: '+task.filename);
+  } catch (e) { console.log('UGLY file NOT found: '+e); }
 }
 
 
@@ -103,12 +111,12 @@ SERVER.onConsume = function(task) {
     task.atTime += PUB_DELAY_VIDEO;
   }
 
-  if (task.category == 'audio') {
+  else if (task.category == 'audio') {
     task.atTime += PUB_DELAY_AUDIO;
   }
 
   // IMAGE: use web player
-  if (task.category == 'image') {
+  else if (task.category == 'image') {
     task.category = 'web';
     task.url = IMGREADER+task.filename;
     task.atTime += PUB_DELAY_WEB;
@@ -156,8 +164,10 @@ SERVER.onConsume = function(task) {
       return false;
     }
   }
+  else task.atTime += PUB_DELAY_DEFAULT;
 
   //console.log('finnished consuming task');
+  //console.log(task);
   return task;
 };
 
