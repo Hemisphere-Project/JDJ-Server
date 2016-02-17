@@ -159,6 +159,22 @@ body
   margin-top:6px;
 }
 
+/*------------------Add edit event-------------------*/
+.link{
+  font-weight: bold;
+  cursor:pointer;
+}
+.hourmin{
+  box-sizing: border-box;
+  height: 20px;
+  width:34%;
+  outline: 0px none;
+  border: 1px solid lightgrey;
+}
+
+
+
+/*------------------UI-------------------*/
 .fa-circle{
   font-size: 14pt;
 }

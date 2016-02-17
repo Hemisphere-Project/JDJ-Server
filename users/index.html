@@ -30,10 +30,21 @@
       Delete
       <i class="fa fa-minus-circle leftButton" id="deleteEvent"></i>
       <br><br>
-      New<br>
-      <div class='leftAdd'>
+      <span id="open_editEvent" class="link">Edit</span> <br>
+      <div id="showEvent" class='leftAdd'>
+        <input id="editPlace" type="text" class="textInput" value="lieu" onClick="this.select();">
+        <input id="editDate" type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
+        <input id="editHour" class="hourmin" type="number" name="min" id="min" min="0" max="59" value="18" inputmode="numeric" pattern="[0-9]*" required>
+        <input id="editMin" class="hourmin" type="number" name="sec" id="sec" min="0" max="59" value="00" inputmode="numeric" pattern="[0-9]*" required>
+        <i class="fa fa-floppy-o leftButton" id="editEvent"></i>
+      </div>
+      <br><br>
+      <span id="open_newEvent" class="link">New</span> <br>
+      <div id="newEvent" class='leftAdd'>
         <input id="addPlace" type="text" class="textInput" value="lieu" onClick="this.select();">
         <input id="addDate" type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
+        <input id="addHour" class="hourmin" type="number" name="min" id="min" min="0" max="59" value="18" inputmode="numeric" pattern="[0-9]*" required>
+        <input id="addMin" class="hourmin" type="number" name="sec" id="sec" min="0" max="59" value="00" inputmode="numeric" pattern="[0-9]*" required>
         <i class="fa fa-plus-circle leftButton" id="addEvent"></i>
       </div>
     </div>

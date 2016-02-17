@@ -14,14 +14,14 @@ $(function() {
   allEvents = new Array();
 
   // fake DB
-  /*
-  var event1={ place:'caracas', date: '18/32/7623' };
+
+  var event1={id:'1', place:'caracas', date: '18/32/7623', startH:'18', startM:'07' };
   allEvents.push(event1);
-  var event2={ place:'puno', date: '62/76/1563' };
+  var event2={id:'2',  place:'puno', date: '62/76/1563', startH:'17', startM:'24' };
   allEvents.push(event2);
-  var event3={ place:'buenos', date: '74/27/8273' };
+  var event3={id:'3',  place:'buenos', date: '74/27/8273', startH:'19', startM:'32' };
   allEvents.push(event3);
-  */
+
 
   buildEvents();
 
@@ -29,39 +29,86 @@ $(function() {
     $('#eventviewer').empty();
     $("#eventviewer").append(('<option value="all">all</option>'));
     $.each(allEvents,function(index,event){
-      $("#eventviewer").append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
+      $("#eventviewer").append(('<option value_id="'+event.id+'" value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
     });
   }
+
+  var dateselected;
 
   $('#eventviewer').change(function(){
-    var dateselected = $('#eventviewer option:selected').val();
-    sortUsers(dateselected);
+    dateselected = $('#eventviewer option:selected').val();
+    sortUsers();
+    actuEventEditor();
+    if (new_HIDDEN==false){ $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; }); }
   });
 
-  function sortUsers(dateSelect){
+  function sortUsers(){
     $.each(allUsers,function(index,user){
-      if (user.event.date != dateSelect){ user.userDiv.hide(); }
+      if (user.event.date != dateselected){ user.userDiv.hide(); }
       else { user.userDiv.show(); }
-      if (dateSelect=='all') { user.userDiv.show(); }
+      if (dateselected=='all') { user.userDiv.show(); }
     });
   }
 
+  function actuEventEditor(){
+    $.each(allEvents,function(index,event){
+      if (dateselected == event.date){
+        $('#editHour').val(event.startH);
+        $('#editMin').val(event.startM);
+        $('#editPlace').val(event.place);
+        $('#editDate').val(event.date);
+      }
+    });
+  }
+
+  $("#editEvent").on('click',function(){
+    $.each(allEvents,function(index,event){
+      if (dateselected == event.date){
+        var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+        var dateFormat = regex.test($('#editDate').val());
+        if (dateFormat){
+          event.date = $('#editDate').val();
+          event.place = $('#editPlace').val();
+          event.startH = $('#editHour').val();
+          event.startM = $('#editMin').val();
+          buildEvents();
+          buildUserEvents();
+          socket.emit('editevent', event);
+          console.log('EDIT');
+          $('#addHour').val('18');
+          $('#addMin').val('00');
+          $('#addPlace').val('lieu');
+          $('#addDate').val('jj/mm/aaaa');
+          $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; });
+        }
+      }
+    });
+  });
 
   $("#addEvent").on('click',function(){
     $("#addPlace,#addDate").css('color','black');
     var newdate = $('#addDate').val();
     var newplace = $('#addPlace').val();
+    var starthour = $('#addHour').val();
+    var startmin = $('#addMin').val();
 
     var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
     var dateFormat = regex.test(newdate);
 
     if ((newplace!='lieu')&&(dateFormat)){
-      var newevent = { place: newplace, date: newdate };
+      var newevent = { place: newplace, date: newdate, startH:starthour, startM:startmin };
       allEvents.push(newevent);
       buildEvents();
       buildUserEvents();
       socket.emit('newevent', newevent);
       console.log('NEW');
+      $('#addHour').val('18');
+      $('#addMin').val('00');
+      $('#addPlace').val('lieu');
+      $('#addDate').val('jj/mm/aaaa');
+      $("#newEvent").slideUp(200, function(){
+        new_HIDDEN=true;
+      });
     }
     if (newplace=='lieu'){
       $("#addPlace").css('color','darkorange');
@@ -72,7 +119,7 @@ $(function() {
   });
 
   $("#deleteEvent").on('click',function(){
-    var dateselected = $('#eventviewer option:selected').val();
+    // dateselected = $('#eventviewer option:selected').val();
     if (dateselected != 'all'){
       var indextoremove;
       $.each(allEvents,function(index,event){
@@ -96,6 +143,32 @@ $(function() {
       user.eventpicker.val(user.event.date);
     });
   }
+
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                     NAVIG
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+
+  $("#newEvent").hide();
+  var new_HIDDEN=true;
+
+  $("#open_newEvent").click(function(){
+    toggleNewEvent();
+  });
+
+  function toggleNewEvent(){
+    if (new_HIDDEN==true){
+      $("#newEvent").slideDown(200, function(){
+        new_HIDDEN=false;
+      });
+    }
+    if (new_HIDDEN==false){
+      $("#newEvent").slideUp(200, function(){
+        new_HIDDEN=true;
+      });
+    }
+  };
 
 
 
@@ -291,6 +364,9 @@ $(function() {
 
 
   });
+
+
+
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
   //                     SOCKET
@@ -305,6 +381,7 @@ $(function() {
   });
 
   socket.on('alldata', function(data) {
+    console.log(data);
     // events
     allEvents = data.events;
     buildEvents();
