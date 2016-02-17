@@ -91,10 +91,8 @@ $(function() {
     var newplace = $('#addPlace').val();
     var starthour = $('#addHour').val();
     var startmin = $('#addMin').val();
-
     var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
     var dateFormat = regex.test(newdate);
-
     if ((newplace!='lieu')&&(dateFormat)){
       var newevent = { place: newplace, date: newdate, startH:starthour, startM:startmin };
       allEvents.push(newevent);
@@ -123,12 +121,16 @@ $(function() {
     if (dateselected != 'all'){
       var indextoremove;
       $.each(allEvents,function(index,event){
-        if (dateselected == event.date){ indextoremove = index; }
+        if (dateselected == event.date){
+          indextoremove = index;
+          socket.emit('removeevent', event);
+          console.log(event);
+        }
       });
       allEvents.splice(indextoremove,1);
       buildEvents();
       buildUserEvents();
-      socket.emit('removedate', dateselected);
+      // socket.emit('removedate', dateselected);
     }
   });
 
