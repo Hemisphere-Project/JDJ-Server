@@ -905,16 +905,10 @@ $(function() {
     // events
     allEvents = data.events;
     buildEvents();
-    // users
-    userPool.clearUsers();
-    $.each(data.users,function(index,user){
-      userPool.addUser(user);
-    });
+    // current event
+    $('#eventselector').val(data.currentevent.date);
   });
 
-  socket.on('currentevent',function(event){
-
-  });
 
   var dateselected;
   allEvents = new Array();
