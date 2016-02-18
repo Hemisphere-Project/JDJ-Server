@@ -549,7 +549,7 @@ $(function() {
     var urlContent = $("#urlContent").val();
 
     saveFileContent(urlContent, urlTitle, 'url');
-    
+
   });
 
   function getUrlContent(){
@@ -604,7 +604,7 @@ $(function() {
     var smsContent = $("#smsContent").val();
 
     saveFileContent(smsContent, smsTitle, 'sms');
- 
+
   });
 
 
@@ -637,7 +637,7 @@ $(function() {
     var textContent = $("#textContent").val();
 
     saveFileContent(textContent, textTitle, 'txt');
-    
+
   });
 
   function getTextContent(){
@@ -662,7 +662,7 @@ $(function() {
     var padContent = $("#padContent").val();
 
     saveFileContent(padContent, padTitle, 'pad');
-    
+
   });
 
   function getPadContent(){
@@ -816,8 +816,6 @@ $(function() {
   });
 
 
-
-
   function Task(timeStamp, task){
 
     this.filename = task.filename;
@@ -834,12 +832,10 @@ $(function() {
     this.min = this.date.getMinutes();
     if (this.min <=9){ this.min = '0'+this.min; }
     this.timeForm = this.hour+'H'+this.min;
-
     // VIEW
     this.view = $('<div>').addClass('taskView').appendTo( $('#taskManager') );
     this.icontext = $('<div>').html(this.timeForm+' - '+this.filename+' - '+this.who).addClass('taskText').appendTo( thisTask.view );
     this.icondelete =  $('<div>').attr('id', "deleteTask").addClass('delHide fa fa-times').appendTo( thisTask.view );
-
     // SELECT
     this.view.on('click',function(){
       unselectAllTasks();
@@ -847,7 +843,6 @@ $(function() {
       thisTask.selected = true;
       thisTask.icondelete.addClass('delView');
     });
-
     // DELETE
     this.icondelete.on('click',function(){
       console.log("DELETE TASK");
@@ -876,7 +871,6 @@ $(function() {
   function actuManager(){
     $('#taskManager').empty();
     allTasks = [];
-
     // remplissage allTasks par ordre croissant keys (timeStamps)
     var keys = Object.keys(pendingTasks);
     keys.sort();
@@ -885,11 +879,6 @@ $(function() {
       var task = pendingTasks[key];
       allTasks.push(new Task(timeStamp,task));
     });
-    // Avant: remplissage non trié
-    // $.each(pendingTasks,function(timeStamp,task){
-    //   allTasks.push(new Task(timeStamp,task));
-    // });
-
   }
 
   function actuLastTask(task){
@@ -905,6 +894,52 @@ $(function() {
     window.open(url);
   });
 
+
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                     EVENT MANAGER
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+
+  socket.on('allevents', function(data) {
+    // events
+    allEvents = data.events;
+    buildEvents();
+    // users
+    userPool.clearUsers();
+    $.each(data.users,function(index,user){
+      userPool.addUser(user);
+    });
+  });
+
+  var dateselected;
+  allEvents = new Array();
+  // fake DB
+  var event1={id:'1', place:'IEOYU', date: '18/32/7623', startH:'18', startM:'07' };
+  allEvents.push(event1);
+  var event2={id:'2',  place:'IUEJ', date: '62/76/1563', startH:'17', startM:'24' };
+  allEvents.push(event2);
+  var event3={id:'3',  place:'ZUIYZ', date: '74/27/8273', startH:'19', startM:'32' };
+  allEvents.push(event3);
+
+  buildEvents();
+
+  function buildEvents(){
+    $('#eventselector').empty();
+    $("#eventselector").append(('<option value="all">all</option>'));
+    $.each(allEvents,function(index,event){
+      $("#eventselector").append(('<option value_id="'+event.id+'" value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
+    });
+  }
+
+  // $('#eventselector').change(function(){
+  //   dateselected = $('#eventselector option:selected').val();
+  //   $.each(allEvents,function(index,event){
+  //     if (dateselected = event.date){
+  //       socket.emit('eventselected', event);
+  //     }
+  //   });
+  // });
 
 
 

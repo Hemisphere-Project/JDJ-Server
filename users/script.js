@@ -408,7 +408,6 @@ $(function() {
     $.each(data.users,function(index,user){
       userPool.addUser(user);
     });
-
   });
 
   socket.on('updatedevent', function () {
