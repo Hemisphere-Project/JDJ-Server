@@ -159,6 +159,10 @@ body
   margin-top:6px;
 }
 
+.bold{
+  font-weight: bold;
+}
+
 /*------------------Add edit event-------------------*/
 .hourmin{
   box-sizing: border-box;
