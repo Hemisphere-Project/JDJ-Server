@@ -20,22 +20,30 @@ module.exports = {
     // NEW Remote interface connected
     this.socket.on('connection', function(client){
 
-      // PLAY event
+      // PLAY task
       client.on('play', function(data){
         data.action = 'play';
         that.server.addTask(data);
       });
 
-      // STOP event
+      // STOP task
       client.on('stop', function(data){
         if (data === undefined) data = {};
         data.action = 'stop';
         that.server.addTask(data);
       });
 
-      // REMOVE event
+      // REMOVE task
       client.on('remove', function(data){
         that.server.removeTask(data);
+      });
+
+      // RESTART server
+      client.on('restart', function(data){
+        var sys = require('sys')
+        var exec = require('child_process').exec;
+        function puts(error, stdout, stderr) { sys.puts(stdout) }
+        exec("pm2 restart jdj", puts);
       });
 
       // Unregister remote control

@@ -800,6 +800,12 @@ $(function() {
 
 	socket.on('connect', function () {
     console.log('Connected to Server: '+url);
+    $('#serverState').toggleClass('inactive', false).toggleClass('active', true);
+  });
+
+  socket.on('disconnect', function () {
+    console.log('Disconnected from Server');
+    $('#serverState').toggleClass('inactive', true).toggleClass('active', false);
   });
 
   socket.on('status', function (data) {
@@ -941,7 +947,7 @@ $(function() {
   });
 
   $("#restartServer").click(function(){
-    socket.emit('restartServer');
+    socket.emit('restart');
   });
 
 
