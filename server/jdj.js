@@ -9,7 +9,7 @@ var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
 
 var PUB_DELAY_VIDEO = 3000;  // Preemptive delay: ms
-var PUB_DELAY_AUDIO = 1500;
+var PUB_DELAY_AUDIO = 3000;
 var PUB_DELAY_WEB = 1000;
 var PUB_DELAY_TXT = 500;
 var PUB_DELAY_DEFAULT = 200;
@@ -26,7 +26,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 0, 'major': 4, 'minor': 4};
+var VERSION = {'main': 0, 'major': 4, 'minor': 6};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -40,7 +40,7 @@ var Users = require('./server-users');
 var Apps = require('./server-apps');
 var Pad = require('./server-pad');
 var Sms = require('./server-sms');
-var Fs = require('fs'); 
+var Fs = require('fs');
 
 
 // TOOLS
