@@ -160,10 +160,6 @@ body
 }
 
 /*------------------Add edit event-------------------*/
-.link{
-  font-weight: bold;
-  cursor:pointer;
-}
 .hourmin{
   box-sizing: border-box;
   height: 20px;
@@ -172,6 +168,10 @@ body
   border: 1px solid lightgrey;
 }
 
+#open_newEvent{
+  font-weight: bold;
+  cursor:pointer;
+}
 
 
 /*------------------UI-------------------*/

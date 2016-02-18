@@ -38,7 +38,10 @@ $(function() {
     dateselected = $('#eventviewer option:selected').val();
     sortUsers();
     actuEventEditor();
-    if (new_HIDDEN==false){ $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; }); }
+    if (new_HIDDEN==false){
+      $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
+      $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; });
+    }
     $('#editEvent').removeClass('eventModified');
   });
 
@@ -83,6 +86,7 @@ $(function() {
           $('#addMin').val('00');
           $('#addPlace').val('lieu');
           $('#addDate').val('jj/mm/aaaa');
+          $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
           $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; });
         }
       }
@@ -109,10 +113,8 @@ $(function() {
       $('#addMin').val('00');
       $('#addPlace').val('lieu');
       $('#addDate').val('jj/mm/aaaa');
-      $("#newEvent").slideUp(200, function(){
-        new_HIDDEN=true;
-      });
-      //select and make editable
+      $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
+      $("#newEvent").slideUp(200, function(){ new_HIDDEN=true;});
       $('#eventviewer').val(newevent.date).change();
 
     }
@@ -178,14 +180,12 @@ $(function() {
 
   function toggleNewEvent(){
     if (new_HIDDEN==true){
-      $("#newEvent").slideDown(200, function(){
-        new_HIDDEN=false;
-      });
+      $("#open_newEvent_Arrow").removeClass('fa-sort-desc').addClass('fa-sort-asc');
+      $("#newEvent").slideDown(200, function(){ new_HIDDEN=false;});
     }
     if (new_HIDDEN==false){
-      $("#newEvent").slideUp(200, function(){
-        new_HIDDEN=true;
-      });
+      $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
+      $("#newEvent").slideUp(200, function(){new_HIDDEN=true;});
     }
   };
 
