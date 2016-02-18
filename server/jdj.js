@@ -71,21 +71,21 @@ function addHLS (task) {
 
 
 // MAIN SERVER
-var SERVER = new Engine.MainServer();
+var SERVER = new Engine.MainServer(VERSION);
 
 // USERS / SHOW MANAGEMENT
-var USERBASE = new Users.Userbase(BASEPATH+'db/users_feur2.db', BASEPATH+'db/show_beta.db');
-var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
+SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/users_feur2.db', BASEPATH+'db/show_beta.db');
+SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, SERVER);
 
 // CONTROLLERS
-var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER, USERBASE);
+SERVER.REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 
 // APPS & TIME SERVERS
-var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, USERBASE, USERSCTRL);
-var TIMESERVER = new Apps.TimeServer(PORT_TIME);
+SERVER.APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER);
+SERVER.TIMESERVER = new Apps.TimeServer(PORT_TIME);
 
 // LIVE PAD
-var LIVEPAD = new Pad.PadServer(PORT_WS_PAD);
+SERVER.LIVEPAD = new Pad.PadServer(PORT_WS_PAD);
 
 // SERVER TASKS PROCESSOR
 SERVER.onConsume = function(task) {

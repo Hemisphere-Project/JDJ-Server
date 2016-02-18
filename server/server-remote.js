@@ -2,12 +2,12 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  WebRemote: function (port, server, userbase) {
+  WebRemote: function (port, server) {
     var that = this;
 
     // controlled server
     this.server = server;
-    this.userbase = userbase;
+    this.userbase = server.USERBASE;
 
     // Bind to server events
     server.onStateChange = function() { that.send("status", that.server.getState() ); };
@@ -40,10 +40,7 @@ module.exports = {
 
       // RESTART server
       client.on('restart', function(data){
-        var sys = require('sys')
-        var exec = require('child_process').exec;
-        function puts(error, stdout, stderr) { sys.puts(stdout) }
-        exec("pm2 restart jdj", puts);
+        that.server.restart();
       });
 
       // Unregister remote control
@@ -65,6 +62,13 @@ module.exports = {
     this.socket.on('error', function(err) {
         console.log('Socket.io Error: '+err);
     });
+
+    this.sendEvents = function() {
+      this.socket.emit('allevents', {
+        events: that.userbase.getEvents(),
+        currentevent: that.userbase.getCurrentEvent()
+      });
+    }
 
     // Emit shortcut
     this.send = function(subject, data) {

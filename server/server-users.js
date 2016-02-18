@@ -292,18 +292,17 @@ module.exports = {
 
   },
 
-  Userinterface: function(port, base) {
+  Userinterface: function(port, server) {
     var that = this;
 
     // users base
-    this.showbase = base;
+    this.server = server;
+    this.showbase = server.USERBASE;
 
     // SocketIO websocket
     this.socket = new SocketIO();
     this.socket.listen(port);
 
-    // events binding
-    this.onUserUpdated = function(user) {};
 
     // NEW Remote interface connected
     this.socket.on('connection', function(client){
@@ -312,7 +311,7 @@ module.exports = {
       client.on('editeduser', function(data){
         var uu = that.showbase.updateUser(data);
         if (uu != null) client.emit('updateduser', uu.id);
-        that.onUserUpdated(uu);
+        that.server.onUserUpdated(uu);
       });
 
       // ADD Date event
@@ -320,18 +319,21 @@ module.exports = {
           data.id = null;
           var show = that.showbase.saveShow(data);
           client.emit('createdevent', show);
+          that.server.onShowsUpdated();
       });
 
       // EDIT Date event
       client.on('editevent', function(data){
           var show = that.showbase.saveShow(data);
           client.emit('updatedevent', show);
+          that.server.onShowsUpdated();
       });
 
       // DELETE Date event
       client.on('removeevent', function(data){
           that.showbase.removeShow(data);
           client.emit('deletedevent', data);
+          that.server.onShowsUpdated();
       });
 
       client.emit('alldata', that.showbase.getAll());

@@ -441,7 +441,7 @@ $(function() {
 
   socket.on('stateuser', function (state) {
     $.each(allUsers, function(index,user){
-      if (state.id == user.id ) user.updateActive(state.active);
+      if (state.id == user.id ) user.updateActive(state.state);
     });
   });
 

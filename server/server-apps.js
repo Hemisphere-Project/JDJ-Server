@@ -3,17 +3,14 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  AppServer: function(port, server, version, userbase, userinterface) {
+  AppServer: function(port, server) {
     var that = this;
 
     // controlled server
     this.server = server;
-    this.version = version;
-    this.userbase = userbase;
-    this.userinterface = userinterface;
-
-    // Bind to userinterface event
-    this.userinterface.onUserUpdated = function(userinfo) { that.sendInfo(userinfo); };
+    this.version = server.version;
+    this.userbase = server.USERBASE;
+    this.userinterface = server.USERSCTRL;
 
     // Last Value Cache
     this.lvc = null;
@@ -40,7 +37,7 @@ module.exports = {
       client.on('subscribe', function(data)
       {
         // console.log('subscribe :'+JSON.stringify(data));
-        console.log("New Subscription");
+        // console.log("New Subscription");
         // check if user already exist or get a fresh one
         var newuser = that.userbase.getUser(data.userid);
         // check if number correspond to exisiting user
@@ -143,10 +140,17 @@ module.exports = {
       // If user is new or with error, provide show list
       if (userinfo.id == null || userinfo.error != null) {
         hellomsg.showlist = that.userbase.getEvents();
+        hellomsg.currentshow = that.userbase.getCurrentEvent();
       }
 
       //console.log('send:'+JSON.stringify(hellomsg));
       client.emit('hello', hellomsg);
+    }
+
+    this.sendEvents = function() {
+      var hellomsg = { showlist: that.userbase.getEvents(), currentshow: that.userbase.getCurrentEvent()}
+      for (var cli in clients)
+        clients[cli].emit('hello', hellomsg);
     }
 
   },

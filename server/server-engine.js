@@ -2,8 +2,10 @@ var Tools = require('./server-utils');
 
 module.exports = {
 
-  MainServer: function() {
+  MainServer: function(version) {
     var that = this;
+
+    this.version = version;
 
     /****
     STATE
@@ -16,7 +18,9 @@ module.exports = {
 
     // Auto observer: trigger onStateChange
     this.StateObserver = new Tools.Observer(that.serverState, function() {that.onStateChange()});
-    this.onStateChange = function() { }; // Public events (to overwrite)
+    this.onStateChange = function() { 
+      if (that.REMOTECTRL) that.REMOTECTRL.send("status", that.getState() ); 
+    }; 
 
     this.addClient = function(userid) { console.log("Client connect: "+userid); that.serverState.clientCount++; };
 
@@ -37,9 +41,10 @@ module.exports = {
     this.lastTask = {};
 
     // Auto observer: trigger onChange
-    this.TasksObserver = new Tools.Observer(that.pendingTasks, function() {that.onTasksChange()});
-    this.onTasksChange = function() { }; // Public events (to overwrite)
-
+    this.TasksObserver = new Tools.Observer(that.pendingTasks, function() {});
+    this.onTasksChange = function() { 
+      if (that.REMOTECTRL) that.REMOTECTRL.send("tasks", that.server.getTasks() ); 
+    };
 
     // Public events (to overwrite)
     this.onConsume = function(task) { console.log('Task consumed'); };
@@ -80,6 +85,26 @@ module.exports = {
         pendingtasks: that.pendingTasks,
         lasttask: that.lastTask
       }
+    };
+
+    this.restart = function() {
+      var sys = require('sys')
+      var exec = require('child_process').exec;
+      function puts(error, stdout, stderr) { sys.puts(stdout) }
+      exec("pm2 restart jdj", puts);
+    };
+
+    /****
+    MODULE EVENTS
+    *****/
+
+    this.onUserUpdated = function(user) {
+      if (that.APPSERVER) that.APPSERVER.sendInfo(user);
+    };
+
+    this.onShowsUpdated = function() {
+      if (that.APPSERVER) that.APPSERVER.sendEvents();
+      if (that.REMOTECTRL) that.REMOTECTRL.sendEvents();
     };
 
 

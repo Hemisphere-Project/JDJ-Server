@@ -912,6 +912,7 @@ $(function() {
     allEvents = data.events;
     buildEvents();
     // current event
+    console.info(data);
     if (data.currentevent) $('#eventselector').val(data.currentevent.date);
     else $('#eventselector').val('all');
   });
