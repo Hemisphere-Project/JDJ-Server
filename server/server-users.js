@@ -250,6 +250,7 @@ module.exports = {
 
     // Add Show
     this.saveShow = function(show) {
+      if (show === null) return null;
       if (show.id === null) show.id = this.db.events.length;
       this.db.events[show.id] = show;
       this.save();
@@ -258,18 +259,13 @@ module.exports = {
 
     // Update Show
     this.updateShow = function(show) {
-      if (this.existShowDate(show.date)) {
-        var showold = this.getShowByDate(show.date);
-        show.id = showold.id;
-        return this.saveShow(show);
-      }
+      if (this.existShowId(show.id)) return this.saveShow(show);
       else return null;
     }
 
     // Remove Show
-    this.removeShowByDate = function(date) {
-      if (this.existShowDate(date)) {
-          var show = this.getShowByDate(date);
+    this.removeShow = function(show) {
+      if (this.existShowId(show.id)) {
           this.db.events[show.id] = null;
           this.save();
       }
@@ -288,7 +284,7 @@ module.exports = {
     this.socket.listen(port);
 
     // events binding
-    this.onUserUpdated = function() {};
+    this.onUserUpdated = function(user) {};
 
     // NEW Remote interface connected
     this.socket.on('connection', function(client){
@@ -303,12 +299,20 @@ module.exports = {
       // ADD Date event
       client.on('newevent', function(data){
           data.id = null;
-          that.showbase.saveShow(data);
+          var show = that.showbase.saveShow(data);
+          client.emit('createdevent', show);
+      });
+
+      // EDIT Date event
+      client.on('editevent', function(data){
+          var show = that.showbase.saveShow(data);
+          client.emit('updatedevent', show);
       });
 
       // DELETE Date event
-      client.on('removedate', function(data){
-          that.showbase.removeShowByDate(data);
+      client.on('removeevent', function(data){
+          that.showbase.removeShow(data);
+          client.emit('deletedevent', data);
       });
 
       client.emit('alldata', that.showbase.getAll());

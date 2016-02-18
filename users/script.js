@@ -37,12 +37,13 @@ $(function() {
   $('#eventviewer').change(function(){
     dateselected = $('#eventviewer option:selected').val();
     sortUsers();
+    clearInputs();
     actuEventEditor();
     if (new_HIDDEN==false){
       $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
       $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; });
     }
-    $('#editEvent').removeClass('eventModified');
+    //$('#editEvent').removeClass('eventModified');
   });
 
   function sortUsers(){
@@ -54,45 +55,23 @@ $(function() {
   }
 
   function actuEventEditor(){
-    $.each(allEvents,function(index,event){
-      if (dateselected == event.date){
-        $('#editHour').val(event.startH);
-        $('#editMin').val(event.startM);
-        $('#editPlace').val(event.place);
-        $('#editDate').val(event.date);
-      }
-    });
+    if (dateselected=='all') $('.editing').hide();
+    else {
+      $('.editing').show();
+      $.each(allEvents,function(index,event){
+        if (dateselected == event.date){
+          $('#editHour').val(event.startH);
+          $('#editMin').val(event.startM);
+          $('#editPlace').val(event.place);
+          $('#editDate').val(event.date);
+        }
+      });
+    }
   }
+
   $('#editHour, #editMin, #editPlace, #editDate').change(function(){
     $('#editEvent').addClass('eventModified');
   });
-
-  $("#editEvent").on('click',function(){
-    $.each(allEvents,function(index,event){
-      if (dateselected == event.date){
-        var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
-        var dateFormat = regex.test($('#editDate').val());
-        if (dateFormat){
-          event.date = $('#editDate').val();
-          event.place = $('#editPlace').val();
-          event.startH = $('#editHour').val();
-          event.startM = $('#editMin').val();
-          buildEvents();
-          buildUserEvents();
-          socket.emit('editevent', event);
-          // console.log('EDIT');
-          // console.log(event);
-          $('#addHour').val('18');
-          $('#addMin').val('00');
-          $('#addPlace').val('lieu');
-          $('#addDate').val('jj/mm/aaaa');
-          $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
-          $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; });
-        }
-      }
-    });
-  });
-
 
   $("#addEvent").on('click',function(){
     $("#addPlace,#addDate").css('color','black');
@@ -104,19 +83,8 @@ $(function() {
     var dateFormat = regex.test(newdate);
     if ((newplace!='lieu')&&(dateFormat)){
       var newevent = { place: newplace, date: newdate, startH:starthour, startM:startmin };
-      allEvents.push(newevent);
-      buildEvents();
-      buildUserEvents();
       socket.emit('newevent', newevent);
       console.log('NEW');
-      $('#addHour').val('18');
-      $('#addMin').val('00');
-      $('#addPlace').val('lieu');
-      $('#addDate').val('jj/mm/aaaa');
-      $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
-      $("#newEvent").slideUp(200, function(){ new_HIDDEN=true;});
-      $('#eventviewer').val(newevent.date).change();
-
     }
     if (newplace=='lieu'){
       $("#addPlace").css('color','darkorange');
@@ -126,32 +94,58 @@ $(function() {
     }
   });
 
+  $("#editEvent").on('click',function(){
+    $.each(allEvents,function(index,event){
+      if (dateselected == event.date){
+        var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+        var dateFormat = regex.test($('#editDate').val());
+        if (dateFormat){
+          var editedEvent = $.extend(true, {}, event);
+          editedEvent.date = $('#editDate').val();
+          editedEvent.place = $('#editPlace').val();
+          editedEvent.startH = $('#editHour').val();
+          editedEvent.startM = $('#editMin').val();
+          socket.emit('editevent', editedEvent);
+          console.log('EDIT');
+        }
+      }
+    });
+  });
+
+  $("#deleteEvent").on('click',function(){
+    if (dateselected != 'all'){
+      $.each(allEvents,function(index,event){
+        if (dateselected == event.date)
+          socket.emit('removeevent', event);
+          console.log('DELETE');
+      });      
+    }
+  });
+
   function clearInputs(){
+    
     $('#addHour').val('18');
     $('#addMin').val('00');
     $('#addPlace').val('lieu');
     $('#addDate').val('jj/mm/aaaa');
-    $('#editHour').val('');
-    $('#editMin').val('');
-    $('#editPlace').val('');
-    $('#editDate').val('');
+    $("#open_newEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
+    $("#newEvent").slideUp(200, function(){ new_HIDDEN=true;});
+
+    $('#editHour').val('18');
+    $('#editMin').val('00');
+    $('#editPlace').val('lieu');
+    $('#editDate').val('jj/mm/aaaa');
+    $('#editEvent').removeClass('eventModified');
+    //$("#open_editEvent_Arrow").removeClass('fa-sort-asc').addClass('fa-sort-desc');
+    //$("#editEvent").slideUp(200, function(){ edit_HIDDEN=true;});
+
   }
 
-  $("#deleteEvent").on('click',function(){
-    if (dateselected != 'all'){
-      var indextoremove;
-      $.each(allEvents,function(index,event){
-        if (dateselected == event.date){
-          indextoremove = index;
-          socket.emit('removeevent', event);
-        }
-      });
-      allEvents.splice(indextoremove,1);
-      buildEvents();
-      buildUserEvents();
-      clearInputs();
-    }
-  });
+  function gotoEvent(date){
+    buildEvents();
+    buildUserEvents();
+    $('#eventviewer').val(date).change();
+  }
 
   function buildUserEvents(){
     $.each(allUsers, function(index,user){
@@ -402,16 +396,40 @@ $(function() {
     console.log(data);
     // events
     allEvents = data.events;
-    buildEvents();
     // users
     userPool.clearUsers();
     $.each(data.users,function(index,user){
       userPool.addUser(user);
     });
+    // load view
+    gotoEvent('all');
   });
 
-  socket.on('updatedevent', function () {
-    $('#editEvent').removeClass('eventModified');
+  socket.on('createdevent', function(event) {
+    if (event) allEvents.push(event);
+    gotoEvent(event.date);
+  });
+
+  socket.on('updatedevent', function (editedEvent) {
+    if (editedEvent)
+      $.each(allEvents,function(index,ev){
+        if (ev.id == editedEvent.id) { 
+          ev.date = editedEvent.date;
+          ev.place = editedEvent.place;
+          ev.startH = editedEvent.startH;
+          ev.startM = editedEvent.startM;
+        }
+      });
+    gotoEvent(editedEvent.date);
+  });
+
+  socket.on('deletedevent', function(deletedEvent) {
+    if (deletedEvent){
+      var indextoremove = null;
+      $.each(allEvents,function(index,ev){
+          if (ev.id == deletedEvent.id) allEvents.splice(index,1); });
+    }
+    gotoEvent('all');
   });
 
   socket.on('updateduser', function (userid) {

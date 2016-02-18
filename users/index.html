@@ -27,11 +27,11 @@
       <span class="bold">Date</span>
       <select name="eventviewer" id="eventviewer" class="dropdown big"></select>
       <br><br>
-      <span class="bold">Delete</span>
-      <i class="fa fa-minus-circle leftButton" id="deleteEvent"></i>
-      <br><br>
-      <span class="bold">Edit</span> <br>
-      <div id="showEvent" class='leftAdd'>
+      <span class="bold editing">Delete</span>
+      <i class="fa fa-minus-circle leftButton editing" id="deleteEvent"></i>
+      <br class='editing'><br class='editing'>
+      <span class="bold editing">Edit</span> <br class='editing'>
+      <div id="showEvent" class='leftAdd editing'>
         <input id="editPlace" type="text" class="textInput" value="lieu" onClick="this.select();">
         <input id="editDate" type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
         <input id="editHour" class="hourmin" type="number" name="min" id="min" min="0" max="59" value="18" inputmode="numeric" pattern="[0-9]*" required>
