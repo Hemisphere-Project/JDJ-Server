@@ -14,7 +14,6 @@ $(function() {
   allEvents = new Array();
 
   // fake DB
-
   // var event1={id:'1', place:'caracas', date: '18/32/7623', startH:'18', startM:'07' };
   // allEvents.push(event1);
   // var event2={id:'2',  place:'puno', date: '62/76/1563', startH:'17', startM:'24' };
@@ -40,6 +39,7 @@ $(function() {
     sortUsers();
     actuEventEditor();
     if (new_HIDDEN==false){ $("#newEvent").slideUp(200, function(){ new_HIDDEN=true; }); }
+    $('#editEvent').removeClass('eventModified');
   });
 
   function sortUsers(){
@@ -60,6 +60,9 @@ $(function() {
       }
     });
   }
+  $('#editHour, #editMin, #editPlace, #editDate').change(function(){
+    $('#editEvent').addClass('eventModified');
+  });
 
   $("#editEvent").on('click',function(){
     $.each(allEvents,function(index,event){
@@ -74,7 +77,8 @@ $(function() {
           buildEvents();
           buildUserEvents();
           socket.emit('editevent', event);
-          console.log('EDIT');
+          // console.log('EDIT');
+          // console.log(event);
           $('#addHour').val('18');
           $('#addMin').val('00');
           $('#addPlace').val('lieu');
@@ -84,6 +88,7 @@ $(function() {
       }
     });
   });
+
 
   $("#addEvent").on('click',function(){
     $("#addPlace,#addDate").css('color','black');
@@ -107,6 +112,9 @@ $(function() {
       $("#newEvent").slideUp(200, function(){
         new_HIDDEN=true;
       });
+      //select and make editable
+      $('#eventviewer').val(newevent.date).change();
+
     }
     if (newplace=='lieu'){
       $("#addPlace").css('color','darkorange');
@@ -116,21 +124,30 @@ $(function() {
     }
   });
 
+  function clearInputs(){
+    $('#addHour').val('18');
+    $('#addMin').val('00');
+    $('#addPlace').val('lieu');
+    $('#addDate').val('jj/mm/aaaa');
+    $('#editHour').val('');
+    $('#editMin').val('');
+    $('#editPlace').val('');
+    $('#editDate').val('');
+  }
+
   $("#deleteEvent").on('click',function(){
-    // dateselected = $('#eventviewer option:selected').val();
     if (dateselected != 'all'){
       var indextoremove;
       $.each(allEvents,function(index,event){
         if (dateselected == event.date){
           indextoremove = index;
           socket.emit('removeevent', event);
-          console.log(event);
         }
       });
       allEvents.splice(indextoremove,1);
       buildEvents();
       buildUserEvents();
-      // socket.emit('removedate', dateselected);
+      clearInputs();
     }
   });
 
@@ -186,52 +203,51 @@ $(function() {
   userPool = new user_pool();
 
   // Fake_DB
-  /*
-  var user1={
-    active: true,
-    id: 'alphatesteur',
-    number: '0673645293',
-    event: {place: 'caracas',date:'18/32/7623'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:false,B:false,C:true},
-    force: true
-  }
-  userPool.addUser(user1);
-  var user2={
-    active: false,
-    id: 'betatesteur',
-    number: '0653674843',
-    event: {place:'puno', date: '62/76/1563'},
-    os: 'android',
-    group: 'group2',
-    section: {A:false,B:true,C:false},
-    force: true
-  }
-  userPool.addUser(user2);
-  var user3={
-    active: true,
-    id: 'gammatesteur',
-    number: '0635426354',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'android',
-    group: 'group2',
-    section: {A:true,B:true,C:false},
-    force: false
-  }
-  userPool.addUser(user3);
-  var user4={
-    active: true,
-    id: 'omegatesteur',
-    number: '0763547351',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:true,B:true,C:true},
-    force: true
-  }
-  userPool.addUser(user4);
-*/
+  // var user1={
+  //   active: true,
+  //   id: 'alphatesteur',
+  //   number: '0673645293',
+  //   event: {place: 'caracas',date:'18/32/7623'},
+  //   os: 'ios',
+  //   group: 'group1',
+  //   section: {A:false,B:false,C:true},
+  //   force: true
+  // }
+  // userPool.addUser(user1);
+  // var user2={
+  //   active: false,
+  //   id: 'betatesteur',
+  //   number: '0653674843',
+  //   event: {place:'puno', date: '62/76/1563'},
+  //   os: 'android',
+  //   group: 'group2',
+  //   section: {A:false,B:true,C:false},
+  //   force: true
+  // }
+  // userPool.addUser(user2);
+  // var user3={
+  //   active: true,
+  //   id: 'gammatesteur',
+  //   number: '0635426354',
+  //   event:{place:'buenos', date: '74/27/8273'},
+  //   os: 'android',
+  //   group: 'group2',
+  //   section: {A:true,B:true,C:false},
+  //   force: false
+  // }
+  // userPool.addUser(user3);
+  // var user4={
+  //   active: true,
+  //   id: 'omegatesteur',
+  //   number: '0763547351',
+  //   event:{place:'buenos', date: '74/27/8273'},
+  //   os: 'ios',
+  //   group: 'group1',
+  //   section: {A:true,B:true,C:true},
+  //   force: true
+  // }
+  // userPool.addUser(user4);
+
 
   function user_pool(){
 
@@ -393,6 +409,10 @@ $(function() {
       userPool.addUser(user);
     });
 
+  });
+
+  socket.on('updatedevent', function () {
+    $('#editEvent').removeClass('eventModified');
   });
 
   socket.on('updateduser', function (userid) {

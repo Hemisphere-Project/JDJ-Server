@@ -190,7 +190,7 @@ body
 .fa-floppy-o:active{
   font-size: 17pt;
 }
-.userModified{
+.userModified, .eventModified{
   color:#00AA44;
 }
 .dropdown{
