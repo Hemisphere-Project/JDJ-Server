@@ -424,6 +424,27 @@
     outline: 0px none;
   }
 
+
+
+  .dropdown{
+    font-family: "Lato";
+    font-size:10pt;
+    background: url(css/image/arrow.png) no-repeat right #FFFFFF;
+    border: none;
+    border: 1px solid lightgrey;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    }
+    .dropdown:focus{
+      outline: none;
+    }
+    .big{
+      width:60%;
+      margin-top:5px;
+      height: 20px;
+      padding-left: 4px;
+    }
+
   /*--------- RANGE -----------
   ----------------------------*/
   #delay{
