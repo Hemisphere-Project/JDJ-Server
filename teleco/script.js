@@ -915,12 +915,12 @@ $(function() {
   var dateselected;
   allEvents = new Array();
   // fake DB
-  var event1={id:'1', place:'IEOYU', date: '18/32/7623', startH:'18', startM:'07' };
-  allEvents.push(event1);
-  var event2={id:'2',  place:'IUEJ', date: '62/76/1563', startH:'17', startM:'24' };
-  allEvents.push(event2);
-  var event3={id:'3',  place:'ZUIYZ', date: '74/27/8273', startH:'19', startM:'32' };
-  allEvents.push(event3);
+  // var event1={id:'1', place:'IEOYU', date: '18/32/7623', startH:'18', startM:'07' };
+  // allEvents.push(event1);
+  // var event2={id:'2',  place:'IUEJ', date: '62/76/1563', startH:'17', startM:'24' };
+  // allEvents.push(event2);
+  // var event3={id:'3',  place:'ZUIYZ', date: '74/27/8273', startH:'19', startM:'32' };
+  // allEvents.push(event3);
 
   buildEvents();
 
