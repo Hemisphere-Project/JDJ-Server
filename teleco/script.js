@@ -932,14 +932,18 @@ $(function() {
     });
   }
 
-  // $('#eventselector').change(function(){
-  //   dateselected = $('#eventselector option:selected').val();
-  //   $.each(allEvents,function(index,event){
-  //     if (dateselected = event.date){
-  //       socket.emit('eventselected', event);
-  //     }
-  //   });
-  // });
+  $('#eventselector').change(function(){
+    dateselected = $('#eventselector option:selected').val();
+    $.each(allEvents,function(index,event){
+      if (dateselected == event.date){
+        socket.emit('eventselected', event);
+      }
+    });
+  });
+
+  $("#restartServer").click(function(){
+    socket.emit('restartServer');
+  });
 
 
 
