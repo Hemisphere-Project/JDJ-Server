@@ -912,6 +912,10 @@ $(function() {
     });
   });
 
+  socket.on('currentevent',function(event){
+
+  });
+
   var dateselected;
   allEvents = new Array();
   // fake DB
