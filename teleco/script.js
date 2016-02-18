@@ -906,7 +906,8 @@ $(function() {
     allEvents = data.events;
     buildEvents();
     // current event
-    $('#eventselector').val(data.currentevent.date);
+    if (data.currentevent) $('#eventselector').val(data.currentevent.date);
+    else $('#eventselector').val('all');
   });
 
 

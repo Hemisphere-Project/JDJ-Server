@@ -73,12 +73,12 @@ function addHLS (task) {
 // MAIN SERVER
 var SERVER = new Engine.MainServer();
 
-// CONTROLLERS
-var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
-
 // USERS / SHOW MANAGEMENT
 var USERBASE = new Users.Userbase(BASEPATH+'db/users_feur2.db', BASEPATH+'db/show_beta.db');
 var USERSCTRL = new Users.Userinterface(PORT_WS_USERS, USERBASE);
+
+// CONTROLLERS
+var REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER, USERBASE);
 
 // APPS & TIME SERVERS
 var APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER, VERSION, USERBASE, USERSCTRL);

@@ -125,7 +125,9 @@ module.exports = {
       return {
         id: null,
         place: '',
-        date: null
+        date: null,
+        startH: null,
+        startM: null
       }
     }
 
@@ -218,6 +220,23 @@ module.exports = {
       var lower = grps[0];
       _.each(count, function(n, g) { if (count[lower] > n) lower = g; });
       return lower;
+    }
+
+    //
+    // EVENTS
+    //
+
+    // Get current event
+    this.getCurrentEvent = function() {
+      var now = new Date();
+      var show = null;
+      _.each(that.getEvents(), function(el, index) {
+        var dd = el.date.split('/');
+        var start = new Date(dd[2], dd[1]-1, dd[0], el.startH, el.startM);
+        var end = new Date(start); end.setDate(end.getDate() + 1); // add 24h
+        if (now.getTime() >= start.getTime() && now.getTime() <= end.getTime()) show = el;
+      });
+      return show;
     }
 
     // Get Show by ID

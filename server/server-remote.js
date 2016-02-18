@@ -2,11 +2,12 @@ var SocketIO = require('socket.io');
 
 module.exports = {
 
-  WebRemote: function (port, server) {
+  WebRemote: function (port, server, userbase) {
     var that = this;
 
     // controlled server
     this.server = server;
+    this.userbase = userbase;
 
     // Bind to server events
     server.onStateChange = function() { that.send("status", that.server.getState() ); };
@@ -45,6 +46,12 @@ module.exports = {
       // register new remote
       that.server.addController(client);
       that.server.onTasksChange();
+
+      // send Events list
+      client.emit('allevents', {
+        events: that.userbase.getEvents(),
+        currentevent: that.userbase.getCurrentEvent()
+      });
     });
 
     this.socket.on('error', function(err) {

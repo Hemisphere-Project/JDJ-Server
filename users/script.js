@@ -55,9 +55,9 @@ $(function() {
   }
 
   function actuEventEditor(){
-    if (dateselected=='all') $('.editing').hide();
+    if (dateselected=='all') $('.editing').slideUp(200);
     else {
-      $('.editing').show();
+      $('.editing').slideDown(200);
       $.each(allEvents,function(index,event){
         if (dateselected == event.date){
           $('#editHour').val(event.startH);
@@ -427,7 +427,8 @@ $(function() {
     if (deletedEvent){
       var indextoremove = null;
       $.each(allEvents,function(index,ev){
-          if (ev.id == deletedEvent.id) allEvents.splice(index,1); });
+          if (ev.id == deletedEvent.id) indextoremove = index });
+      allEvents.splice(indextoremove,1);
     }
     gotoEvent('all');
   });
