@@ -41,9 +41,9 @@ module.exports = {
     this.lastTask = {};
 
     // Auto observer: trigger onChange
-    this.TasksObserver = new Tools.Observer(that.pendingTasks, function() {});
+    this.TasksObserver = new Tools.Observer(that.pendingTasks, function() {that.onTasksChange()});
     this.onTasksChange = function() { 
-      if (that.REMOTECTRL) that.REMOTECTRL.send("tasks", that.server.getTasks() ); 
+      if (that.REMOTECTRL) that.REMOTECTRL.send("tasks", that.getTasks() ); 
     };
 
     // Public events (to overwrite)

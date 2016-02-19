@@ -9,10 +9,6 @@ module.exports = {
     this.server = server;
     this.userbase = server.USERBASE;
 
-    // Bind to server events
-    server.onStateChange = function() { that.send("status", that.server.getState() ); };
-    server.onTasksChange = function() { that.send("tasks", that.server.getTasks() ); };
-
     // SocketIO websocket
     this.socket = new SocketIO();
     this.socket.listen(port);
