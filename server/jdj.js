@@ -74,8 +74,9 @@ function addHLS (task) {
 var SERVER = new Engine.MainServer(VERSION);
 
 // USERS / SHOW MANAGEMENT
-SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/users_feur2.db', BASEPATH+'db/show_beta.db');
+SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_feur2.db', 'show_beta.db', 'event_state.db');
 SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, SERVER);
+SERVER.USERBASE.updateStateDB(true);
 
 // CONTROLLERS
 SERVER.REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);

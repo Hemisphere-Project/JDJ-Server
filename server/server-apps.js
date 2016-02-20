@@ -149,6 +149,7 @@ module.exports = {
 
     this.sendEvents = function() {
       var hellomsg = { showlist: that.userbase.getEvents(), currentshow: that.userbase.getCurrentEvent()}
+      clients = that.socket.sockets.connected;
       for (var cli in clients)
         clients[cli].emit('hello', hellomsg);
     }

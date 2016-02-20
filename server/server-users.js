@@ -17,11 +17,12 @@ function showDate(input) {
 
 module.exports = {
 
-  Userbase: function (userbasepath, showbasepath) {
+  Userbase: function (basepath, userdb, showdb, statedb) {
     var that = this;
 
-    this.userbasepath = userbasepath;
-    this.showbasepath = showbasepath;
+    this.userbasepath = basepath+userdb;
+    this.showbasepath = basepath+showdb;
+    this.statebasepath = basepath+statedb;
 
     // Save DB to disk
     this.save = function() {
@@ -226,17 +227,46 @@ module.exports = {
     // EVENTS
     //
 
+    this.updateStateDB = function(repeat) {
+      var state = 'off'; // 'pre', 'time', 'after' ou 'all'
+      var show = that.getCurrentEvent();
+      if (show) state = show.state;
+      fs.writeFileSync(this.statebasepath, state);
+
+      if (repeat) {
+        var r_time = 1000*60*10; //10min
+        if (state != 'off') r_time = 1000*60*1; //1min 
+        setTimeout(function(){ that.updateStateDB(true) }, r_time);
+      }
+    }
+
     // Get current event
     this.getCurrentEvent = function() {
-      var now = new Date();
       var show = null;
       _.each(that.getEvents(), function(el, index) {
-        var dd = el.date.split('/');
-        var start = new Date(dd[2], dd[1]-1, dd[0], el.startH, el.startM);
-        var end = new Date(start); end.setDate(end.getDate() + 1); // add 24h
-        if (now.getTime() >= start.getTime() && now.getTime() <= end.getTime()) show = el;
+        show = el;
+        that.setShowState(show);    
       });
       return show;
+    }
+
+    // Set show state
+    this.setShowState = function(show) {
+      var now = (new Date()).getTime();
+      var dd = show.date.split('/');
+      var start = new Date(dd[2], dd[1]-1, dd[0], show.startH, show.startM);
+      var before = new Date(start); before.setDate(before.getDate() - 1); // start - 1j
+      var end = new Date(start); end.setDate(end.getDate() + 1); // start + 1j
+      var after = new Date(end); after.setDate(after.getDate() + 1); // end + 1j
+      var sustain = new Date(after); sustain.setDate(sustain.getDate() + 2); // after + 2j
+
+      show.state = 'off';
+      if (now >= before.getTime() && now <= sustain.getTime()) {
+        if (now < start.getTime()) show.state = 'pre';
+        else if (now < end.getTime()) show.state = 'time';
+        else if (now < after.getTime()) show.state = 'after';
+        else show.state = 'all';
+      }
     }
 
     // Get Show by ID
