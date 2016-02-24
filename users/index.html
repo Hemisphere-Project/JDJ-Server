@@ -27,17 +27,19 @@
       <span class="bold">Date</span>
       <select name="eventviewer" id="eventviewer" class="dropdown big"></select>
       <br><br>
-      <span class="bold editing">Delete</span>
-      <i class="fa fa-minus-circle leftButton editing" id="deleteEvent"></i>
-      <br class='editing'><br class='editing'>
-      <span class="bold editing">Edit</span> <br class='editing'>
-      <div id="showEvent" class='leftAdd editing'>
-        <input id="editPlace" type="text" class="textInput" value="lieu" onClick="this.select();">
-        <input id="editDate" type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
-        <input id="editHour" class="hourmin" type="number" name="min" id="min" min="0" max="59" value="18" inputmode="numeric" pattern="[0-9]*" required>
-        <input id="editMin" class="hourmin" type="number" name="sec" id="sec" min="0" max="59" value="00" inputmode="numeric" pattern="[0-9]*" required>
-        <i class="fa fa-floppy-o leftButton" id="editEvent"></i>
-      </div>
+      <div class="editing">
+        <span class="bold">Delete</span>
+        <i class="fa fa-minus-circle leftButton" id="deleteEvent"></i>
+        <br><br>
+        <span class="bold ">Edit</span><br>
+        <div id="showEvent" class='leftAdd'>
+          <input id="editPlace" type="text" class="textInput" value="lieu" onClick="this.select();">
+          <input id="editDate" type="text" class="textInput" value="jj/mm/aaaa" onClick="this.select();">
+          <input id="editHour" class="hourmin" type="number" name="min" id="min" min="0" max="59" value="18" inputmode="numeric" pattern="[0-9]*" required>
+          <input id="editMin" class="hourmin" type="number" name="sec" id="sec" min="0" max="59" value="00" inputmode="numeric" pattern="[0-9]*" required>
+          <i class="fa fa-floppy-o leftButton" id="editEvent"></i>
+        </div>
+    </div>
       <br><br>
 
       <div id="open_newEvent">New<i id="open_newEvent_Arrow" class="fa fa-sort-desc leftButton"></i></div>

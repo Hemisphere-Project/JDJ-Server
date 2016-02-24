@@ -75,6 +75,9 @@ body
 .header.col_section{
   letter-spacing: 5px;
 }
+.editing{
+  display:none;
+}
 #users{
   width:101%;
   height:90vh;
@@ -122,6 +125,11 @@ body
   width:5%;
   font-size:14pt;
 }
+.col_delete{
+  float: right;
+  width:5%;
+  font-size:14pt;
+}
 
 
 
@@ -143,13 +151,13 @@ body
 }
 .leftButton{
   color: #606060;
-  font-size: 14pt;
+  font-size: 15pt;
   float:right;
   margin-right: 2%;
 }
 .leftButton:active{
-  color: blue;
-    font-size: 15pt;
+  color: lightgrey;
+    font-size: 14pt;
 }
 
 .leftAdd{
@@ -188,11 +196,12 @@ body
 .active{
   color: #00AA44;
 }
-.fa-floppy-o{
+.uibutton{
   font-size: 15pt;
 }
-.fa-floppy-o:active{
-  font-size: 17pt;
+.uibutton:active{
+  color:lightgrey;
+  font-size: 14pt;
 }
 .userModified, .eventModified{
   color:#00AA44;
