@@ -1,6 +1,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 var SocketIO = require('socket.io');
+var dnode = require('dnode');
 
 //var PNF = require('google-libphonenumber').PhoneNumberFormat;
 //var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -116,7 +117,7 @@ module.exports = {
         group: null, //group1
         section: {A:false,B:false,C:false},
         force: false,
-        active: true
+        active: false
         //connected: false
       }
     }
@@ -156,7 +157,7 @@ module.exports = {
     this.errorUser = function(user) {
       // TODO: Validate user information (phone / show, etc..)
       var error = null;
-      if (user.number != '')
+      if (user.number)
         if (user.number.length != 10)
           error = 'Le numéro de téléphone doit comporter 10 chiffres.\nLaissez le champ vide si vous ne souhaitez pas recevoir de SMS.';
 
@@ -235,7 +236,7 @@ module.exports = {
 
       if (repeat) {
         var r_time = 1000*60*10; //10min
-        if (state != 'off') r_time = 1000*60*1; //1min 
+        if (state != 'off') r_time = 1000*60*1; //1min
         setTimeout(function(){ that.updateStateDB(true) }, r_time);
       }
     }
@@ -245,7 +246,7 @@ module.exports = {
       var show = null;
       _.each(that.getEvents(), function(el, index) {
         show = el;
-        that.setShowState(show);    
+        that.setShowState(show);
       });
       return show;
     }
@@ -322,7 +323,7 @@ module.exports = {
 
   },
 
-  Userinterface: function(port, server) {
+  Userinterface: function(port_ws, port_php, server) {
     var that = this;
 
     // users base
@@ -331,7 +332,29 @@ module.exports = {
 
     // SocketIO websocket
     this.socket = new SocketIO();
-    this.socket.listen(port);
+    this.socket.listen(port_ws);
+
+    // PHP Dnode service
+    var server = dnode({
+        allEvents : function (s, cb) {
+            cb(that.showbase.getEvents())
+        },
+        addUser : function (s, cb) {
+            var newuser = that.showbase.getUserByNumber(s.phone);
+
+            // update data
+            newuser.number = s.phone;
+            newuser.event = that.showbase.getShowById(s.eventid);
+            if (newuser.group == null)
+              newuser.group = that.showbase.chooseGroup(['group1', 'group2']);
+
+            // check if valid, and save
+            //console.log('add user: ',newuser);
+            that.showbase.saveUser(newuser);
+            cb();
+        },
+    });
+    server.listen(port_php);
 
 
     // NEW Remote interface connected
@@ -342,6 +365,12 @@ module.exports = {
         var uu = that.showbase.updateUser(data);
         if (uu != null) client.emit('updateduser', uu.id);
         that.server.onUserUpdated(uu);
+      });
+
+      // DELETE User event
+      client.on('deleteuser', function(data){
+        var uu = that.showbase.removeUser(data);
+        if (uu != null) client.emit('deleteduser', uu);
       });
 
       // ADD Date event

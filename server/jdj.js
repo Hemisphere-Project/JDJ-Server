@@ -4,6 +4,7 @@ var PORT_PROXY = 8080;
 var PORT_WS_APP = 8081;
 var PORT_TIME = 8082;
 
+var PORT_DNODE_PHP = 8086;
 var PORT_WS_USERS = 8087;
 var PORT_WS_TELECO = 8088;
 var PORT_WS_PAD = 8089;
@@ -75,7 +76,7 @@ var SERVER = new Engine.MainServer(VERSION);
 
 // USERS / SHOW MANAGEMENT
 SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_feur2.db', 'show_beta.db', 'event_state.db');
-SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, SERVER);
+SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, PORT_DNODE_PHP, SERVER);
 SERVER.USERBASE.updateStateDB(true);
 
 // CONTROLLERS
@@ -146,7 +147,7 @@ SERVER.onConsume = function(task) {
     // PAD: handle .live
     else if (task.category == 'pad') {
       task.category = 'web';
-      LIVEPAD.loadText(filecontent);
+      SERVER.LIVEPAD.loadText(filecontent);
       task.url = PADREADER;
       task.atTime += PUB_DELAY_WEB;
     }
