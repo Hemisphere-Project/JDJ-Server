@@ -107,6 +107,12 @@ module.exports = {
       return this.filter(this.getAll().events, params);
     }
 
+    // Update Users active state to off
+    _.each(this.getUsers(), function(el, index) {
+      el.active = false;
+    });
+    this.save();
+
     // Clean user pattern
     this.User = function() {
       return {
@@ -369,7 +375,8 @@ module.exports = {
 
       // DELETE User event
       client.on('deleteuser', function(data){
-        var uu = that.showbase.removeUser(data);
+        var uu = that.showbase.getUser(data);
+        that.showbase.removeUser(data);
         if (uu != null) client.emit('deleteduser', uu);
       });
 
