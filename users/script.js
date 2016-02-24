@@ -118,12 +118,12 @@ $(function() {
         if (dateselected == event.date)
           socket.emit('removeevent', event);
           console.log('DELETE');
-      });      
+      });
     }
   });
 
   function clearInputs(){
-    
+
     $('#addHour').val('18');
     $('#addMin').val('00');
     $('#addPlace').val('lieu');
@@ -197,50 +197,50 @@ $(function() {
   userPool = new user_pool();
 
   // Fake_DB
-  // var user1={
-  //   active: true,
-  //   id: 'alphatesteur',
-  //   number: '0673645293',
-  //   event: {place: 'caracas',date:'18/32/7623'},
-  //   os: 'ios',
-  //   group: 'group1',
-  //   section: {A:false,B:false,C:true},
-  //   force: true
-  // }
-  // userPool.addUser(user1);
-  // var user2={
-  //   active: false,
-  //   id: 'betatesteur',
-  //   number: '0653674843',
-  //   event: {place:'puno', date: '62/76/1563'},
-  //   os: 'android',
-  //   group: 'group2',
-  //   section: {A:false,B:true,C:false},
-  //   force: true
-  // }
-  // userPool.addUser(user2);
-  // var user3={
-  //   active: true,
-  //   id: 'gammatesteur',
-  //   number: '0635426354',
-  //   event:{place:'buenos', date: '74/27/8273'},
-  //   os: 'android',
-  //   group: 'group2',
-  //   section: {A:true,B:true,C:false},
-  //   force: false
-  // }
-  // userPool.addUser(user3);
-  // var user4={
-  //   active: true,
-  //   id: 'omegatesteur',
-  //   number: '0763547351',
-  //   event:{place:'buenos', date: '74/27/8273'},
-  //   os: 'ios',
-  //   group: 'group1',
-  //   section: {A:true,B:true,C:true},
-  //   force: true
-  // }
-  // userPool.addUser(user4);
+  var user1={
+    active: true,
+    id: 'alphatesteur',
+    number: '0673645293',
+    event: {place: 'caracas',date:'18/32/7623'},
+    os: 'ios',
+    group: 'group1',
+    section: {A:false,B:false,C:true},
+    force: true
+  }
+  userPool.addUser(user1);
+  var user2={
+    active: false,
+    id: 'betatesteur',
+    number: '0653674843',
+    event: {place:'puno', date: '62/76/1563'},
+    os: 'android',
+    group: 'group2',
+    section: {A:false,B:true,C:false},
+    force: true
+  }
+  userPool.addUser(user2);
+  var user3={
+    active: true,
+    id: 'gammatesteur',
+    number: '0635426354',
+    event:{place:'buenos', date: '74/27/8273'},
+    os: 'android',
+    group: 'group2',
+    section: {A:true,B:true,C:false},
+    force: false
+  }
+  userPool.addUser(user3);
+  var user4={
+    active: true,
+    id: 'omegatesteur',
+    number: '0763547351',
+    event:{place:'buenos', date: '74/27/8273'},
+    os: 'ios',
+    group: 'group1',
+    section: {A:true,B:true,C:true},
+    force: true
+  }
+  userPool.addUser(user4);
 
 
   function user_pool(){
@@ -253,6 +253,7 @@ $(function() {
       allUsers = [];
       $("#users").empty();
     }
+
   }
 
 
@@ -301,8 +302,11 @@ $(function() {
     this.forcebox = $('<input>').attr({type: 'checkbox', id: this.id+'_force'}).appendTo(this.forceDiv);
     this.forcebox.after($("<label>").attr("for", this.forcebox.attr("id")) );
     // saveText
-    this.saveDiv = $('<div>').addClass('user_field col_save').appendTo(this.userDiv);
+    this.saveDiv = $('<div>').addClass('user_field uibutton col_save').appendTo(this.userDiv);
     this.saveButton = $('<i>').addClass('fa fa-floppy-o').appendTo(this.saveDiv);
+    // remove
+    this.deleteDiv = $('<div>').addClass('user_field uibutton col_delete').appendTo(this.userDiv);
+    this.deleteButton = $('<i>').addClass('fa fa-trash-o').appendTo(this.deleteDiv);
 
 
     // INIT VISUS
@@ -367,6 +371,15 @@ $(function() {
       this.active = isActive;
     }
 
+    this.deleteButton.on('click',function(){
+      console.log('removing '+thisuser.id+'... waiting for server response');
+      socket.emit('deleteuser', thisuser.id);
+    });
+
+    this.updateDelete = function(id){
+      console.log('removing '+id);
+    }
+
 
   }
   // End User object
@@ -413,7 +426,7 @@ $(function() {
   socket.on('updatedevent', function (editedEvent) {
     if (editedEvent)
       $.each(allEvents,function(index,ev){
-        if (ev.id == editedEvent.id) { 
+        if (ev.id == editedEvent.id) {
           ev.date = editedEvent.date;
           ev.place = editedEvent.place;
           ev.startH = editedEvent.startH;
@@ -443,6 +456,17 @@ $(function() {
     $.each(allUsers, function(index,user){
       if (state.id == user.id ) user.updateActive(state.state);
     });
+  });
+
+  socket.on('deleteduser', function (userdeleted) {
+    var indextoremove;
+    $.each(allUsers, function(index,user){
+      if (userdeleted.id == user.id ) {
+        user.userDiv.remove();
+        indextoremove = index;
+      }
+    });
+    allUsers.splice(indextoremove,1);
   });
 
   socket.on('newuser', function (newuser) {
