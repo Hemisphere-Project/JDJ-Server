@@ -795,7 +795,6 @@ $(function() {
   allTasks = new Array();
 
   url = 'http://'+document.location.hostname+':'+IO_PORT;
-
   var socket = io(url);
 
 	socket.on('connect', function () {

@@ -1,4 +1,6 @@
 var SocketIO = require('socket.io');
+var https = require('https'),
+    fs =    require('fs');
 
 module.exports = {
 
@@ -16,9 +18,18 @@ module.exports = {
       this.sendFullPad(this.socket);
     };
 
+    var options = {
+        key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
+        cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
+        ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
+    };
+    var app = https.createServer(options);
+    this.socket = require('socket.io').listen(app);     //socket.io server listens to https connections
+    app.listen(port, "0.0.0.0");
+
     // SocketIO websocket
-    this.socket = new SocketIO();
-    this.socket.listen(port);
+    //this.socket = new SocketIO();
+    //this.socket.listen(port);
 
     // Send the complete PAD status to dest
     this.sendFullPad = function(dest) {

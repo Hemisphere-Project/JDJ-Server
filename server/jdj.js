@@ -1,6 +1,6 @@
 
 // CONFIG
-var PORT_PROXY = 8080;
+var PORT_PROXY = 444;
 var PORT_WS_APP = 8081;
 var PORT_TIME = 8082;
 
@@ -15,7 +15,7 @@ var PUB_DELAY_WEB = 1000;
 var PUB_DELAY_TXT = 500;
 var PUB_DELAY_DEFAULT = 200;
 
-var BASEURL = 'http://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
+var BASEURL = 'https://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
 var PADREADER = BASEURL+'livepad/reader.html';
@@ -27,7 +27,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 0, 'major': 4, 'minor': 6};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 0, 'ios-minor': 0};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -127,7 +127,8 @@ SERVER.onConsume = function(task) {
   // PHONE: convert into param 1
   else if (task.category == 'phone') {
     task.param1 = task.filename.replace(/\.[^/.]+$/, "");
-    task.cache = false;
+    if (task.param1.startsWith("light")) task.cache = true;
+    else task.cache = false;
   }
 
   // MEDIA based on file content

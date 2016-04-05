@@ -103,7 +103,7 @@ $(function() {
   ///////////////////////////////////////////////////////
 
   var IO_PORT = 8089;
-  url = 'http://'+document.location.hostname+':'+IO_PORT;
+  url = 'https://'+document.location.hostname+':'+IO_PORT;
   var socket = io(url);
   var initApp = true;
 

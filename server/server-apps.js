@@ -1,5 +1,7 @@
 var zmq = require('zmq');
 var SocketIO = require('socket.io');
+var https = require('https'),
+    fs =    require('fs');
 
 module.exports = {
 
@@ -15,9 +17,17 @@ module.exports = {
     // Last Value Cache
     this.lvc = null;
 
-    // SocketIO websocket
-    this.socket = new SocketIO();
-    this.socket.listen(port);
+    var options = {
+        key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
+        cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
+        ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
+    };
+    var app = https.createServer(options);
+    this.socket = require('socket.io').listen(app);     //socket.io server listens to https connections
+    app.listen(port, "0.0.0.0");
+
+    //this.socket = new SocketIO();
+    //this.socket.listen(port);
 
     // NEW Client connected
     this.socket.on('connection', function(client){
@@ -137,11 +147,8 @@ module.exports = {
       var hellomsg = { version: that.version, user: userinfo }
       if (that.lvc != null) hellomsg.lvc = that.lvc;
 
-      // If user is new or with error, provide show list
-      if (userinfo.id == null || userinfo.error != null) {
-        hellomsg.showlist = that.userbase.getEvents();
-        hellomsg.currentshow = that.userbase.getCurrentEvent();
-      }
+      hellomsg.showlist = that.userbase.getEvents();
+      hellomsg.currentshow = that.userbase.getCurrentEvent();
 
       //console.log('send:'+JSON.stringify(hellomsg));
       client.emit('hello', hellomsg);
