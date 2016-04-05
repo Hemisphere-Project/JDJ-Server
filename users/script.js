@@ -197,50 +197,50 @@ $(function() {
   userPool = new user_pool();
 
   // Fake_DB
-  var user1={
-    active: true,
-    id: 'alphatesteur',
-    number: '0673645293',
-    event: {place: 'caracas',date:'18/32/7623'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:false,B:false,C:true},
-    force: true
-  }
-  userPool.addUser(user1);
-  var user2={
-    active: false,
-    id: 'betatesteur',
-    number: '0653674843',
-    event: {place:'puno', date: '62/76/1563'},
-    os: 'android',
-    group: 'group2',
-    section: {A:false,B:true,C:false},
-    force: true
-  }
-  userPool.addUser(user2);
-  var user3={
-    active: true,
-    id: 'gammatesteur',
-    number: '0635426354',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'android',
-    group: 'group2',
-    section: {A:true,B:true,C:false},
-    force: false
-  }
-  userPool.addUser(user3);
-  var user4={
-    active: true,
-    id: 'omegatesteur',
-    number: '0763547351',
-    event:{place:'buenos', date: '74/27/8273'},
-    os: 'ios',
-    group: 'group1',
-    section: {A:true,B:true,C:true},
-    force: true
-  }
-  userPool.addUser(user4);
+  // var user1={
+  //   active: true,
+  //   id: 'alphatesteur',
+  //   number: '0673645293',
+  //   event: {place: 'caracas',date:'18/32/7623'},
+  //   os: 'ios',
+  //   group: 'group1',
+  //   section: {A:false,B:false,C:true},
+  //   force: true
+  // }
+  // userPool.addUser(user1);
+  // var user2={
+  //   active: false,
+  //   id: 'betatesteur',
+  //   number: '0653674843',
+  //   event: {place:'puno', date: '62/76/1563'},
+  //   os: 'android',
+  //   group: 'group2',
+  //   section: {A:false,B:true,C:false},
+  //   force: true
+  // }
+  // userPool.addUser(user2);
+  // var user3={
+  //   active: true,
+  //   id: 'gammatesteur',
+  //   number: '0635426354',
+  //   event:{place:'buenos', date: '74/27/8273'},
+  //   os: 'android',
+  //   group: 'group2',
+  //   section: {A:true,B:true,C:false},
+  //   force: false
+  // }
+  // userPool.addUser(user3);
+  // var user4={
+  //   active: true,
+  //   id: 'omegatesteur',
+  //   number: '0763547351',
+  //   event:{place:'buenos', date: '74/27/8273'},
+  //   os: 'ios',
+  //   group: 'group1',
+  //   section: {A:true,B:true,C:true},
+  //   force: true
+  // }
+  // userPool.addUser(user4);
 
 
   function user_pool(){
@@ -406,7 +406,7 @@ $(function() {
   });
 
   socket.on('alldata', function(data) {
-    console.log(data);
+    // console.log(data);
     // events
     allEvents = data.events;
     // users
@@ -464,6 +464,7 @@ $(function() {
       if (userdeleted.id == user.id ) {
         user.userDiv.remove();
         indextoremove = index;
+        console.log('deleted user '+user.id);
       }
     });
     allUsers.splice(indextoremove,1);
