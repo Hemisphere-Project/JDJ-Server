@@ -5,7 +5,7 @@ var https = require('https'),
 
 module.exports = {
 
-  AppServer: function(port, server) {
+  AppServer: function(portSSL, port, server) {
     var that = this;
 
     // controlled server
@@ -17,17 +17,36 @@ module.exports = {
     // Last Value Cache
     this.lvc = null;
 
-    var options = {
+   /*var options = {
         key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
         cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
         ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
     };
     var app = https.createServer(options);
     this.socket = require('socket.io').listen(app);     //socket.io server listens to https connections
-    app.listen(port, "0.0.0.0");
+    app.listen(port, "0.0.0.0");*/
 
-    //this.socket = new SocketIO();
-    //this.socket.listen(port);
+    var fs = require('fs');
+    var net = require('net');
+    var tls = require('tls');
+    var sslOptions = {
+        key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
+        cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
+        ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
+    };
+    tls.createServer(sslOptions, function (cleartextStream) {
+        var cleartextRequest = net.connect({
+            port: port,
+            host: '127.0.0.1'
+        }, function () {
+            cleartextStream.pipe(cleartextRequest);
+            cleartextRequest.pipe(cleartextStream);
+        });
+    }).listen(portSSL);
+
+
+    this.socket = new SocketIO();
+    this.socket.listen(port);
 
     // NEW Client connected
     this.socket.on('connection', function(client){
@@ -37,7 +56,7 @@ module.exports = {
 
       // Client send his ID, answer with server version / lvc and user state
       client.on('iam', function(data){
-        //console.log('iam :'+JSON.stringify(data));
+        console.log('iam :'+JSON.stringify(data));
         var userinfo = that.userbase.getUser(data.userid);
         that.isConnected(client, userinfo.id);
         that.sendInfo(userinfo);
@@ -50,6 +69,9 @@ module.exports = {
         // console.log("New Subscription");
         // check if user already exist or get a fresh one
         var newuser = that.userbase.getUser(data.userid);
+        if (newuser.userid == null){
+          newuser = that.userbase.getUserByNumber(data.number);
+        }
         // check if number correspond to exisiting user
         //if (newuser.id == null) newuser = that.userbase.getUserByNumber(data.number);
 
@@ -126,6 +148,9 @@ module.exports = {
         this.userbase.userState(userid, true);
         this.userinterface.send('stateuser', {id: userid, state: true});
         if (newClient) that.server.addClient(userid);
+
+        // link client to ROOM
+        // TODO
       }
     }
 

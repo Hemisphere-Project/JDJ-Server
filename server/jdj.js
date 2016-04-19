@@ -1,7 +1,8 @@
 
 // CONFIG
 var PORT_PROXY = 444;
-var PORT_WS_APP = 8081;
+var PORT_WS_APP_HTTPS = 8081;
+var PORT_WS_APP_HTTP = 8083;
 var PORT_TIME = 8082;
 
 var PORT_DNODE_PHP = 8086;
@@ -27,7 +28,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 0, 'ios-minor': 0};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 3, 'ios-minor': 0};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -83,7 +84,7 @@ SERVER.USERBASE.updateStateDB(true);
 SERVER.REMOTECTRL = new Remote.WebRemote(PORT_WS_TELECO, SERVER);
 
 // APPS & TIME SERVERS
-SERVER.APPSERVER = new Apps.AppServer(PORT_WS_APP, SERVER);
+SERVER.APPSERVER = new Apps.AppServer(PORT_WS_APP_HTTPS, PORT_WS_APP_HTTP, SERVER);
 SERVER.TIMESERVER = new Apps.TimeServer(PORT_TIME);
 
 // LIVE PAD
@@ -126,8 +127,8 @@ SERVER.onConsume = function(task) {
 
   // PHONE: convert into param 1
   else if (task.category == 'phone') {
-    task.param1 = task.filename.replace(/\.[^/.]+$/, "");
-    if (task.param1.startsWith("light")) task.cache = true;
+    task.param1 = task.filename.replace(/\.[^/.]+$/, "")+"";
+    if (task.param1.indexOf("light") === 0) task.cache = true;
     else task.cache = false;
   }
 
@@ -181,6 +182,6 @@ console.log("\n");
 console.log("Users/Shows Manager: "+PORT_WS_USERS);
 console.log("Remote Control: "+PORT_WS_TELECO);
 console.log("Livepad: "+PORT_WS_PAD);
-console.log("App Com: "+PORT_WS_APP);
+console.log("App Com: "+PORT_WS_APP_HTTPS+"/"+PORT_WS_APP_HTTP);
 console.log("Time Sync: "+PORT_TIME);
 console.log("\nServer READY!\n");

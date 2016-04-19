@@ -1,6 +1,8 @@
 
 IO_PORT = 8088;
 
+console.log('Hello Teleco');
+
 $(function() {
 
   // touch devices: 'click' triggered 300ms after touchstart
@@ -401,7 +403,7 @@ $(function() {
         processData : false,
         type        : 'POST',
         success     : function(data, textStatus, jqXHR){
-          // console.log(data);
+          console.log(data);
           $("#talkBox").text("Upload done");
           $("#fileInput").val('');
           getFiles();

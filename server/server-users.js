@@ -149,7 +149,8 @@ module.exports = {
     this.getUserByNumber = function(phone) {
       var user = this.User();
       _.each(this.db.users, function(el, index) {
-        if (phone != '' && el.number == phone) user = el;
+        if (el)
+        	if (phone != '' && el.number == phone) user = el;
       });
       return user;
     }
