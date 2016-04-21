@@ -72,9 +72,7 @@ module.exports = {
         if (newuser.userid == null){
           newuser = that.userbase.getUserByNumber(data.number);
         }
-        // check if number correspond to exisiting user
-        //if (newuser.id == null) newuser = that.userbase.getUserByNumber(data.number);
-
+    
         // update data
         newuser.number = data.number;
         newuser.event = that.userbase.getShowById(data.showid);
@@ -113,7 +111,11 @@ module.exports = {
 
     // Emit shortcut
     this.send = function(subject, data) {
-      this.socket.emit(subject, data);
+      if (data.eventid > 0) {
+        this.socket.to('event-'+data.eventid).emit(subject, data);
+        //console.log('sent to room event-'+data.eventid);
+      }
+      else this.socket.emit(subject, data);
     };
 
     // Publish task command to all (and store in lvc cache)
@@ -127,7 +129,9 @@ module.exports = {
 
     // Is Connected
     this.isConnected = function(client, userid) {
+      
       // store id in socketio client (for disconnect) an register connection
+      
       if (userid != null) {
 
         // de-associate other clients from this id
@@ -150,7 +154,8 @@ module.exports = {
         if (newClient) that.server.addClient(userid);
 
         // link client to ROOM
-        // TODO
+        var userinfo = that.userbase.getUser(userid);
+        if (userinfo.event && userinfo.event.id) client.join('event-'+userinfo.event.id);
       }
     }
 
@@ -167,6 +172,7 @@ module.exports = {
         //console.log('Client not connected...');
         return;
       }
+
 
       // send Hello package with userinfo
       var hellomsg = { version: that.version, user: userinfo }

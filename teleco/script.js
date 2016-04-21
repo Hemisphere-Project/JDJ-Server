@@ -743,6 +743,7 @@ $(function() {
       category: categorySelected,
       when:time,
       who:who,
+      eventid: eventselectedID,
       notif: notif,
       localTime: new Date().getTime()
     };
@@ -755,7 +756,7 @@ $(function() {
 
   // SEND STOP
   $("#stopAll").on('click',function(){
-    socket.emit('stop',{});
+    socket.emit('stop',{eventid: eventselectedID});
   });
 
 
@@ -914,12 +915,16 @@ $(function() {
     buildEvents();
     // current event
     console.info(data);
-    if (data.currentevent) $('#eventselector').val(data.currentevent.date);
+    if (data.currentevent) {
+      $('#eventselector').val(data.currentevent.date);
+      eventselectedID = data.currentevent.id;
+    }
     else $('#eventselector').val('all');
   });
 
 
   var dateselected;
+  var eventselectedID = 0;
   allEvents = new Array();
   // fake DB
   // var event1={id:'1', place:'IEOYU', date: '18/32/7623', startH:'18', startM:'07' };
@@ -941,11 +946,15 @@ $(function() {
 
   $('#eventselector').change(function(){
     dateselected = $('#eventselector option:selected').val();
-    $.each(allEvents,function(index,event){
-      if (dateselected == event.date){
-        socket.emit('eventselected', event);
-      }
-    });
+    if (dateselected == 'all') eventselectedID = 0;
+    else
+      $.each(allEvents,function(index,event){
+        if (dateselected == event.date){
+          socket.emit('eventselected', event);
+          eventselectedID = event.id;
+        }
+      });
+    console.log('eventselected ',eventselectedID);
   });
 
   $("#restartServer").click(function(){
