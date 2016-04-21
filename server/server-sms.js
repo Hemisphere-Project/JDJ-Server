@@ -2,6 +2,7 @@ var request = require('request');
 var _ = require('underscore');
 
 var SMS_API = 'http://app.journaldunseuljour.fr/server/sms/postman.php'
+var DEEPANDROID = 'http://is.gd/jdj2016';
 
 module.exports = {
 
@@ -29,7 +30,7 @@ module.exports = {
       this.destinataires = uniqueArray;
     };
 
-    this.send = function() {
+    this.send = function(plateform) {
 
       if (this.messages.length == 0) {console.log('empty SMS: nothing sent'); return false;}
       var destinataires = _.toArray(_.groupBy(this.destinataires, function(element, index){ return index % that.messages.length; }));
@@ -37,12 +38,15 @@ module.exports = {
       for (var k=0; k<this.messages.length; k++) {
         if (destinataires[k] === undefined || destinataires[k].length == 0) break;
 
-        if (true) console.log('send SMS: '+this.messages[k]+' => '+JSON.stringify(destinataires[k]));
-        else
-          request.post( SMS_API,
+        var mess = this.messages[k];
+        if (plateform == 'android') mess = mess.replace("*deeplink*", DEEPANDROID);
+        else mess = mess.replace("*deeplink*", '');
+
+        console.log('send SMS: '+mess+' => '+JSON.stringify(destinataires[k]))
+        request.post( SMS_API,
               { form: {
                 dest: JSON.stringify(destinataires[k]),
-                msg: this.messages[k],
+                msg: mess,
                 token: 3737}
               },
               function (error, response, body) {
@@ -53,9 +57,10 @@ module.exports = {
 
     };
 
-    this.sendTo = function(destinataires) {
-      this.addDest(destinataires);
-      this.send();
+    this.sendTo = function(dests, plateform) {
+      this.destinataires = [];
+      this.addDest(dests);
+      this.send(plateform);
     }
 
   }

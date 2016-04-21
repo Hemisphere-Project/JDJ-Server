@@ -15,7 +15,7 @@ module.exports = {
     this.userinterface = server.USERSCTRL;
 
     // Last Value Cache
-    this.lvc = null;
+    this.lvc = {};
 
    /*var options = {
         key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
@@ -112,9 +112,9 @@ module.exports = {
 
     // Emit shortcut
     this.send = function(subject, data) {
-      if (data.eventid > 0) {
+      if (data.eventid !== undefined && data.eventid !== null) {
         this.socket.to('event-'+data.eventid).emit(subject, data);
-        //console.log('sent to room event-'+data.eventid);
+        console.log('sent to room event-'+data.eventid);
       }
       else this.socket.emit(subject, data);
     };
@@ -122,7 +122,7 @@ module.exports = {
     // Publish task command to all (and store in lvc cache)
     this.sendTask = function(task) {
       that.send('task', task);
-      if (task.cache === true) that.lvc = task;
+      if (task.cache === true) that.lvc[task.eventid] = task;
     }
 
     // Link with server consumer
@@ -177,7 +177,9 @@ module.exports = {
 
       // send Hello package with userinfo
       var hellomsg = { version: that.version, user: userinfo }
-      if (that.lvc != null) hellomsg.lvc = that.lvc;
+      //console.log(userinfo.event.id, that.lvc[userinfo.event.id]);
+      if (userinfo.event && that.lvc[userinfo.event.id] != null) 
+        hellomsg.lvc = that.lvc[userinfo.event.id];
 
       hellomsg.showlist = that.userbase.getEvents();
       hellomsg.currentshow = that.userbase.getCurrentEvent();

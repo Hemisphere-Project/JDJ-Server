@@ -19,7 +19,7 @@ var PUB_DELAY_DEFAULT = 200;
 var BASEURL = 'https://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
-var PADREADER = BASEURL+'livepad/reader.html';
+var PADREADER = BASEURL+'livepad/reader.  html';
 
 var MULTITXT_SEPARATOR = '%%';
 
@@ -28,7 +28,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 3, 'ios-minor': 0};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 5, 'ios-minor': 1};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -76,7 +76,7 @@ function addHLS (task) {
 var SERVER = new Engine.MainServer(VERSION);
 
 // USERS / SHOW MANAGEMENT
-SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_feur2.db', 'show_beta.db', 'event_state.db');
+SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_frappaz.db', 'show_frappaz.db', 'event_state.db');
 SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, PORT_DNODE_PHP, SERVER);
 SERVER.USERBASE.updateStateDB(true);
 
@@ -164,7 +164,10 @@ SERVER.onConsume = function(task) {
     // SMS: send sms using HighCoSms
     else if (task.category == 'sms') {
       var sms = new Sms.HighCoSms(filecontent, MULTITXT_SEPARATOR);
-      sms.sendTo( USERBASE.getPhones({group: task.group, section: task.section /*put event here*/ }) );
+      var event = SERVER.USERBASE.getShowById(task.eventid);
+      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'android' }), 'android' );
+      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'ios' }), 'ios' );
+      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'' }), 'none' );
       return false;
     }
   }

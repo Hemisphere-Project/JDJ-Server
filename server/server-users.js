@@ -120,6 +120,7 @@ module.exports = {
         number: null,
         event: null, //{place: 'caracas',date:'18/32/7623'},
         os: '',
+        plateform: '',
         group: null, //group1
         section: {A:false,B:false,C:false},
         force: false,
@@ -179,10 +180,16 @@ module.exports = {
     // Add user
     this.saveUser = function(user, allowError) {
       //console.log(user);
+
       user.error = this.errorUser(user);
       if (allowError === undefined) allowError = true;
       if (allowError || user.error == null) {
         if (user.id === null || user.id < 0) user.id = this.db.users.length;
+
+        if (user.os.lastIndexOf('ios', 0) === 0) user.plateform = 'ios';
+        else if (user.os.lastIndexOf('android', 0) === 0) user.plateform = 'android';
+        else user.plateform = '';
+        
         this.db.users[user.id] = user;
         this.save();
       }
@@ -280,19 +287,12 @@ module.exports = {
 
     // Get Show by ID
     this.getShowById = function(showid) {
-      var show = null;
-      _.each(this.db.events, function(el, index) {
-        if (el.id == showid) show = el;
-      });
-      return show;
+      if (this.existShowId(showid)) return this.db.events[showid];
+      else return null;
     }
 
     this.existShowId = function(showid) {
-      if (showid == null) return false;
-      _.each(this.db.events, function(el, index) {
-        if (el.id == showid) return true;
-      });
-      return false;
+      return showid !== null && showid >= 0 && (showid in this.db.events) && (this.db.events[showid] !== null);
     }
 
     this.getShowByDate = function(date) {
