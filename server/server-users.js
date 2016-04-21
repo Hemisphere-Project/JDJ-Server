@@ -178,6 +178,7 @@ module.exports = {
 
     // Add user
     this.saveUser = function(user, allowError) {
+      //console.log(user);
       user.error = this.errorUser(user);
       if (allowError === undefined) allowError = true;
       if (allowError || user.error == null) {
@@ -279,12 +280,19 @@ module.exports = {
 
     // Get Show by ID
     this.getShowById = function(showid) {
-      if (this.existShowId(showid)) return this.db.events[showid];
-      else return null;
+      var show = null;
+      _.each(this.db.events, function(el, index) {
+        if (el.id == showid) show = el;
+      });
+      return show;
     }
 
     this.existShowId = function(showid) {
-      return showid !== null && (showid in this.db.events) && (this.db.events[showid] !== null);
+      if (showid == null) return false;
+      _.each(this.db.events, function(el, index) {
+        if (el.id == showid) return true;
+      });
+      return false;
     }
 
     this.getShowByDate = function(date) {

@@ -81,6 +81,7 @@ module.exports = {
           newuser.group = that.userbase.chooseGroup(['group1', 'group2']);
 
         // check if valid, and save
+        //console.log(data);
         newuser = that.userbase.saveUser(newuser);
 
         // sendHello
