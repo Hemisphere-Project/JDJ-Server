@@ -179,20 +179,17 @@ module.exports = {
 
     // Add user
     this.saveUser = function(user, allowError) {
-      //console.log(user);
 
       user.error = this.errorUser(user);
-      if (allowError === undefined) allowError = true;
-      if (allowError || user.error == null) {
-        if (user.id === null || user.id < 0) user.id = this.db.users.length;
+      if (user.id === null || user.id < 0) user.id = this.db.users.length;
 
-        if (user.os.lastIndexOf('ios', 0) === 0) user.plateform = 'ios';
-        else if (user.os.lastIndexOf('android', 0) === 0) user.plateform = 'android';
-        else user.plateform = '';
-        
-        this.db.users[user.id] = user;
-        this.save();
-      }
+      if (user.os.lastIndexOf('ios', 0) === 0) user.plateform = 'ios';
+      else if (user.os.lastIndexOf('android', 0) === 0) user.plateform = 'android';
+      else user.plateform = '';
+      
+      this.db.users[user.id] = user;
+      this.save();
+
       return user;
     }
 
@@ -220,8 +217,9 @@ module.exports = {
     }
 
     // get all phone for given event
-    this.getPhones = function(params) {
+    this.getPhones = function(params, plateform) {
       var phones = [];
+      if (plateform !== undefined) params['plateform'] = plateform;
       var users = this.getUsers(params);
       _.each(users, function(el) { phones.push(el.number) });
       phones = _.without(phones, null, '');

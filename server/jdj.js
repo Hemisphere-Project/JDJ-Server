@@ -19,7 +19,7 @@ var PUB_DELAY_DEFAULT = 200;
 var BASEURL = 'https://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
-var PADREADER = BASEURL+'livepad/reader.  html';
+var PADREADER = BASEURL+'livepad/reader.html';
 
 var MULTITXT_SEPARATOR = '%%';
 
@@ -28,7 +28,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 5, 'ios-minor': 1};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 7, 'ios-minor': 3};
 var NEXTSHOW = (new Date()).getTime();
 
 var BASEPATH = __dirname+'/';
@@ -164,10 +164,19 @@ SERVER.onConsume = function(task) {
     // SMS: send sms using HighCoSms
     else if (task.category == 'sms') {
       var sms = new Sms.HighCoSms(filecontent, MULTITXT_SEPARATOR);
-      var event = SERVER.USERBASE.getShowById(task.eventid);
-      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'android' }), 'android' );
-      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'ios' }), 'ios' );
-      sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'' }), 'none' );
+
+      var filter = {group: task.group, section: task.section};
+      if (task.eventid >= 0) filter['event'] = SERVER.USERBASE.getShowById(task.eventid);
+
+      sms.sendTo( SERVER.USERBASE.getPhones(filter, 'android'), 'android' );
+      sms.sendTo( SERVER.USERBASE.getPhones(filter, 'ios'), 'ios' );
+      sms.sendTo( SERVER.USERBASE.getPhones(filter, '') );
+
+
+      //sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'' }), 'none' );
+      //sms.sendTo( SERVER.USERBASE.getPhones(), 'android' );
+      //sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'ios' }), 'ios' );
+      
       return false;
     }
   }

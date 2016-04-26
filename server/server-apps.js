@@ -56,7 +56,7 @@ module.exports = {
 
       // Client send his ID, answer with server version / lvc and user state
       client.on('iam', function(data){
-        console.log('iam :'+JSON.stringify(data));
+        //console.log('iam :'+JSON.stringify(data));
         var userinfo = that.userbase.getUser(data.userid);
         that.isConnected(client, userinfo.id);
         that.sendInfo(userinfo);
@@ -69,7 +69,7 @@ module.exports = {
         // console.log("New Subscription");
         // check if user already exist or get a fresh one
         var newuser = that.userbase.getUser(data.userid);
-        if (newuser.userid == null){
+        if (newuser.id == null){
           newuser = that.userbase.getUserByNumber(data.number);
         }
     
@@ -86,7 +86,7 @@ module.exports = {
 
         // sendHello
         that.isConnected(client, newuser.id);
-        that.sendInfo(newuser);
+        that.sendInfo(newuser, (newuser.id == null) );
       });
 
       // Unregister App client
@@ -112,7 +112,7 @@ module.exports = {
 
     // Emit shortcut
     this.send = function(subject, data) {
-      if (data.eventid !== undefined && data.eventid !== null) {
+      if (data.eventid !== undefined && data.eventid !== null && data.eventid >= 0) {
         this.socket.to('event-'+data.eventid).emit(subject, data);
         console.log('sent to room event-'+data.eventid);
       }
@@ -156,7 +156,12 @@ module.exports = {
 
         // link client to ROOM
         var userinfo = that.userbase.getUser(userid);
-        if (userinfo.event && userinfo.event.id) client.join('event-'+userinfo.event.id);
+        if (userinfo.event)
+          if (userinfo.event.id !== undefined && userinfo.event.id !== null && userinfo.event.id >= 0)
+          {
+            client.join('event-'+userinfo.event.id);
+            console.log('client added to room event-'+userinfo.event.id);
+          }
       }
     }
 

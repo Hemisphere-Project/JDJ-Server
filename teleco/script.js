@@ -946,7 +946,7 @@ $(function() {
 
   $('#eventselector').change(function(){
     dateselected = $('#eventselector option:selected').val();
-    if (dateselected == 'all') eventselectedID = 0;
+    if (dateselected == 'all') eventselectedID = -1;
     else
       $.each(allEvents,function(index,event){
         if (dateselected == event.date){

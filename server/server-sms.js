@@ -2,7 +2,7 @@ var request = require('request');
 var _ = require('underscore');
 
 var SMS_API = 'http://app.journaldunseuljour.fr/server/sms/postman.php'
-var DEEPANDROID = 'http://is.gd/jdj2016';
+var DEEPLINK = 'http://is.gd/jdj2016';
 
 module.exports = {
 
@@ -39,7 +39,8 @@ module.exports = {
         if (destinataires[k] === undefined || destinataires[k].length == 0) break;
 
         var mess = this.messages[k];
-        if (plateform == 'android') mess = mess.replace("*deeplink*", DEEPANDROID);
+        if (plateform == 'android') mess = mess.replace("*deeplink*", DEEPLINK);
+        else if (plateform == 'ios') mess = mess.replace("*deeplink*", DEEPLINK);
         else mess = mess.replace("*deeplink*", '');
 
         console.log('send SMS: '+mess+' => '+JSON.stringify(destinataires[k]))
