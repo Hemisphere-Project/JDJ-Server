@@ -72,7 +72,7 @@ module.exports = {
         if (newuser.id == null){
           newuser = that.userbase.getUserByNumber(data.number);
         }
-    
+
         // update data
         newuser.number = data.number;
         newuser.event = that.userbase.getShowById(data.showid);
@@ -130,9 +130,9 @@ module.exports = {
 
     // Is Connected
     this.isConnected = function(client, userid) {
-      
+
       // store id in socketio client (for disconnect) an register connection
-      
+
       if (userid != null) {
 
         // de-associate other clients from this id
@@ -183,11 +183,13 @@ module.exports = {
       // send Hello package with userinfo
       var hellomsg = { version: that.version, user: userinfo }
       //console.log(userinfo.event.id, that.lvc[userinfo.event.id]);
-      if (userinfo.event && that.lvc[userinfo.event.id] != null) 
+      if (userinfo.event && that.lvc[userinfo.event.id] != null)
         hellomsg.lvc = that.lvc[userinfo.event.id];
 
       hellomsg.showlist = that.userbase.getEvents();
       hellomsg.currentshow = that.userbase.getCurrentEvent();
+
+      hellomsg.info = "Le spectacle est en cours, restez connecté !";
 
       //console.log('send:'+JSON.stringify(hellomsg));
       client.emit('hello', hellomsg);

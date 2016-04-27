@@ -28,9 +28,9 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 7, 'ios-minor': 3};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 7, 'ios-minor': 1};
 var NEXTSHOW = (new Date()).getTime();
-
+2
 var BASEPATH = __dirname+'/';
 var MEDIAPATH = BASEPATH+'../files/';
 
@@ -176,7 +176,7 @@ SERVER.onConsume = function(task) {
       //sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'' }), 'none' );
       //sms.sendTo( SERVER.USERBASE.getPhones(), 'android' );
       //sms.sendTo( SERVER.USERBASE.getPhones({group: task.group, section: task.section, event:event, plateform:'ios' }), 'ios' );
-      
+
       return false;
     }
   }
