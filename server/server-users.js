@@ -186,7 +186,7 @@ module.exports = {
       if (user.os.lastIndexOf('ios', 0) === 0) user.plateform = 'ios';
       else if (user.os.lastIndexOf('android', 0) === 0) user.plateform = 'android';
       else user.plateform = '';
-      
+
       this.db.users[user.id] = user;
       this.save();
 
@@ -258,8 +258,8 @@ module.exports = {
     this.getCurrentEvent = function() {
       var show = null;
       _.each(that.getEvents(), function(el, index) {
-        show = el;
-        that.setShowState(show);
+        that.setShowState(el);
+        if (el.state != 'off') show = el;
       });
       return show;
     }
@@ -410,6 +410,7 @@ module.exports = {
       });
 
       client.emit('alldata', that.showbase.getAll());
+      //console.log(that.showbase.getAll());
 
     });
 

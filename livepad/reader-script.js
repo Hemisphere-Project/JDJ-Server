@@ -10,23 +10,27 @@ $(function() {
 
   function buildText(){
     $("#visuText").empty();
-    var textArray = text.split('');
-    $.each(textArray, function(index,char){
-      var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
-      // falsetext
-      if ($(charDiv).html() == '['){
-        $(charDiv).addClass('falseStart');
-        falseText = true;
-      }
-      if ($(charDiv).html() == ']'){
-        $(charDiv).addClass('falseEnd');
-        falseText = false;
-      }
-      if (falseText == true){
-        $(charDiv).addClass('falseText');
-      }
-      /////////////
-
+    var textLines = text.split('\n');
+    $.each(textLines, function(ix, line)
+    {
+      var textArray = line.split('');
+      $.each(textArray, function(index,char){
+        var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
+        // falsetext
+        if ($(charDiv).html() == '['){
+          $(charDiv).addClass('falseStart');
+          falseText = true;
+        }
+        if ($(charDiv).html() == ']'){
+          $(charDiv).addClass('falseEnd');
+          falseText = false;
+        }
+        if (falseText == true){
+          $(charDiv).addClass('falseText');
+        }
+        /////////////
+      });
+      $('<span><br /></span>').addClass("singleChar untyped").appendTo($("#visuText"));
     });
     var cursor = $('<div>').addClass('cursor').html('').appendTo($("#visuText"));
 

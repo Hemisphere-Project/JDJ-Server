@@ -11,9 +11,14 @@ $(function() {
 
   function buildText(){
     $("#visuText").empty();
-    var textArray = text.split('');
-    $.each(textArray, function(index,char){
-      var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
+    var textLines = text.split('\n');
+    $.each(textLines, function(ix, line)
+    {
+      var textArray = line.split('');
+      $.each(textArray, function(index,char){
+        var charDiv = $('<span>').addClass("singleChar untyped").html(char).appendTo($("#visuText"));
+      });
+      $("<span><br /></span>").addClass("singleChar untyped").appendTo($("#visuText"));
     });
   }
 

@@ -1,6 +1,7 @@
 var zmq = require('zmq');
 var SocketIO = require('socket.io');
 var https = require('https'),
+    http = require('http'),
     fs =    require('fs');
 
 module.exports = {

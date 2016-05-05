@@ -11,7 +11,8 @@ $(function() {
   // https://github.com/ftlabs/fastclick
   FastClick.attach(document.body);
 
-  var categorySelected = 'none';
+  var categorySelected = 'files';
+  var episodeSelected = 'all';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
 
 
@@ -60,6 +61,7 @@ $(function() {
     this.filename = filename;
     this.shortname = filename.split('.')[0];
     this.category = 'unknown';
+    this.episode = 'unknown';
     this.selected = false;
     var thisfile = this;
 
@@ -74,11 +76,17 @@ $(function() {
       else if (extension == "phone") { thisfile.category = "phone" ;}
       else { thisfile.category = "unknown" ; }
     }
+    this.getEpisode = function(){
+      var episode = parseInt(thisfile.filename.split('_')[0].charAt(2));
+      if(episode>=0 && episode < 9)this.episode=episode;
+      else {this.episode="unknown";}
+    }
     this.getCategory();
+    this.getEpisode();
 
     //BUILD ICONS
     //general div
-    this.view = $('<div>').addClass(''+thisfile.category+' view').appendTo( $('#mediasList') );
+    this.view = $('<div>').addClass(''+thisfile.category+' '+thisfile.episode+' view').appendTo( $('#mediasList') );
     //icon
     if (this.category=="audio"){ this.icon = $('<div>').addClass('icon fa fa-file-audio-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="video"){ this.icon = $('<div>').addClass('icon fa fa-file-video-o').attr('id', this.filename).appendTo( thisfile.view ); }
@@ -283,16 +291,29 @@ $(function() {
 
   function sortBrowser(){
     $('.view').hide();
-    $('.'+categorySelected+'').show();
-    if (categorySelected == 'files'){ $('.view').show(); }
+    if(episodeSelected == "all"){
+      $('.'+categorySelected+'').show();
+      if (categorySelected == 'files'){ $('.view').show(); }
+    }else{
+      $('.'+categorySelected+'.'+episodeSelected).show();
+      if (categorySelected == 'files'){ $('.'+episodeSelected).show(); }
+    }
   }
 
   $(".selector").on('click', function(){
+
+    var color1 = "white";
+    var color2 = "black";
+    if (location.search.indexOf('night=true') > -1) {
+        color2 = "#999";
+        color1 = "black";
+    }
+
     // COLOR STYLE
-    $(".selector").css("background-color", "white");
-    $(".selector").css("color", "black");
-    $(this).css("background-color", "black");
-    $(this).css("color", "white");
+    $(".selector").css("background-color", color1);
+    $(".selector").css("color", color2);
+    $(this).css("background-color", color2);
+    $(this).css("color", color1);
 
     categorySelected = $(this).attr("id");
     browser.unselectAllFiles();
@@ -338,6 +359,27 @@ $(function() {
     }
 
     //
+    sortBrowser();
+  });
+
+  $(".selectorEp").on('click', function(){
+
+    var color1 = "white";
+    var color2 = "black";
+    if (location.search.indexOf('night=true') > -1) {
+        color2 = "#999";
+        color1 = "black";
+    }
+
+    // COLOR STYLE
+    $(".selectorEp").css("background-color", color1);
+    $(".selectorEp").css("color", color2);
+    $(this).css("background-color", color2);
+    $(this).css("color", color1);
+
+    episodeSelected = $(this).attr("id");
+    browser.unselectAllFiles();
+
     sortBrowser();
   });
 
@@ -750,7 +792,8 @@ $(function() {
 
     if (fileToSend != "no file selected"){
      socket.emit('play', data);
-     console.log('play '+data.category+' '+data.when+' '+data.who+' '+data.notif+' '+ data.filename);
+     //console.log('play '+data.category+' '+data.when+' '+data.who+' '+data.notif+' '+ data.filename);
+     console.log(data);
     }
   });
 
@@ -758,6 +801,63 @@ $(function() {
   $("#stopAll").on('click',function(){
     socket.emit('stop',{eventid: eventselectedID});
   });
+
+  // SEND VIBRATE
+  $("#vibeBtn").on('click',function(){
+    var data = {
+        filename: "vibre.phone",
+        category: "phone",
+        when:0,
+        who:$('input[name=group]:radio:checked').val(),
+        eventid: eventselectedID,
+        notif: $('input[name=notifSms]').prop('checked'),
+        localTime: new Date().getTime()
+    };
+    socket.emit('play', data );
+  });
+
+  // SEND VIBRATE
+  $("#vibeBtn").on('click',function(){
+    var data = {
+        filename: "vibre.phone",
+        category: "phone",
+        when:0,
+        who:$('input[name=group]:radio:checked').val(),
+        eventid: eventselectedID,
+        notif: $('input[name=notifSms]').prop('checked'),
+        localTime: new Date().getTime()
+    };
+    socket.emit('play', data );
+  });
+
+  // SEND SOUND
+  $("#SoundBtn").on('click',function(){
+    var data = {
+        filename: "NEW_Notif1.mp3",
+        category: "audio",
+        when:0,
+        who:$('input[name=group]:radio:checked').val(),
+        eventid: eventselectedID,
+        notif: $('input[name=notifSms]').prop('checked'),
+        localTime: new Date().getTime()
+    };
+    socket.emit('play', data );
+  });
+
+  // SEND TEXT VIDE
+  $("#videtextBtn").on('click',function(){
+    var data = {
+        filename: "VIDE.txt",
+        category: "text",
+        when:0,
+        who:$('input[name=group]:radio:checked').val(),
+        eventid: eventselectedID,
+        notif: $('input[name=notifSms]').prop('checked'),
+        localTime: new Date().getTime()
+    };
+    socket.emit('play', data );
+  });
+
 
 
   // custom number inputs

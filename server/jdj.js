@@ -28,7 +28,7 @@ VERSIONING
 major: a new major version will prevent previous apps to run: they will exit immediatly
 minor: a new minor version will invite previous apps to update: they will still run the show
 */
-var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 7, 'ios-minor': 1};
+var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 13, 'ios-minor': 4};
 var NEXTSHOW = (new Date()).getTime();
 2
 var BASEPATH = __dirname+'/';

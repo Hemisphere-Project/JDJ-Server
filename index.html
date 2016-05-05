@@ -1,39 +1,29 @@
-<script type="text/javascript">
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <script src="browser-deeplink.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    deeplink.setup({
+        iOS: {
+            appId: "1094744906",
+            appName: "journal-dun-seul-jour",
+        },
+        android: {
+            appId: "com.hmsphr.jdj"
+        }
+    });
+
+    function redirectJDJ() {
+        window.location.replace("http://journaldunseuljour.fr");
+    }
+
     window.onload = function() {
-        var method = 'iframe';
-        var fallbackFunction = function() {
-            if (method == 'iframe') {
-                window.location = 'http://journaldunseuljour.fr';   
-                //window.location = "market://details?id=com.hmsphr.jdj";
-                //window.location = "android-app://jdj/deeplink";
-                //loadChromeIntent();
-                /*<data android:scheme="http"
-                    android:host="is.gd"
-                    android:pathPrefix="/jdj2016" />
-                    */
-            }
-        };
-        var addIFrame = function() {
-            var iframe = document.createElement("iframe");
-            iframe.style.border = "none";
-            iframe.style.width = "1px";
-            iframe.style.height = "1px";
-            iframe.src = "jdjapp://deeplink";
-            document.body.appendChild(iframe);
-        };
-        var loadChromeIntent = function() {
-            method = 'intent';
-            document.location = "intent://deeplink#Intent;scheme=jdjapp;package=com.hmsphr.jdj;end";
-        };
-        if (navigator.userAgent.match("Chrome") && !navigator.userAgent.match("Version/")) {
-            loadChromeIntent();
-        }
-        else if (navigator.userAgent.match(/Firefox/)) {
-            window.location = "jdjapp://deeplink";
-        }
-        else {
-            addIFrame();
-        }
-        setTimeout(fallbackFunction, 750);
-    };
-</script>
+        deeplink.open("jdjapp://deeplink");
+        setTimeout(redirectJDJ, 5000);
+    }
+    </script>
+</head>
+<body>
+</body>
+</html>

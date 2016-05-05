@@ -48,7 +48,7 @@ $(function() {
 
   function sortUsers(){
     $.each(allUsers,function(index,user){
-      if (user.event.date != dateselected){ user.userDiv.hide(); }
+      if (!user.event || user.event.date != dateselected){ user.userDiv.hide(); }
       else { user.userDiv.show(); }
       if (dateselected=='all') { user.userDiv.show(); }
     });
@@ -155,7 +155,8 @@ $(function() {
         user.eventpicker.append(('<option value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
       });
       //RESELECT
-      user.eventpicker.val(user.event.date);
+      if (user.event) user.eventpicker.val(user.event.date);
+      else user.warning();
     });
   }
 
@@ -310,16 +311,21 @@ $(function() {
 
 
     // INIT VISUS
+    //console.log(thisuser.event);
     if (this.active == true){this.activeView.removeClass('inactive').addClass('active'); }
     this.idView.html(this.id);
     this.numberView.html(this.number);
-    this.eventpicker.val(thisuser.event.date);
+    if (thisuser.event) this.eventpicker.val(thisuser.event.date);
     this.osView.html(this.os);
     this.groupView.html(this.group);
     this.sectionA.prop( "checked", this.section['A'] );
     this.sectionB.prop( "checked", this.section['B'] );
     this.sectionC.prop( "checked", this.section['C'] );
     this.forcebox.prop( "checked", this.force);
+
+    this.warning = function() {
+      thisuser.userDiv.css('background-color', 'orange'); 
+    }
 
     // INTERACT VISUS
     this.eventpicker.change(function(){
@@ -328,22 +334,27 @@ $(function() {
         if (thisuser.event.date == event.date){ thisuser.event.place = event.place; }
       });
       thisuser.saveButton.addClass("userModified");
+      thisuser.saveButton.click();  //autosave
     });
     this.sectionA.change(function(){
       thisuser.section['A'] = $(this).prop('checked');
       thisuser.saveButton.addClass("userModified");
+      thisuser.saveButton.click();  //autosave
     });
     this.sectionB.change(function(){
       thisuser.section['B'] = $(this).prop('checked');
       thisuser.saveButton.addClass("userModified");
+      thisuser.saveButton.click();  //autosave
     });
     this.sectionC.change(function(){
       thisuser.section['C'] = $(this).prop('checked');
       thisuser.saveButton.addClass("userModified");
+      thisuser.saveButton.click();  //autosave
     });
     this.forcebox.change(function(){
       thisuser.force = $(this).prop('checked');
       thisuser.saveButton.addClass("userModified");
+      thisuser.saveButton.click();  //autosave
     });
 
 
@@ -373,7 +384,7 @@ $(function() {
 
     this.deleteButton.on('click',function(){
       console.log('removing '+thisuser.id+'... waiting for server response');
-      socket.emit('deleteuser', thisuser.id);
+      if (confirm('Supprimer '+thisuser.number+' ?')) socket.emit('deleteuser', thisuser.id);
     });
 
     this.updateDelete = function(id){
@@ -408,6 +419,7 @@ $(function() {
   socket.on('alldata', function(data) {
     // console.log(data);
     // events
+    console.log(data.events);
     allEvents = data.events;
     // users
     userPool.clearUsers();

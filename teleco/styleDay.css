@@ -1,0 +1,593 @@
+
+body
+{
+  font-family: 'Lato', sans-serif;
+  font-size: 10pt;
+  background-color: white;
+  max-width: 1300px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+::-webkit-scrollbar {
+width: 12px;
+}
+
+/*--------    OVERLAY    ---------*/
+/*---------------------------------*/
+
+.overlay{
+  display:none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.2);
+}
+#confirmdelete{
+  padding: 15px;
+  position: relative;
+  top: 40%;
+  left: 50%;
+  width: 200px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -100px;
+  background-color: white;
+  border: 2px dotted black;
+}
+#delete_false{
+  margin-top: 50px;
+  float: left;
+}
+#delete_true{
+  margin-top: 50px;
+  float:right;
+}
+
+/*--------    GENERAL     ---------*/
+/*---------------------------------*/
+
+#colonne1, #colonne2, #colonne3, #colonne4 {
+  float:left;
+  margin: 6px;
+  /*margin: 0.5vw;*/
+}
+
+#colonne1{
+  width: 80px;
+}
+#colonne2{
+  width: 40%;
+  height: 100%;
+}
+#colonne3{
+  width: 20%;
+}
+#colonne4{
+  width: 20%;
+}
+
+.selector, .selectorEp, .extra{
+  text-align: center;
+  cursor: pointer;
+  height: 45px;
+  line-height:45px;
+  border: 2px solid black;
+  margin-bottom: 12px;
+  /*margin-bottom: 1vw;*/
+}
+
+.section{
+  border: 2px dotted black;
+  margin-bottom: 12px;
+  /*margin-bottom: 1vw;*/
+  padding: 10px;
+  /*padding: 1vw;*/
+}
+
+.inactive{
+  color: #AA0044;
+}
+.active{
+  color: #00AA44;
+}
+
+.browserOptions{
+  display: none;
+}
+
+.serverOptions{
+  max-height:600px;
+  overflow-y:auto;
+}
+
+
+/*--------   RESPONSIVE   ---------*/
+/*---------------------------------*/
+
+
+@media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */ }
+@media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+
+
+
+/*---------- AUDIO PLAYER ---------*/
+/*---------------------------------*/
+#audioPreview{
+}
+.playerControl{
+  font-size: 20pt;
+  cursor:pointer;
+}
+.fa-play{
+  color:black;
+  vertical-align: middle;
+}
+.fa-pause{
+  display:none;
+  color:limegreen;
+  vertical-align: middle;
+}
+
+.playerProgress{
+  width: 72%;
+  margin-left: 5%;
+}
+.timeCount{
+  float:right;
+  line-height:30px;
+}
+/*---------- VIDEO PLAYER ---------*/
+/*---------------------------------*/
+#videoPreview{
+  padding:10px;
+  padding-left: 15px;
+  display:block;
+}
+#videoPlayer{
+  width: 50%;
+  vertical-align: middle;
+  margin-left: 20%;
+}
+
+
+
+/*------------ BROWSER ------------*/
+/*---------------------------------*/
+#browser{
+  max-height: 500px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px dotted black;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+#mediasList{
+}
+.icon{
+  font-size:16pt;
+  margin-right: 6px;
+}
+.view{
+  margin-top: 8px;
+  cursor: pointer;
+  width:50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height:35px;
+}
+
+.icontext{
+
+  display: inline-block;
+  max-width:70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSelected{
+  color: limegreen;
+  font-weight: bold;
+}
+
+.textRename{
+  width: 60%;
+  outline:1px none transparent;
+}
+
+.fa-trash-o{
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+}
+.trashHide{
+  display:none;
+}
+.trashView{
+  display:inline;
+
+}
+#suppr{
+  margin-right:5px;
+}
+
+/*---------SMS WRITER---------
+----------------------------*/
+
+.fileTitle{
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom: 10px;
+}
+.textContent{
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  outline:1px none transparent;‡
+}
+#smsCount, #textCount{
+  float:right;
+  margin-top: 8px;
+  color: gray;
+  font-size: 12px;
+}
+
+.iconButtons{
+  cursor: pointer;
+  margin-top:5px;
+  font-size: 24pt;
+}
+.iconButtons:active{
+  color: limegreen;
+}
+
+#addDeeplink{
+  font-size: 24px;
+  float: right;
+  margin-right: 4%;
+}
+
+/*---------TEXT WRITER---------
+----------------------------*/
+textarea, .textInput {
+ font-family: inherit;
+ font-size: inherit;
+}
+
+
+#padContent{
+  width: 100%;
+  box-sizing: border-box;
+  height: 200px;
+  resize: none;
+  outline:0px none transparent;
+  border: 1px dotted black;
+}
+
+#viewPad{
+  float:right;
+}
+/*---------URL SAVER---------
+----------------------------*/
+
+#urlContent{
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  margin-bottom:10px;
+}
+
+#viewUrl{
+  float: right;
+  margin-right: 4%;
+}
+
+
+/*---------UPLOADER-----------
+----------------------------*/
+progress {
+    height: 8px;
+    /*width: 240px;*/
+    width: 100%;
+    background: white;
+    border: 1px solid black; /* Needed for Firefox */
+    -webkit-appearance: none; /* Needed for WebKit/Blink */
+}
+progress::-webkit-progress-bar {
+    background: transparent;
+}
+progress::-moz-progress-bar {
+    background: white;
+}
+progress[value]::-moz-progress-bar {
+  background: black;
+}
+progress::-webkit-progress-value {
+    background: black;
+}
+
+.fa-plus:active{
+  color:limegreen;
+}
+
+#send {
+  float:right;
+  /*display:none;*/
+}
+.btn{
+  cursor: pointer;
+  color:black;
+  background-color:white;
+  border: 2px solid black;
+  display:inline;
+}
+.btn:focus {outline:0;}
+.btn:active{
+  border-color: limegreen;
+  color: limegreen;}
+
+#fileInput{
+  display: none;
+  opacity:0.2;
+  width:0px;
+  height:0px;
+}
+
+#inputLabel{
+  font-size: 22pt;
+  cursor: pointer;
+  line-height:25px;
+}
+
+#talkBox{
+  margin-left: 10px;
+  max-width: 40%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+
+
+
+/*---------COLONNE 3-----------
+----------------------------*/
+
+.group{
+  font-size: 18pt;
+  line-height: 20pt;
+  cursor: pointer;
+  letter-spacing: 5px;
+}
+.group:active{
+  color: limegreen;
+}
+.radio {
+  display: none;
+}
+
+.extra {
+  margin-right: 10px;
+}
+
+input[type=checkbox] { display:none; }
+input[type=checkbox] + label:before {
+  font-family: FontAwesome;
+  font-size: 18pt;
+  letter-spacing: 5px;
+}
+input[type=checkbox] + label:before {content: "\f204"; }
+input[type=checkbox]:checked + label:before { content: "\f205"; }
+.iconAlign{
+  vertical-align: 4px;
+}
+
+.icontime{
+  font-size: 18pt;
+  line-height: 20pt;
+}
+
+.starterBTN{
+  font-size: 18pt;
+  cursor: pointer;
+  float: right;
+}
+.starterBTN:active{
+  color: limegreen;
+}
+#sendFile{
+  /*margin-top:16px;*/
+}
+#selectedFileGO{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exactHour{
+  box-sizing: border-box;
+  width:32%;
+  outline: 0px none;
+}
+
+/*---------COLONNE 4-----------
+----------------------------*/
+
+
+#viewUsers{
+   margin-top: 0px;
+   float: left;
+   margin-right: 5%;
+   font-size: 21pt;
+}
+
+
+.dropdown{
+  font-family: "Lato";
+  font-size:10pt;
+  background: url(css/image/arrow.png) no-repeat right #FFFFFF;
+  border: none;
+  border: 1px solid lightgrey;
+  border-radius: 0px;
+  -webkit-appearance: none;
+  }
+  .dropdown:focus{
+    outline: none;
+  }
+  .big{
+    width:60%;
+    margin-top:8px;
+    height: 20px;
+    padding-left: 4px;
+  }
+
+.iconButtons_Small{
+  cursor: pointer;
+  margin-top: 4px;
+  font-size: 16pt;
+  margin-left: 4px;
+  margin-right: 4%;
+  }
+.iconButtons_Small:active{
+  color: limegreen;
+}
+
+/*--------- RANGE -----------
+----------------------------*/
+#delay{
+  width: 60%;
+}
+input[type=range]{
+-webkit-appearance: none;
+border: 1px solid black;
+margin-left:0px;
+}
+input[type=range]:focus {
+    outline: none;
+}
+/*-------WEBKIT-------*/
+input[type=range]::-webkit-slider-runnable-track {
+    height: 16px;
+    background: #fff;
+    border-radius: 0px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 4px;
+    border-radius: 0;
+    background: black;
+}
+/*-------RANGE FF-------*/
+input[type=range]::-moz-range-track {
+    height: 16px;
+    background: #fff;
+    border-radius: 0;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 4px;
+    border-radius: 0;
+    background: black;
+}
+
+
+/*--------- RANGE UI -----------
+----------------------------*/
+
+#delayslider{
+  height:20px;
+  width: 95%;
+}
+
+.ui-corner-all {
+  border: 1px solid black;
+  border-radius: 1px;
+}
+.ui-widget-header{
+  background:none;
+}
+.ui-widget-content{
+  background:none;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+  background: none;
+  background-color: black;
+}
+.ui-slider .ui-slider-handle{
+  margin-top: 3px;
+  margin-left:-2px;
+  border: 1px solid black;
+  background-color: black;
+  height: inherit;
+  width:15px;
+  outline:none;
+}
+
+/*---------- TASK MANAGER ----------*/
+/*---------------------------------*/
+
+.sectionTitle{
+  font-weight: bold;
+}
+
+#lastTask{
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskView{
+  margin-top: 8px;
+  line-height: 25px;
+  cursor: pointer;
+  box-sizing: border-box;
+  height:25px;
+
+}
+
+.taskText{
+  display: inline-block;
+  max-width:90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.delHide{
+  display:none;
+
+}
+.delView{
+  display:inline;
+
+}
+#deleteTask{
+  font-size: 15pt;
+  line-height:25px;
+  float:right;
+  margin-right:2px;
+  vertical-align: middle;
+}

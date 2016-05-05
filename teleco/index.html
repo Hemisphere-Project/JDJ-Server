@@ -12,7 +12,11 @@
     <link href='css/lato/fonts.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/fa/css/font-awesome.min.css">
     <!-- INT -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!--<link rel="stylesheet" type="text/css" href="styleDay.css">-->
+    <script language="javascript" type="text/javascript">
+    if (location.search.indexOf('night=true') > -1) document.write('<link rel="stylesheet" type="text/css" href="styleNight.css">');
+    else document.write('<link rel="stylesheet" type="text/css" href="styleDay.css">');
+    </script>
     <script src="script.js"></script>
   </HEAD>
 
@@ -35,6 +39,22 @@
     <div id="pad" class="selector">PAD</div>
     <div id="phone" class="selector">PHONE</div>
   </div>
+  <!-- pierreH navigate by Episode -->
+  <div id="colonne1">
+    <div id="all" class="selectorEp">all</div>
+    <div id="unknown" class="selectorEp">??</div>
+    <div id="0" class="selectorEp">Ep0</div>
+    <div id="1" class="selectorEp">Ep1</div>
+    <div id="2" class="selectorEp">Ep2</div>
+    <div id="3" class="selectorEp">Ep3</div>
+    <div id="4" class="selectorEp">Ep4</div>
+    <div id="5" class="selectorEp">Ep5</div>
+    <div id="6" class="selectorEp">Ep6</div>
+    <div id="7" class="selectorEp">Ep7</div>
+    <div id="8" class="selectorEp">Ep8</div>
+    <div id="9" class="selectorEp">Ep9</div>
+  </div>
+  <!-- pierreH end navigate by Episode -->
 
   <div id="colonne2">
     <div id="browserUploader" class="browserOptions section">
@@ -126,7 +146,8 @@
 
     <div id="notif" class="section">
       <input name= "notifSms" id="notifSms" type="checkbox" />
-      <label for="notifSms"></label><span class="iconAlign">Notification Sms</span>
+      <label for="notifSms"></label><span class="iconAlign">Notification Sms</span><br /><br />
+      <input name= "vibeBtn" id="vibeBtn" type="button" value="Vibrate" class="btn extra"/><input name= "SoundBtn" id="SoundBtn" type="button" value="Sound" class="btn extra"/><input name= "videtextBtn" id="videtextBtn" type="button" value="..." class="btn extra"/>
     </div>
 
     <div id="sendFile" class="section">
