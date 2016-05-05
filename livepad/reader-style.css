@@ -3,7 +3,7 @@
     body
     {
       font-family: Helvetica, Sans-Serif;
-      font-size: 18pt;
+      font-size: 16pt;
       background-color: black;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -15,7 +15,7 @@
     }
 
     #visuText{
-      border: 1px solid #111;
+      border: 1px solid #333;
       min-height: 30px;
       margin: 5px;
       padding: 5px;

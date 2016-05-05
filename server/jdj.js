@@ -19,7 +19,7 @@ var PUB_DELAY_DEFAULT = 200;
 var BASEURL = 'https://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
-var PADREADER = BASEURL+'livepad/reader.html';
+var PADREADER = BASEURL+'livepad/reader2.html';
 
 var MULTITXT_SEPARATOR = '%%';
 
