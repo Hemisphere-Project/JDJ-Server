@@ -61,7 +61,7 @@ width: 12px;
 }
 
 #colonne1{
-  width: 80px;
+  width: 60px;
 }
 #colonne2{
   width: 40%;
@@ -385,7 +385,8 @@ progress::-webkit-progress-value {
 }
 
 .extra {
-  margin-right: 10px;
+  margin-right: 12px;
+  font-size: 6pt;
 }
 
 
