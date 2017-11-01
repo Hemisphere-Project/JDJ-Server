@@ -1,0 +1,6 @@
+Je pense qu'on est bon pour cette date. Pour la prochaine j'ai noté quelque petite chose qui sont :
+- (Priorité forte) sur la version IOS, le trie par groupe A/B/C ne se fait pas, tout les messages sont affichées. (ça fonctionne pour la différenciation groupe1 / groupe2 par contre)
+- (Priorité faible) à l'arrêt d'une musique/son par un autre événement ce serait intéressant que ce dernier se coupe avec un fade d' 1 seconde
+- (Priorité faible) Si un utilisateur à été effacé de la base, il faudrait que son appli s'en rende compte est lui redemande de choisir une date. 
+c'est pour les personnes qui sont présentes sur plusieurs dates
+et aussi, avant que tu corriges la date par défaut, les utilisateurs avait tendance à s'inscrire sans choisir leur date et se retrouvé sur le spectacle de Lyon, du coup j'ai du en effacé certain, et je ne sais pas trop comment, les retrouver...
