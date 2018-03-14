@@ -60,15 +60,19 @@ if ($action == 'upload') {
 	{
 		$newname = clean_string($_FILES[$i]['name']);
 		if (isExtValid($newname, 'media'))
-		{
-			move_uploaded_file($_FILES[$i]['tmp_name'], $files_path.$newname);
-			echo 'file '.$newname.' uploaded';
+		{	
+			ini_set('display_errors',1);
+			error_reporting(E_ALL);
+			if (move_uploaded_file($_FILES[$i]['tmp_name'], $files_path.$newname)) {
+				echo 'file '.$newname.' uploaded to '.$files_path.$newname;
 
-			// VIDEO: Create HLS Variant
-			if (isExtValid($newname, 'video')) {
-				echo ' // '.$newname.' HLS variants in progress';
-				exec('../../hls/segmenter -i '.$files_path.$newname.' -u '.$base_url.' > /dev/null 2>&1 & ');
+				// VIDEO: Create HLS Variant
+				if (isExtValid($newname, 'video')) {
+					echo ' // '.$newname.' HLS variants in progress';
+					exec('../../hls/segmenter -i '.$files_path.$newname.' -u '.$base_url.' > /dev/null 2>&1 & ');
+				}
 			}
+			else echo 'error while saving uploaded file';
 		}
 		else echo 'wrong file type';
 	}
