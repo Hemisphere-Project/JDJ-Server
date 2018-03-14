@@ -75,6 +75,9 @@ body
 .header.col_section{
   letter-spacing: 5px;
 }
+.header.col_section div{
+  display: inline-block;
+}
 .editing{
   display:none;
 }
