@@ -2,7 +2,7 @@ var request = require('request');
 var _ = require('underscore');
 
 var SMS_API = 'http://app.journaldunseuljour.fr/server/sms/postman.php'
-var DEEPLINK_DROID = 'http://is.gd/jdj2016';
+var DEEPLINK_DROID = 'http://is.gd/jdj2017';
 var DEEPLINK_IOS = 'https://app.journaldunseuljour.fr/';
 
 module.exports = {
@@ -53,7 +53,7 @@ module.exports = {
               },
               function (error, response, body) {
                   if (!error && response.statusCode == 200) console.log(body)
-                  else console.log("error "+error+" "+response+" "+body);
+                  else console.log("error ", error, response.statusCode, body);
               });
       }
 

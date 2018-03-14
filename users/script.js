@@ -12,6 +12,11 @@ $(function() {
 
 
   allEvents = new Array();
+  var countA=0;
+  var countB=0;
+  var countC=0;
+  var countAppli=0;
+  var countUser=0;
 
   // fake DB
   // var event1={id:'1', place:'caracas', date: '18/32/7623', startH:'18', startM:'07' };
@@ -47,10 +52,21 @@ $(function() {
   });
 
   function sortUsers(){
+    countA=0;countB=0;countC=0;countUser=0;countAppli=0;
     $.each(allUsers,function(index,user){
-      if (!user.event || user.event.date != dateselected){ user.userDiv.hide(); }
-      else { user.userDiv.show(); }
+      if (!user.event || user.event.date != dateselected){
+        user.userDiv.hide();
+      }
+      else { user.userDiv.show();
+        countUser++;
+        if(user.section['A'])countA++;if(user.section['B'])countB++;if(user.section['C'])countC++;
+        if(user.os!="")countAppli++;
+      }
       if (dateselected=='all') { user.userDiv.show(); }
+      if(countA>0)document.getElementById("countA").innerHTML = '('+countA+')';else document.getElementById("countA").innerHTML ='';
+      if(countB>0)document.getElementById("countB").innerHTML = '('+countB+')';else document.getElementById("countB").innerHTML ='';
+      if(countC>0)document.getElementById("countC").innerHTML = '('+countC+')';else document.getElementById("countC").innerHTML ='';
+      if(countUser>0)document.getElementById("count").innerHTML = '('+countAppli+'/'+countUser+')';else document.getElementById("count").innerHTML ='';
     });
   }
 
@@ -324,7 +340,7 @@ $(function() {
     this.forcebox.prop( "checked", this.force);
 
     this.warning = function() {
-      thisuser.userDiv.css('background-color', 'orange'); 
+      thisuser.userDiv.css('background-color', 'orange');
     }
 
     // INTERACT VISUS

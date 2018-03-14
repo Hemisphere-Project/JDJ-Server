@@ -30,7 +30,7 @@ minor: a new minor version will invite previous apps to update: they will still 
 */
 var VERSION = {'main': 1, 'major': 0, 'minor': 0, 'android-minor': 13, 'ios-minor': 5};
 var NEXTSHOW = (new Date()).getTime();
-2
+
 var BASEPATH = __dirname+'/';
 var MEDIAPATH = BASEPATH+'../files/';
 
@@ -93,7 +93,7 @@ SERVER.LIVEPAD = new Pad.PadServer(PORT_WS_PAD);
 // SERVER TASKS PROCESSOR
 SERVER.onConsume = function(task) {
 
-  console.log('executing task');
+  console.log('executing task ', task.category, task.filename);
   //console.log(task);
   // clean up task
   if (task.localTime !== undefined) delete task.localTime;

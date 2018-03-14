@@ -90,24 +90,41 @@ $(function() {
     //icon
     if (this.category=="audio"){ this.icon = $('<div>').addClass('icon fa fa-file-audio-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="video"){ this.icon = $('<div>').addClass('icon fa fa-file-video-o').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="url"){ this.icon = $('<div>').addClass('icon fa fa-file-code-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="sms"){ this.icon = $('<div>').addClass('icon fa fa-commenting-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="text"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="pad"){ this.icon = $('<div>').addClass('icon fa fa-file-text-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="pad"){ this.icon = $('<div>').addClass('icon fa fa-file-powerpoint-o').attr('id', this.filename).appendTo( thisfile.view ); }
     if (this.category=="phone"){ this.icon = $('<div>').addClass('icon fa fa-mobile').attr('id', this.filename).appendTo( thisfile.view ); }
-    if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-file-o').attr('id', this.filename).appendTo( thisfile.view ); }
+    if (this.category=="unknown"){ this.icon = $('<div>').addClass('icon fa fa-question-circle').attr('id', this.filename).appendTo( thisfile.view ); }
     //filename
-    this.icontext = $('<div>').html(this.filename).addClass(''+thisfile.category+' icontext').appendTo( thisfile.view );
+    var tab=this.filename.split(/[_-]/);
+    var nameTemp="";
+    if(tab.length>3){nameTemp+=tab[0]+"_"+tab[1]+"_"+tab[2]+"_ "; for (i=3;i<tab.length;i++){nameTemp+=tab[i];}}else{nameTemp=this.filename;}
+    this.icontext = $('<div>').html(nameTemp).addClass(''+thisfile.category+' icontext').appendTo( thisfile.view );
     // trash
     if (this.category != 'phone'){
       this.icondelete = $('<div>').attr('id', "suppr").addClass('trashHide fa fa-trash-o').appendTo( thisfile.view );
     }
 
+
+
     //SELECT
     this.view.on('click',function(){
       var prevSelected = browser.getActiveFile();
       browser.unselectAllFiles();
+      categorySelected = thisfile.category;
+        $('.browserOptions').hide();
+        if (categorySelected == "sms") {$('#smsOptions').show();}
+        if (categorySelected == "text") {$('#textOptions').show();}
+        if (categorySelected == 'audio'){$('#audioPreview').show();}
+        else { pauseAudio(); }
+        if (categorySelected == 'video'){$('#videoPreview').show();}
+        else { pauseVideo(); }
+        if (categorySelected == 'url'){  $('#urlOptions').show();}
+        if (categorySelected == 'pad'){$('#livePad').show(); $('#playtime,#playdelay').hide();}
+        else{$('#playtime,#playdelay').show();}
       $("#selectedFileGO").html(thisfile.filename);
+      if(categorySelected=='sms'){$("#selectedFileGO").addClass('sms');} else {$("#selectedFileGO").removeClass('sms');}
       thisfile.view.addClass('fileSelected');
       thisfile.selected = true;
       if (thisfile.icondelete) { thisfile.icondelete.addClass('trashView'); }
@@ -127,11 +144,12 @@ $(function() {
         if (thisfile.category == 'pad'){ getPadContent(); }
       }
       noSelection = false;
-      if ((categorySelected == 'none')||(categorySelected == 'files')) { gotoCategory(thisfile.category); }
-      categorySelected = thisfile.category;
+
 
       // $('#sendFile').show();
     });
+
+
 
     // FILE DELETE
     if (this.category != 'phone'){
@@ -316,7 +334,7 @@ $(function() {
     $(this).css("color", color1);
 
     categorySelected = $(this).attr("id");
-    browser.unselectAllFiles();
+    if(categorySelected != 'files')browser.unselectAllFiles();
 
     // SPECIAL DISPLAYS
     $('.browserOptions').hide();
@@ -363,7 +381,8 @@ $(function() {
   });
 
   $(".selectorEp").on('click', function(){
-
+    if(episodeSelected != $(this).attr("id")) {
+    episodeSelected = $(this).attr("id");
     var color1 = "white";
     var color2 = "black";
     if (location.search.indexOf('night=true') > -1) {
@@ -377,10 +396,18 @@ $(function() {
     $(this).css("background-color", color2);
     $(this).css("color", color1);
 
-    episodeSelected = $(this).attr("id");
+
     browser.unselectAllFiles();
 
     sortBrowser();
+    }
+  });
+
+  $(".selectorEp").on('dblclick', function(){
+    if(episodeSelected != 'all' && episodeSelected != 'unknown') {
+      gotoCategory('files');
+      sortBrowser();
+    }
   });
 
   function gotoCategory(category){
@@ -643,6 +670,12 @@ $(function() {
     charCount();
   });
 
+  $("#checksms").on('click',function(){
+    var sms=$('#smsContent').val();
+    sms=sms.replace(/[^@èéùìòÇn_ !"#&'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜabcdefghijklmnopqrstuvwxyzäöñüà]/g,'█')
+    $('#smsContent').val(sms);
+  });
+
   $('#saveSms').on('click', function () {
     var smsTitle = $("#smsTitle").val();
     var smsContent = $("#smsContent").val();
@@ -898,6 +931,7 @@ $(function() {
   allTasks = new Array();
 
   url = 'http://'+document.location.hostname+':'+IO_PORT;
+  console.log("Connecting to ", url);
   var socket = io(url);
 
 	socket.on('connect', function () {
@@ -993,7 +1027,7 @@ $(function() {
     console.log(task);
     var viewOrder;
     if(task.action=='stop'){ viewOrder=task.action +' <br><br>'; }
-    if(task.action=='play'){ viewOrder=task.category+' : '+ task.filename+' <br>group : '+task.group+' , notif : '+task.notif; }
+    if(task.action=='play'){ if (task.group === undefined){task.group='-';} if (task.section === undefined){task.section='-';} viewOrder=task.category+' : '+ task.filename+' <br>group : '+task.group+' '+task.section+' , notif : '+task.notif; }
     $("#lastTask").html(viewOrder);
   }
 
@@ -1019,7 +1053,6 @@ $(function() {
       $('#eventselector').val(data.currentevent.date);
       eventselectedID = data.currentevent.id;
     }
-    else $('#eventselector').val('all');
   });
 
 
@@ -1038,10 +1071,27 @@ $(function() {
 
   function buildEvents(){
     $('#eventselector').empty();
-    $("#eventselector").append(('<option value="all">all</option>'));
-    $.each(allEvents,function(index,event){
-      $("#eventselector").append(('<option value_id="'+event.id+'" value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
-    });
+    allEvents.reverse();
+    for(i=0;i<allEvents.length;i++){
+      event=allEvents[i];
+      if(i>0){
+        $("#eventselector").append(('<option value_id="'+event.id+'" value="'+event.date+'">'+event.place+' - '+event.date+'</option>'));
+      }else{
+        $("#eventselector").append(('<option value_id="'+event.id+'" value="'+event.date+'" selected="selected">'+event.place+' - '+event.date+'</option>'));
+          dateselected = event.date;
+            $.each(allEvents,function(index,event){
+              if (dateselected == event.date){
+                socket.emit('eventselected', event);
+                eventselectedID = event.id;
+              }
+            });
+          console.log('eventselected on start',eventselectedID);
+      }
+
+    }
+    myselect = $('#eventselector');
+    myselect[0].selected=true;
+
   }
 
   $('#eventselector').change(function(){

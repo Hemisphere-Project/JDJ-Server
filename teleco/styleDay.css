@@ -256,7 +256,7 @@ width: 12px;
   color: limegreen;
 }
 
-#addDeeplink{
+#addDeeplink, #checksms{
   font-size: 24px;
   float: right;
   margin-right: 4%;
@@ -557,6 +557,7 @@ input[type=range]::-moz-range-thumb {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 8pt;
 }
 
 .taskView{
@@ -591,4 +592,20 @@ input[type=range]::-moz-range-thumb {
   float:right;
   margin-right:2px;
   vertical-align: middle;
+}
+
+
+/*---------- added by pierreH ----------*/
+/*---------------------------------*/
+.icontext{
+white-space: normal;
+text-align-last: right;
+height: 25pt;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+
+.sms {
+  color: red;
 }

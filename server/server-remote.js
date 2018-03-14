@@ -15,6 +15,8 @@ module.exports = {
 
     // NEW Remote interface connected
     this.socket.on('connection', function(client){
+    	
+    	console.log('connected ');
 
       // PLAY task
       client.on('play', function(data){
@@ -42,6 +44,7 @@ module.exports = {
       // Unregister remote control
       client.on('disconnect', function(){
         that.server.removeController(client)
+        console.log('disconnected ');
       });
 
       // register new remote
