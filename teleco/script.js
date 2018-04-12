@@ -3,6 +3,9 @@ IO_PORT = 8088;
 
 console.log('Hello Teleco');
 
+var clock = [0,0,0]
+var init10clock = false
+
 $(function() {
 
   // touch devices: 'click' triggered 300ms after touchstart
@@ -14,7 +17,30 @@ $(function() {
   var categorySelected = 'files';
   var episodeSelected = 'all';
   var noSelection = true; // pour remettre à zéro la selectabilité des fichiers
-
+  
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  //                       CLOCK
+  ///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  
+  function updateClock() {
+		$.get( "php/time.php", function( data ) {
+			$('#clockDisplay').html(data.replace(' ','&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>')+'</strong>')
+			clock = data.split(' ')[1].split(':')
+			
+			// init +10min clock
+			if (!init10clock) {
+				$('#hour').val(clock[0]);
+				$('#min').val(parseInt(clock[1])+10);
+				$('#sec').val(0);
+				init10clock = true;
+			}
+  
+		});
+	}
+	updateClock()
+	setInterval(updateClock, 1000);
 
   ///////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////
@@ -78,7 +104,7 @@ $(function() {
     }
     this.getEpisode = function(){
       var episode = parseInt(thisfile.filename.split('_')[0].charAt(2));
-      if(episode>=0 && episode < 9)this.episode=episode;
+      if(episode>=0 && episode <= 9)this.episode=episode;
       else {this.episode="unknown";}
     }
     this.getCategory();
@@ -780,14 +806,6 @@ $(function() {
   //   console.log($('input[name=notifSms]').prop('checked'));
   // });
 
-  var dt = new Date();
-  var dt10 = new Date(dt.getTime() + 10*60000);
-  var hour = dt10.getHours();
-  var min = dt10.getMinutes();
-  var sec = dt10.getSeconds();
-  $('#hour').val(hour);
-  $('#min').val(min);
-  $('#sec').val(0);
 
   // SEND PLAY
   $(".starter").on('click',function(){
@@ -795,6 +813,12 @@ $(function() {
     var who = $('input[name=group]:radio:checked').val();
     var notif = $('input[name=notifSms]').prop('checked');
     var time;
+    
+    var timeNow = new Date();
+    timeNow.setHours(clock[0]);
+    timeNow.setMinutes(clock[1]);
+    timeNow.setSeconds(clock[2]);
+    
     if ($(this).hasClass("NOW") == true) {
      time = 0;
     }
@@ -803,11 +827,12 @@ $(function() {
       time = $( "#delayslider" ).slider('value')*60;
     }
     if ($(this).hasClass("TIME") == true) {
-      var timeNow = new Date();
+      
       var timePlay = new Date();
       timePlay.setHours($('#hour').val());
       timePlay.setMinutes($('#min').val());
       timePlay.setSeconds($('#sec').val());
+      
       var delay = timePlay.getTime() - timeNow.getTime();
       if (delay<0){ delay = delay + 86400000; } // 24h
       time = Math.round(delay/1000);
@@ -820,7 +845,7 @@ $(function() {
       who:who,
       eventid: eventselectedID,
       notif: notif,
-      localTime: new Date().getTime()
+      localTime: timeNow.getTime()
     };
 
     if (fileToSend != "no file selected"){

@@ -1,5 +1,6 @@
 var zmq = require('zmq');
 var SocketIO = require('socket.io');
+var _ = require('underscore');
 var https = require('https'),
     http = require('http'),
     fs =    require('fs');
@@ -31,9 +32,11 @@ module.exports = {
     var net = require('net');
     var tls = require('tls');
     var sslOptions = {
-        key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
-        cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
-        ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
+        //key:    fs.readFileSync('/etc/ssl/olds/app.journaldunseuljour.fr.key'),
+        //cert:   fs.readFileSync('/etc/ssl/olds/app.journaldunseuljour.fr.crt'),
+        //ca:     fs.readFileSync('/etc/ssl/olds/GandiStandardSSLCA2.pem')
+        key:    fs.readFileSync('/etc/letsencrypt/live/app.journaldunseuljour.fr/privkey.pem'),
+        cert:   fs.readFileSync('/etc/letsencrypt/live/app.journaldunseuljour.fr/fullchain.pem')
     };
     tls.createServer(sslOptions, function (cleartextStream) {
         var cleartextRequest = net.connect({
@@ -115,7 +118,7 @@ module.exports = {
     this.send = function(subject, data) {
       if (data.eventid !== undefined && data.eventid !== null && data.eventid >= 0) {
         this.socket.to('event-'+data.eventid).emit(subject, data);
-        console.log('sent to room event-'+data.eventid);
+        console.log('sent to room event-'+data.eventid, data);
       }
       else this.socket.emit(subject, data);
     };
@@ -186,9 +189,13 @@ module.exports = {
       //console.log(userinfo.event.id, that.lvc[userinfo.event.id]);
       if (userinfo.event && that.lvc[userinfo.event.id] != null)
         hellomsg.lvc = that.lvc[userinfo.event.id];
-
-      hellomsg.showlist = that.userbase.getEvents();
-      hellomsg.currentshow = that.userbase.getCurrentEvent();
+			
+			hellomsg.currentshow = that.userbase.getCurrentEvent();
+			
+			// build show list with future dates AND already selected one for user
+      hellomsg.showlist = that.userbase.getFutureEvents();
+      if (userinfo.event && _.indexOf(hellomsg.showlist, userinfo.event) == -1 )
+		    hellomsg.showlist.unshift(userinfo.event);
 
       hellomsg.info = "Le spectacle est en cours, restez connecté !";
 
@@ -214,6 +221,7 @@ module.exports = {
     var that = this;
     this.socket.on('message', function(msg) {
       that.socket.send((new Date()).getTime().toString());
+      //console.log(new Date())
     });
   }
 

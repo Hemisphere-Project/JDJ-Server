@@ -2,7 +2,7 @@ var request = require('request');
 var _ = require('underscore');
 
 var SMS_API = 'http://app.journaldunseuljour.fr/server/sms/postman.php'
-var DEEPLINK_DROID = 'http://is.gd/jdj2017';
+var DEEPLINK_DROID = 'https://is.gd/jdjActe';
 var DEEPLINK_IOS = 'https://app.journaldunseuljour.fr/';
 
 module.exports = {

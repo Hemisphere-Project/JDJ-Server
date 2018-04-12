@@ -102,9 +102,25 @@ module.exports = {
       return this.filter(this.getAll().users, params);
     }
 
-    // Get All Users
+    // Get All Events
     this.getEvents = function(params) {
-      return this.filter(this.getAll().events, params);
+      var events = this.filter(this.getAll().events, params);
+      return events;
+    }
+    
+    // Get All Events
+    this.getFutureEvents = function() {
+    	var events = [];
+    	var now = new Date();
+ 			now.setDate(now.getDate()-2);
+      _.each(this.db.events, function(ev, index) {
+        if (ev && ev.place[0] != '_') {
+					var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+					var dt = new Date(ev.date.replace(pattern,'$3-$2-$1'));
+        	if (dt > now) events.push(ev);
+        	}
+      });
+      return events;
     }
 
     // Update Users active state to off

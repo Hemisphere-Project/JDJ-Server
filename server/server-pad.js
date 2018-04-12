@@ -19,9 +19,11 @@ module.exports = {
     };
 
     var options = {
-        key:    fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.key'),
-        cert:   fs.readFileSync('/etc/ssl/currents/app.journaldunseuljour.fr.crt'),
-        ca:     fs.readFileSync('/etc/ssl/currents/GandiStandardSSLCA2.pem')
+        // key:    fs.readFileSync('/etc/ssl/olds/app.journaldunseuljour.fr.key'),
+        // cert:   fs.readFileSync('/etc/ssl/olds/app.journaldunseuljour.fr.crt'),
+        // ca:     fs.readFileSync('/etc/ssl/olds/GandiStandardSSLCA2.pem')
+        key:    fs.readFileSync('/etc/letsencrypt/live/app.journaldunseuljour.fr/privkey.pem'),
+        cert:   fs.readFileSync('/etc/letsencrypt/live/app.journaldunseuljour.fr/fullchain.pem')
     };
     var app = https.createServer(options);
     this.socket = require('socket.io').listen(app);     //socket.io server listens to https connections

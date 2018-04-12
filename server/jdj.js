@@ -1,6 +1,6 @@
 
 // CONFIG
-var PORT_PROXY = 444;
+var PORT_PROXY = 8443;
 var PORT_WS_APP_HTTPS = 8081;
 var PORT_WS_APP_HTTP = 8083;
 var PORT_TIME = 8082;
@@ -15,7 +15,13 @@ var PUB_DELAY_AUDIO = 3000;
 var PUB_DELAY_WEB = 1000;
 var PUB_DELAY_TXT = 500;
 var PUB_DELAY_DEFAULT = 200;
-
+/*
+var PUB_DELAY_VIDEO = 0;  // Preemptive delay: ms
+var PUB_DELAY_AUDIO = 0;
+var PUB_DELAY_WEB = 0;
+var PUB_DELAY_TXT = 0;
+var PUB_DELAY_DEFAULT = 0;
+*/
 var BASEURL = 'https://app.journaldunseuljour.fr:'+PORT_PROXY+'/';
 var MEDIAURL = BASEURL+'files/';
 var IMGREADER = BASEURL+'imager/show.php?img=';
@@ -76,7 +82,7 @@ function addHLS (task) {
 var SERVER = new Engine.MainServer(VERSION);
 
 // USERS / SHOW MANAGEMENT
-SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_frappaz.db', 'show_frappaz.db', 'event_state.db');
+SERVER.USERBASE = new Users.Userbase(BASEPATH+'db/', 'users_reunion.db', 'show_reunion.db', 'event_state.db');
 SERVER.USERSCTRL = new Users.Userinterface(PORT_WS_USERS, PORT_DNODE_PHP, SERVER);
 SERVER.USERBASE.updateStateDB(true);
 
@@ -105,7 +111,11 @@ SERVER.onConsume = function(task) {
 
   task.url = MEDIAURL+task.filename; // deafault for raw content
   task.cache = true;
-  task.timestamp = (new Date()).getTime();
+  
+  //task.timestamp = (new Date()).getTime();
+  var d = new Date();
+  //d.setDate(d.getDate());
+  task.timestamp = d.getTime()-1523626607000;
   task.atTime = task.timestamp; // Add transmission delay
 
   // VIDEO: add HLS url
